@@ -86,5 +86,5 @@ def health_check():
 
 if __name__ == '__main__':
     print("Starting Microsoft Agent Framework Demo Application...")
-    print("Navigate to http://localhost:5000 to access the UI")
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    print("Navigate to http://localhost:5001 to access the UI")
+    app.run(debug=False, host='0.0.0.0', port=5001)

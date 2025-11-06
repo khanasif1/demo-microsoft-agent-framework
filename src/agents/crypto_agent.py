@@ -31,9 +31,9 @@ class CryptoAgent(BaseAgent):
             params = {
                 'vs_currency': 'usd',
                 'order': 'market_cap_desc',
-                'per_page': 10,
-                'page': 1,
-                'sparkline': False
+                'per_page': '10',
+                'page': '1',
+                'sparkline': 'false'
             }
             
             async with aiohttp.ClientSession() as session:
