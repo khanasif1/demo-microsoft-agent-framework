@@ -69,8 +69,10 @@ def process_query():
         })
     
     except Exception as e:
+        # Log the full error for debugging (in production, use proper logging)
+        print(f"Error processing query: {e}")
         return jsonify({
-            'error': str(e),
+            'error': 'An error occurred while processing your request',
             'status': 'error'
         }), 500
 
