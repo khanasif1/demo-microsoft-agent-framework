@@ -132,6 +132,8 @@ function formatCryptoData(cryptos) {
             const changeNum = parseFloat(changeStr);
             if (changeNum < 0) {
                 changeClass = 'negative';
+            } else if (changeNum === 0) {
+                changeClass = '';  // neutral, no special color
             }
         }
         html += `
@@ -158,6 +160,8 @@ function formatStockData(stocks) {
             const changeNum = parseFloat(changeStr);
             if (changeNum < 0) {
                 changeClass = 'negative';
+            } else if (changeNum === 0) {
+                changeClass = '';  // neutral, no special color
             }
         }
         html += `
