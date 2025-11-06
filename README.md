@@ -85,11 +85,11 @@ Run the Flask application:
 python app.py
 ```
 
-The application will start on `http://localhost:5000`
+The application will start on `http://localhost:5001`
 
 ### Using the Web Interface
 
-1. Open your web browser and navigate to `http://localhost:5000`
+1. Open your web browser and navigate to `http://localhost:5001`
 2. Enter your query in the text area (e.g., "Get me the latest news and market updates")
 3. Select which agents you want to activate (all are selected by default)
 4. Click "🚀 Execute Agents" button
