@@ -28,7 +28,7 @@ async def test_individual_agent(agent, query):
     else:
         data = result.get('data', [])
         print(f"Data items retrieved: {len(data)}")
-        if data and len(data) > 0:
+        if data:
             print(f"First item: {data[0]}")
     
     return result

@@ -126,13 +126,20 @@ function formatNewsData(articles) {
 function formatCryptoData(cryptos) {
     let html = '<ul class="data-list">';
     cryptos.forEach(crypto => {
-        const changeClass = crypto.change_24h && crypto.change_24h.startsWith('-') ? 'negative' : 'positive';
+        let changeClass = 'positive';
+        const changeStr = crypto.change_24h || 'N/A';
+        if (changeStr !== 'N/A') {
+            const changeNum = parseFloat(changeStr);
+            if (changeNum < 0) {
+                changeClass = 'negative';
+            }
+        }
         html += `
             <li class="data-item">
                 <div class="crypto-item">
                     <span><strong>${escapeHtml(crypto.name)} (${escapeHtml(crypto.symbol)})</strong></span>
                     <span>${escapeHtml(crypto.price)}</span>
-                    <span class="${changeClass}">${escapeHtml(crypto.change_24h || 'N/A')}</span>
+                    <span class="${changeClass}">${escapeHtml(changeStr)}</span>
                     <span style="font-size: 0.9em; color: #666;">MCap: ${escapeHtml(crypto.market_cap || 'N/A')}</span>
                 </div>
             </li>
@@ -145,13 +152,20 @@ function formatCryptoData(cryptos) {
 function formatStockData(stocks) {
     let html = '<ul class="data-list">';
     stocks.forEach(stock => {
-        const changeClass = stock.change && stock.change.startsWith('-') ? 'negative' : 'positive';
+        let changeClass = 'positive';
+        const changeStr = stock.change || 'N/A';
+        if (changeStr !== 'N/A') {
+            const changeNum = parseFloat(changeStr);
+            if (changeNum < 0) {
+                changeClass = 'negative';
+            }
+        }
         html += `
             <li class="data-item">
                 <div class="stock-item">
                     <span><strong>${escapeHtml(stock.symbol)}</strong> - ${escapeHtml(stock.name)}</span>
                     <span>${escapeHtml(stock.price)}</span>
-                    <span class="${changeClass}">${escapeHtml(stock.change || 'N/A')}</span>
+                    <span class="${changeClass}">${escapeHtml(changeStr)}</span>
                 </div>
                 ${stock.note ? `<div style="font-size: 0.9em; color: #666; margin-top: 5px;">${escapeHtml(stock.note)}</div>` : ''}
             </li>

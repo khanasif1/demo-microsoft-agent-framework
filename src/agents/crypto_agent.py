@@ -46,9 +46,9 @@ class CryptoAgent(BaseAgent):
                             crypto_list.append({
                                 'name': coin.get('name', 'N/A'),
                                 'symbol': coin.get('symbol', 'N/A').upper(),
-                                'price': f"${coin.get('current_price', 0):,.2f}",
-                                'change_24h': f"{coin.get('price_change_percentage_24h', 0):.2f}%",
-                                'market_cap': f"${coin.get('market_cap', 0):,.0f}"
+                                'price': f"${coin.get('current_price') or 0:,.2f}",
+                                'change_24h': f"{coin.get('price_change_percentage_24h') or 0:.2f}%",
+                                'market_cap': f"${coin.get('market_cap') or 0:,.0f}"
                             })
                         
                         self.status = "completed"
