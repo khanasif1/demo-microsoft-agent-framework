@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microsoft Agent Framework Demo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🤖 Microsoft Agent Framework Demo</h1>
+            <p class="subtitle">Multi-Agent System for News & Financial Data</p>
+        </header>
+
+        <main>
+            <div class="query-section">
+                <h2>Enter Your Query</h2>
+                <div class="input-group">
+                    <textarea id="queryInput" placeholder="Enter your query here (e.g., 'Get me the latest news and market updates')..." rows="3"></textarea>
+                    <button id="submitBtn" onclick="submitQuery()">
+                        <span id="btnText">🚀 Execute Agents</span>
+                        <span id="btnLoader" class="loader" style="display: none;"></span>
+                    </button>
+                </div>
+                
+                <div class="agent-selector">
+                    <h3>Active Agents:</h3>
+                    <div class="agent-checkboxes">
+                        <label class="checkbox-label">
+                            <input type="checkbox" value="bbc_news" checked>
+                            <span>📰 BBC News</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" value="techcrunch" checked>
+                            <span>💻 TechCrunch</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" value="crypto" checked>
+                            <span>₿ Crypto Prices</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" value="stocks" checked>
+                            <span>📈 Stock Prices</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div id="resultsSection" class="results-section" style="display: none;">
+                <h2>Results</h2>
+                <div id="resultsContainer"></div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Powered by Microsoft Agent Framework | Demo Application</p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
