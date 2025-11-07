@@ -48,7 +48,7 @@ async def non_streaming_example() -> None:
             tools=get_weather,
         ) as agent,
     ):
-        query = "What's the weather like in Seattle?"
+        query = input("Enter your weather query:  (eg: What's the weather like in Seattle?)")        
         print(f"User: {query}")
         result = await agent.run(query)
         print(f"Agent: {result}\n")
@@ -64,13 +64,17 @@ async def streaming_example() -> None:
     # authentication option.
     async with (
         AzureCliCredential() as credential,
-        AzureAIAgentClient(async_credential=credential).create_agent(
+        AzureAIAgentClient(
+                async_credential=credential,
+                project_endpoint=os.getenv("AZURE_AI_PROJECT_ENDPOINT"),
+                model_deployment_name=os.getenv("AZURE_AI_MODEL_DEPLOYMENT_NAME"),
+        ).create_agent(
             name="WeatherAgent",
             instructions="You are a helpful weather agent.",
             tools=get_weather,
         ) as agent,
     ):
-        query = "What's the weather like in Portland?"
+        query = input("Enter your weather query:  (eg: What's the weather like in Portland?)")
         print(f"User: {query}")
         print("Agent: ", end="", flush=True)
         async for chunk in agent.run_stream(query):
