@@ -15,6 +15,7 @@ from agent_framework.azure import AzureAIAgentClient
 from azure.identity.aio import AzureCliCredential
 
 from tools.bbc_news_agent import BBCNewsAgent
+from tools.crypto_agent import CryptoAgent
 
 # Load environment variables
 load_dotenv()
@@ -42,7 +43,7 @@ class AgentOrchestrator:
         try:
             # Execute the BBC news agent
             result = await self.bbc_agent.execute(query)
-            
+            print(f"*********BBC agent result: {result}")
             if result['status'] == 'success' and result['data']:
                 # Format the news articles for the AI agent
                 news_text = f"Here are the latest BBC news articles:\n\n"
@@ -57,6 +58,33 @@ class AgentOrchestrator:
         except Exception as e:
             return f"Error fetching news: {str(e)}"
     
+    async def get_crypto_data(
+        self,
+        symbol: Annotated[str, Field(description="The cryptocurrency for top coins or specific coins")]
+    ) -> str:
+        """
+        Fetch cryptocurrency data based on the user's query.
+        
+        Args:
+            symbol: Cryptocurrency symbol or name (e.g., 'bitcoin', 'BTC')
+            
+        Returns:
+            Formatted string with cryptocurrency data
+        """
+        try:
+            print(f"Fetching crypto data for: {symbol}")
+            # Initialize crypto agent if not already done
+            if not hasattr(self, 'crypto_agent'):
+                self.crypto_agent = CryptoAgent()
+            
+            # Execute the crypto agent
+            result = await self.crypto_agent.execute(symbol)
+            print(f"********************Crypto agent result: {result}")
+            return result
+                
+        except Exception as e:
+            return f"Error fetching crypto data: {str(e)}"
+
     async def get_agent_responses(self, topic: str = None) -> str:
         """
         Get a news summary from the Azure AI Agent.
@@ -67,8 +95,8 @@ class AgentOrchestrator:
         Returns:
             AI-generated news summary
         """
-        query = f"Get me the latest BBC news about {topic}" if topic else "Get me the latest BBC news"
-        
+        query = f" {topic}"
+        print(f"Query to agent: {query}")
         async with (
             AzureCliCredential() as credential,
             AzureAIAgentClient(
@@ -76,10 +104,10 @@ class AgentOrchestrator:
                 project_endpoint=os.getenv("AZURE_AI_PROJECT_ENDPOINT"),
                 model_deployment_name=os.getenv("AZURE_AI_MODEL_DEPLOYMENT_NAME"),
             ).create_agent(
-                name="BBCNewsAssistant",
-                instructions="""You are a helpful BBC news assistant. Provide concise and informative 
-                summaries of the news articles. Focus on the most important and relevant information.""",
-                tools=self.get_bbc_news,
+                name="IntelligentAssistant",
+                instructions="""You are a helpful BBC news & crypto currency assistant. Provide concise and informative 
+                summaries of the news articles and crypto currency. Focus on the most important and relevant information.""",
+                tools=[self.get_bbc_news,self.get_crypto_data]
             ) as agent,
         ):
             result = await agent.run(query)
@@ -98,9 +126,16 @@ async def main():
         print("Error: AZURE_AI_MODEL_DEPLOYMENT_NAME not found in environment variables.")
         print("Please create a .env file with your Azure AI configuration.")
         return
-    
+    # Get user input
+    user_prompt = input("Enter your query (news topic or crypto symbol): ").strip()
+    if not user_prompt:
+        user_prompt = None
+        print("No specific topic provided. Getting general news...")
+    else:
+        print(f"Searching for: {user_prompt}")
+
     orchestrator = AgentOrchestrator()
-    summary = await orchestrator.get_agent_responses("latest")
+    summary = await orchestrator.get_agent_responses(user_prompt)
     print(f"\n=== News Summary ===\n{summary}")
 
 if __name__ == "__main__":
