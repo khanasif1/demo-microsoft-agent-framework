@@ -64,12 +64,12 @@ graph TB
     
     AI --> OUT
     
-    classDef userClass fill:#e1f5fe,stroke:#01579b,stroke-width:2px
-    classDef orchestratorClass fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
-    classDef toolClass fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
-    classDef agentClass fill:#fff3e0,stroke:#e65100,stroke-width:2px
-    classDef apiClass fill:#fce4ec,stroke:#880e4f,stroke-width:2px
-    classDef azureClass fill:#e3f2fd,stroke:#0d47a1,stroke-width:2px
+    classDef userClass fill:#076adb,stroke:#01579b,stroke-width:2px
+    classDef orchestratorClass fill:#e226f0,stroke:#4a148c,stroke-width:2px
+    classDef toolClass fill:#1ae81a,stroke:#1b5e20,stroke-width:2px
+    classDef agentClass fill:#fcb00a,stroke:#e65100,stroke-width:2px
+    classDef apiClass fill:#f72564,stroke:#880e4f,stroke-width:2px
+    classDef azureClass fill:#078dfa,stroke:#0d47a1,stroke-width:2px
     
     class UI,OUT userClass
     class ORCH,AI orchestratorClass
