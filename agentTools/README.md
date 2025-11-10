@@ -66,7 +66,7 @@ graph TB
     
     classDef userClass fill:#076adb,stroke:#01579b,stroke-width:2px
     classDef orchestratorClass fill:#e226f0,stroke:#4a148c,stroke-width:2px
-    classDef toolClass fill:#1ae81a,stroke:#1b5e20,stroke-width:2px
+    classDef toolClass fill:#16ab16,stroke:#1b5e20,stroke-width:2px
     classDef agentClass fill:#fcb00a,stroke:#e65100,stroke-width:2px
     classDef apiClass fill:#f72564,stroke:#880e4f,stroke-width:2px
     classDef azureClass fill:#078dfa,stroke:#0d47a1,stroke-width:2px
