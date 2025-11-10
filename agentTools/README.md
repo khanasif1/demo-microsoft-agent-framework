@@ -1,206 +1,441 @@
-# Agent Web - BBC News with Azure AI Agent Framework
+# 🤖 Agent Tools - Multi-Agent Orchestrator
 
-This folder contains an orchestrator that integrates the BBC News Agent with Azure AI Agent Framework to provide intelligent news fetching and AI-powered responses.
+A sophisticated AI-powered orchestrator that integrates multiple specialized agents (BBC News, TechCrunch, Crypto, Stock) with Azure AI Agent Framework to provide intelligent data fetching and AI-powered responses.
 
-## 🏗️ Architecture
+## 1. 🏗️ Mermaid Architecture
 
-The orchestrator (`orchestrator.py`) combines:
-- **BBC News Agent**: Fetches latest news from BBC News website
-- **Azure AI Agent Client**: Provides intelligent AI responses using Azure's language models
-- **Function Tools**: Allows the AI to call the BBC news fetching function when needed
+```mermaid
+graph TB
+    subgraph "User Interface"
+        UI[User Input]
+        OUT[Response Output]
+    end
+    
+    subgraph "Agent Orchestrator"
+        ORCH[AgentOrchestrator Class]
+        AI[Azure AI Agent Client]
+    end
+    
+    subgraph "Function Tools"
+        BBC[get_bbc_news]
+        CRYPTO[get_crypto_data]
+        STOCK[get_stock_prices]
+        TECH[get_techcrunch_news]
+    end
+    
+    subgraph "Specialized Agents"
+        BBCAGENT[BBCNewsAgent]
+        CRYPTOAGENT[CryptoAgent]
+        STOCKAGENT[StockAgent]
+        TECHAGENT[TechCrunchAgent]
+    end
+    
+    subgraph "External APIs"
+        BBCAPI[BBC News Website]
+        COINAPI[CoinGecko API]
+        YAHOOAPI[Yahoo Finance]
+        TECHAPI[TechCrunch Website]
+    end
+    
+    subgraph "Azure Services"
+        AZAI[Azure AI Foundry]
+        AUTH[Azure CLI Auth]
+    end
+    
+    UI --> ORCH
+    ORCH --> AI
+    AI --> BBC
+    AI --> CRYPTO
+    AI --> STOCK
+    AI --> TECH
+    
+    BBC --> BBCAGENT
+    CRYPTO --> CRYPTOAGENT
+    STOCK --> STOCKAGENT
+    TECH --> TECHAGENT
+    
+    BBCAGENT --> BBCAPI
+    CRYPTOAGENT --> COINAPI
+    STOCKAGENT --> YAHOOAPI
+    TECHAGENT --> TECHAPI
+    
+    AI --> AZAI
+    ORCH --> AUTH
+    
+    AI --> OUT
+    
+    classDef userClass fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef orchestratorClass fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef toolClass fill:#e8f5e8,stroke:#1b5e20,stroke-width:2px
+    classDef agentClass fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef apiClass fill:#fce4ec,stroke:#880e4f,stroke-width:2px
+    classDef azureClass fill:#e3f2fd,stroke:#0d47a1,stroke-width:2px
+    
+    class UI,OUT userClass
+    class ORCH,AI orchestratorClass
+    class BBC,CRYPTO,STOCK,TECH toolClass
+    class BBCAGENT,CRYPTOAGENT,STOCKAGENT,TECHAGENT agentClass
+    class BBCAPI,COINAPI,YAHOOAPI,TECHAPI apiClass
+    class AZAI,AUTH azureClass
+```
 
-## 📋 Features
+### Architecture Components
 
-1. **Interactive Chat Session**: Chat with an AI assistant that can fetch live BBC news
-2. **News Summaries**: Get AI-generated summaries of current news
-3. **Raw News Data**: Access the raw BBC news articles directly
-4. **Streaming Responses**: Real-time AI responses as they're generated
+- **User Interface**: Command-line interface for user interaction
+- **Agent Orchestrator**: Main coordination layer using Azure AI Agent Framework
+- **Function Tools**: AI-callable functions that bridge between the orchestrator and agents
+- **Specialized Agents**: Independent data fetchers for specific domains
+- **External APIs**: Third-party services for data retrieval
+- **Azure Services**: Authentication and AI processing services
 
-## 🚀 Setup
+## 2. �️ How to Setup the Code with venv
 
-### 1. Install Dependencies
+### Prerequisites
+- Python 3.8 or higher
+- Azure CLI installed
+- Azure subscription with AI Foundry access
 
-Make sure you have the Microsoft Agent Framework installed:
+### Step-by-Step Setup
+
+#### 1. Clone and Navigate
 ```bash
-pip install azure-ai-agent-framework
-# or if using the development version
+git clone <repository-url>
+cd demo-microsoft-agent-framework/agentTools
+```
+
+#### 2. Create Virtual Environment
+```bash
+# Create virtual environment
+python -m venv .venv
+
+# Activate virtual environment
+# Windows (PowerShell)
+.venv\Scripts\Activate.ps1
+
+# Windows (Command Prompt)
+.venv\Scripts\activate.bat
+
+# macOS/Linux
+source .venv/bin/activate
+```
+
+#### 3. Install Dependencies
+```bash
+# Upgrade pip
+python -m pip install --upgrade pip
+
+# Install required packages
 pip install -r ../requirements.txt
+
+# Install additional packages for this project
+pip install aiohttp beautifulsoup4 lxml pydantic python-dotenv
 ```
 
-### 2. Environment Configuration
-
-1. Copy the example environment file:
-   ```bash
-   copy .env.example .env
-   ```
-
-2. Edit `.env` with your Azure AI configuration:
-   ```env
-   AZURE_AI_PROJECT_ENDPOINT=https://your-project.eastus.api.azureml.ms
-   AZURE_AI_MODEL_DEPLOYMENT_NAME=your-deployment-name
-   ```
-
-### 3. Azure Authentication
-
-Ensure you're logged in to Azure CLI:
+#### 4. Azure Authentication Setup
 ```bash
+# Login to Azure CLI
 az login
+
+# Verify login
+az account show
+
+# Set subscription (if multiple)
+az account set --subscription "your-subscription-id"
 ```
 
-## ▶️ How to Run
-
-Run the orchestrator:
+#### 5. Environment Configuration
 ```bash
+# Copy example environment file
+cp .env.example .env
+```
+
+Edit the `.env` file with your Azure AI configuration:
+```env
+# Azure AI Project Configuration
+AZURE_AI_PROJECT_ENDPOINT=https://your-project.eastus.api.azureml.ms
+AZURE_AI_MODEL_DEPLOYMENT_NAME=gpt-4o-deployment
+
+# Optional: Additional Configuration
+AZURE_SUBSCRIPTION_ID=your-subscription-id
+AZURE_RESOURCE_GROUP=your-resource-group
+```
+
+#### 6. Verify Installation
+```bash
+# Test import
+python -c "from agent_framework.azure import AzureAIAgentClient; print('✅ Agent Framework Ready')"
+
+# Test Azure connection
+az account show --output table
+```
+
+## 3. ▶️ How to Run the Code
+
+### Basic Usage
+```bash
+# Ensure virtual environment is activated
+.venv\Scripts\Activate.ps1  # Windows
+# source .venv/bin/activate  # macOS/Linux
+
+# Run the orchestrator
 python orchestrator.py
 ```
 
-Choose from the available options:
+### Example Interactions
 
-### Option 1: Interactive Chat Session
-```
-Choose an option:
-1. Interactive chat session
-2. Get news summary  
-3. Fetch raw news data
-Enter your choice (1-3): 1
+#### 1. News Queries
+```bash
+Enter your query: What's the latest BBC news?
 ```
 
-Example conversation:
-```
-You: What's the latest news from BBC?
-Assistant: I'll fetch the latest BBC news for you...
-
-Here are the latest BBC news articles:
-
-1. **Breaking: Major Political Development**
-   Link: https://www.bbc.com/news/politics-12345
-
-2. **Technology: New AI Breakthrough Announced**  
-   Link: https://www.bbc.com/news/technology-67890
-
-...
-
-You: Can you summarize the political news?
-Assistant: Based on the latest articles, the main political development involves...
+#### 2. Crypto Queries
+```bash
+Enter your query: Bitcoin price
+Enter your query: Top 5 cryptocurrencies
 ```
 
-### Option 2: News Summary
-Get an AI-generated summary of current news:
+#### 3. Combined Queries
+```bash
+Enter your query: Latest tech news and crypto prices
+Enter your query: BBC news about technology and Bitcoin updates
 ```
-Enter your choice (1-3): 2
-Enter a topic (or press Enter for general news): technology
+
+### Sample Output
+```
+Enter your query (news topic or crypto symbol): What's happening in tech and crypto?
 
 === News Summary ===
-Here's a summary of the latest technology news from BBC:
-...
+Based on the latest information:
+
+📰 **BBC Tech News:**
+1. AI Breakthrough in Healthcare Technology
+   Link: https://www.bbc.com/news/technology-12345
+
+2. New Quantum Computing Milestone Reached
+   Link: https://www.bbc.com/news/science-67890
+
+💎 **Cryptocurrency Update:**
+• Bitcoin (BTC): $45,230.50 (+2.34%)
+• Ethereum (ETH): $2,890.12 (-1.23%)
+• Binance Coin (BNB): $310.45 (+0.89%)
+
+The technology sector shows significant advancement in AI applications...
 ```
 
-### Option 3: Raw News Data
-Get the raw news articles without AI processing:
-```
-Enter your choice (1-3): 3
+### Advanced Usage
 
-=== Raw BBC News Data ===
-1. Breaking News: Important Event
-   URL: https://www.bbc.com/news/...
+#### Environment Variable Override
+```bash
+# Override endpoint for testing
+AZURE_AI_PROJECT_ENDPOINT="https://test-endpoint.azure.com" python orchestrator.py
 ```
 
-## 🔧 Code Structure
+#### Debug Mode
+```bash
+# Enable verbose logging
+export PYTHONPATH=$PYTHONPATH:.
+python -c "
+import asyncio
+from orchestrator import AgentOrchestrator
+async def debug():
+    orch = AgentOrchestrator()
+    result = await orch.get_bbc_news('technology')
+    print(f'Debug result: {result}')
+asyncio.run(debug())
+"
+```
 
-### NewsOrchestrator Class
+## 4. ❓ FAQ, Bugs & Fixes
 
-The main orchestrator class that manages the integration:
+### Frequently Asked Questions
 
-- `get_bbc_news()`: Function tool that the AI can call to fetch news
-- `run_interactive_session()`: Interactive chat interface
-- `get_news_summary()`: Generate AI summaries of news
+#### Q1: What agents are currently available?
+**A:** The orchestrator includes four specialized agents:
+- **BBCNewsAgent**: Fetches news from BBC News website
+- **CryptoAgent**: Gets cryptocurrency prices from CoinGecko API
+- **StockAgent**: Retrieves stock data from Yahoo Finance
+- **TechCrunchAgent**: Fetches tech news from TechCrunch
 
-### Function Tools
+#### Q2: How does the AI decide which agents to call?
+**A:** The Azure AI Agent Framework analyzes user queries using natural language understanding and automatically selects appropriate function tools based on context keywords and intent.
 
-The orchestrator provides the AI agent with function tools:
+#### Q3: Can I add custom agents?
+**A:** Yes! Follow this pattern:
+1. Create a new agent class inheriting from `BaseAgent`
+2. Implement the `execute()` method
+3. Add a function tool in the orchestrator
+4. Include it in the agent's tools list
+
+### Common Bugs & Fixes
+
+#### 🐛 Bug #1: Import Error - `agent_framework.azure`
+```
+ModuleNotFoundError: No module named 'agent_framework'
+```
+**🔧 Fix:**
+```bash
+pip install azure-ai-agent-framework
+# or
+pip install agent-framework-azure-ai
+```
+
+#### 🐛 Bug #2: Authentication Error (401 Unauthorized)
+```
+Error code: 401 - {'statusCode': 401, 'message': 'Unauthorized. Access token is missing, invalid...'}
+```
+**🔧 Fix:**
+```bash
+# Re-login to Azure
+az logout
+az login
+
+# Verify subscription
+az account show
+
+# Check endpoint format in .env
+# Should be: https://your-project.eastus.api.azureml.ms
+# Not: https://your-project.eastus.api.azureml.ms/api/projects/project-name
+```
+
+#### 🐛 Bug #3: Environment Variables Not Found
+```
+Error: AZURE_AI_PROJECT_ENDPOINT not found in environment variables
+```
+**🔧 Fix:**
+```bash
+# Check if .env file exists
+ls -la .env
+
+# Verify content
+cat .env
+
+# Ensure no extra spaces or quotes
+# Correct: AZURE_AI_PROJECT_ENDPOINT=https://example.com
+# Wrong: AZURE_AI_PROJECT_ENDPOINT = "https://example.com"
+```
+
+#### � Bug #4: Connection Timeout/Network Issues
+```
+aiohttp.client_exceptions.ClientConnectorError: Cannot connect to host
+```
+**🔧 Fix:**
+```bash
+# Check internet connection
+ping google.com
+
+# Verify firewall/proxy settings
+# For corporate networks, configure proxy:
+export HTTP_PROXY=http://proxy.company.com:8080
+export HTTPS_PROXY=http://proxy.company.com:8080
+
+# Test individual agents
+python -c "
+import asyncio
+from tools.bbc_news_agent import BBCNewsAgent
+async def test():
+    agent = BBCNewsAgent()
+    result = await agent.execute('test')
+    print(result)
+asyncio.run(test())
+"
+```
+
+#### 🐛 Bug #5: Azure AI Model Deployment Not Found
+```
+Error: The model deployment 'gpt-4.1' was not found
+```
+**🔧 Fix:**
+```bash
+# Check available deployments
+az cognitiveservices account deployment list --name YOUR_RESOURCE_NAME --resource-group YOUR_RG
+
+# Update .env with correct deployment name
+AZURE_AI_MODEL_DEPLOYMENT_NAME=gpt-35-turbo
+# or
+AZURE_AI_MODEL_DEPLOYMENT_NAME=gpt-4
+```
+
+#### 🐛 Bug #6: Agent Returns Empty Results
+```
+BBC News error: No articles found
+```
+**🔧 Fix:**
+```bash
+# Check if websites have changed structure
+# Update CSS selectors in agent files:
+
+# For BBC News Agent - update selectors in bbc_news_agent.py
+headlines = soup.find_all('h2', {'data-testid': 'card-headline'}, limit=5)
+
+# Test manually
+curl -s "https://www.bbc.com/news" | grep -i "headline"
+```
+
+### Performance Optimization
+
+#### Memory Usage
+```bash
+# Monitor memory usage
+python -c "
+import psutil
+import asyncio
+from orchestrator import main
+print(f'Memory before: {psutil.Process().memory_info().rss / 1024 / 1024:.2f} MB')
+asyncio.run(main())
+"
+```
+
+#### Response Time
+```bash
+# Add timing to orchestrator.py
+import time
+
+async def get_agent_responses(self, topic: str = None) -> str:
+    start_time = time.time()
+    # ... existing code ...
+    end_time = time.time()
+    print(f"⏱️ Response generated in {end_time - start_time:.2f} seconds")
+```
+
+### Development Tips
+
+#### Testing Individual Components
+```bash
+# Test BBC Agent only
+python -c "
+import asyncio
+from tools.bbc_news_agent import BBCNewsAgent
+async def test_bbc():
+    agent = BBCNewsAgent()
+    result = await agent.execute('technology')
+    print('BBC Result:', result['status'], len(result.get('data', [])))
+asyncio.run(test_bbc())
+"
+
+# Test Crypto Agent only
+python -c "
+import asyncio  
+from tools.crypto_agent import CryptoAgent
+async def test_crypto():
+    agent = CryptoAgent()
+    result = await agent.execute('bitcoin')
+    print('Crypto Result:', result['status'], len(result.get('data', [])))
+asyncio.run(test_crypto())
+"
+```
+
+#### Logging Configuration
 ```python
-async def get_bbc_news(query: str) -> str:
-    """Fetch BBC news articles based on user query"""
+# Add to orchestrator.py for debugging
+import logging
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 ```
 
-### Agent Configuration
+---
 
-The Azure AI Agent is configured with specific instructions:
-```python
-instructions="""You are a helpful BBC news assistant. You can fetch the latest BBC news articles 
-and provide intelligent summaries, analysis, and answers about current events."""
-```
+## 📞 Support
 
-## 🛠️ Customization
-
-### Adding More News Sources
-
-You can extend the orchestrator to include more news agents:
-
-```python
-from agents.techcrunch_agent import TechCrunchAgent
-from agents.crypto_agent import CryptoAgent
-
-class NewsOrchestrator:
-    def __init__(self):
-        self.bbc_agent = BBCNewsAgent()
-        self.tech_agent = TechCrunchAgent()
-        self.crypto_agent = CryptoAgent()
-    
-    async def get_tech_news(self, query: str) -> str:
-        """Fetch TechCrunch news"""
-        # Implementation here
-```
-
-### Modifying AI Instructions
-
-Customize the AI agent's behavior:
-```python
-instructions="""You are a specialized financial news assistant. Focus on business and 
-economic aspects of news stories. Provide analysis and context for financial implications."""
-```
-
-### Adding More Function Tools
-
-Extend the agent with additional capabilities:
-```python
-tools=[self.get_bbc_news, self.get_tech_news, self.get_crypto_news]
-```
-
-## 🔍 Troubleshooting
-
-### Common Issues
-
-1. **Import Error: agent_framework.azure**
-   ```bash
-   pip install azure-ai-agent-framework
-   ```
-
-2. **Authentication Error**
-   ```bash
-   az login
-   az account show
-   ```
-
-3. **Environment Variables Missing**
-   - Check your `.env` file exists and has correct values
-   - Verify Azure AI project endpoint and deployment name
-
-4. **BBC News Fetching Issues**
-   - The BBC News Agent uses web scraping and may need updates if BBC changes their website structure
-   - Check your internet connection
-
-### Getting Help
-
-- Review the [Azure AI Agent Framework documentation](https://github.com/microsoft/agent-framework)
-- Check the main quickstart example in `../quickstart/`
-- Ensure your Azure AI project and model deployment are properly configured
-
-## 📝 Next Steps
-
-- Integrate with other news agents (TechCrunch, Crypto, Stock)
-- Add news filtering and search capabilities
-- Implement news categorization and tagging
-- Create a web interface for the orchestrator
-- Add news sentiment analysis
-- Implement news archiving and history
+- **Issues**: Open an issue on the GitHub repository
+- **Documentation**: Check the [Microsoft Agent Framework docs](https://learn.microsoft.com/en-us/agent-framework/)
+- **Azure Support**: Visit [Azure AI Foundry documentation](https://docs.microsoft.com/azure/ai-studio/)
