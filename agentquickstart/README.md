@@ -98,12 +98,6 @@ Create a `.env` file in the quickstart directory with your Azure AI configuratio
 AZURE_AI_PROJECT_ENDPOINT=https://your-project.eastus.api.azureml.ms
 AZURE_AI_MODEL_DEPLOYMENT_NAME=gpt-4o-deployment
 
-# Optional: Additional Azure Configuration
-# AZURE_SUBSCRIPTION_ID=your-subscription-id
-# AZURE_RESOURCE_GROUP=your-resource-group
-# AZURE_AI_HUB_NAME=your-hub-name
-# AZURE_AI_PROJECT_NAME=your-project-name
-```
 
 **Important**: 
 - Replace `your-project.eastus.api.azureml.ms` with your actual project endpoint
@@ -163,30 +157,6 @@ Agent: Let me check the current weather conditions in Portland for you.
 The weather in Portland is sunny with a high of 25°C.
 ```
 
-## 🛠️ Customization
-
-### Adding Your Own Functions
-
-You can extend the agent by adding more function tools:
-
-```python
-def get_stock_price(symbol: Annotated[str, Field(description="Stock symbol to get price for")]) -> str:
-    """Get current stock price for a symbol."""
-    # Your implementation here
-    return f"Stock price for {symbol}: $150.00"
-
-# Add to agent creation:
-tools=[get_weather, get_stock_price]
-```
-
-### Modifying Agent Instructions
-
-Customize the agent's behavior by changing the instructions:
-
-```python
-instructions="You are a helpful assistant specialized in weather and travel information."
-```
-
 ## 🔍 Troubleshooting
 
 ### Common Issues
@@ -214,10 +184,3 @@ instructions="You are a helpful assistant specialized in weather and travel info
 - Check the [Azure AI documentation](https://docs.microsoft.com/azure/ai-services/)
 - Visit [Azure AI Foundry documentation](https://docs.microsoft.com/azure/ai-studio/)
 - Review the [Microsoft Agent Framework documentation](https://github.com/microsoft/agent-framework)
-
-## 📝 Next Steps
-
-- Explore the main `news` application in the parent directory
-- Try creating agents with different personalities and capabilities
-- Experiment with different Azure AI models
-- Build more complex function tools for your specific use cases
