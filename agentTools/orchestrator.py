@@ -101,8 +101,10 @@ class AgentOrchestrator:
             AzureCliCredential() as credential,
             AzureAIAgentClient(
                 async_credential=credential,
-                project_endpoint=os.getenv("AZURE_AI_PROJECT_ENDPOINT"),
-                model_deployment_name=os.getenv("AZURE_AI_MODEL_DEPLOYMENT_NAME"),
+                # project_endpoint=os.getenv("AZURE_AI_PROJECT_ENDPOINT"),
+                # model_deployment_name=os.getenv("AZURE_AI_MODEL_DEPLOYMENT_NAME"),
+                endpoint=os.getenv("AZURE_AI_PROJECT_ENDPOINT"),
+                deployment_name=os.getenv("AZURE_AI_MODEL_DEPLOYMENT_NAME"),
             ).create_agent(
                 name="IntelligentAssistant",
                 instructions="""You are a helpful BBC news & crypto currency assistant. Provide concise and informative 

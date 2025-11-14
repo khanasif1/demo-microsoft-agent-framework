@@ -1,0 +1,19 @@
+flowchart TD
+  dispatcher["dispatcher (Start)"];
+  researcher["researcher"];
+  marketer["marketer"];
+  legal["legal"];
+  aggregator["aggregator"];
+  fan_in__aggregator__e3a4ff58((fan-in))
+  legal --> fan_in__aggregator__e3a4ff58;
+  marketer --> fan_in__aggregator__e3a4ff58;
+  researcher --> fan_in__aggregator__e3a4ff58;
+  fan_in__aggregator__e3a4ff58 --> aggregator;
+  internal_dispatcher --> dispatcher;
+  internal_researcher --> researcher;
+  internal_marketer --> marketer;
+  internal_legal --> legal;
+  dispatcher --> researcher;
+  dispatcher --> marketer;
+  dispatcher --> legal;
+  internal_aggregator --> aggregator;

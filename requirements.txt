@@ -9,3 +9,5 @@ pydantic
 agent-framework
 agent-framework-core
 azure-identity
+# agent-framework[viz]
+# agent-framework --pre
