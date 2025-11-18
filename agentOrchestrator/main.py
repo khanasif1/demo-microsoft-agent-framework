@@ -150,12 +150,13 @@ async def main():
         print("Please create a .env file with your Azure AI configuration.")
         return
     # Get user input
-    user_prompt = input("Enter your query (news topic or crypto symbol): ").strip()
-    if not user_prompt:
-        user_prompt = None
-        print("No specific topic provided. Getting general news...")
-    else:
-        print(f"Searching for: {user_prompt}")
+    # user_prompt = input("Enter your query (news topic or crypto symbol): ").strip()
+    # if not user_prompt:
+    #     user_prompt = None
+    #     print("No specific topic provided. Getting general news...")
+    # else:
+    #     print(f"Searching for: {user_prompt}")
+    user_prompt = "Get me latest global news and technology trends and events"
 
     orchestrator = AgentOrchestrator()
     summary = await orchestrator.get_agent_responses(user_prompt)
