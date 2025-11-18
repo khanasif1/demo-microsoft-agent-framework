@@ -9,11 +9,76 @@ from agent_framework.azure import AzureAIAgentClient
 from azure.identity.aio import AzureCliCredential
 from agent_framework import ChatMessage, ConcurrentBuilder
 
+from tools.bbc_news_agent import BBCNewsAgent
+from tools.techcrunch_agent import TechCrunchAgent
+
 # Load environment variables
 load_dotenv()
 
 
 class AgentOrchestrator:   
+
+    def __init__(self):
+        self.bbc_agent = BBCNewsAgent()
+    
+    async def get_bbc_news(
+        self,
+        query: Annotated[str, Field(description="The user's news query or topic of interest")]
+    ) -> str:
+        """
+        Fetch BBC news articles based on the user's query.
+        
+        Args:
+            query: User's news query or topic
+            
+        Returns:
+            Formatted string with news articles
+        """
+        try:
+            # Execute the BBC news agent
+            result = await self.bbc_agent.execute(query)
+            print(f"*********BBC agent result : {len(result)}")
+            if result['status'] == 'success' and result['data']:
+                # Format the news articles for the AI agent
+                news_text = f"Here are the latest BBC news articles:\n\n"
+                for i, article in enumerate(result['data'][:5], 1):
+                    news_text += f"{i}. **{article['title']}**\n"
+                    news_text += f"   Link: {article['url']}\n\n"
+                
+                return news_text
+            else:
+                return f"Sorry, I couldn't fetch news at the moment. Error: {result.get('message', 'Unknown error')}"
+                
+        except Exception as e:
+            return f"Error fetching news: {str(e)}"
+    
+    async def get_technews_data(
+        self,
+        symbol: Annotated[str, Field(description="The user technology news for top technology trends and events")]
+    ) -> str:
+        """
+        Fetch technews data based on the user's query.
+        
+        Args:
+            symbol: Technology news topic or keyword (e.g., 'AI', 'blockchain')
+            
+        Returns:
+            Formatted string with technews data
+        """
+        try:
+            print(f"Fetching technews data for: {symbol}")
+            # Initialize technews agent if not already done
+            if not hasattr(self, 'technews_agent'):
+                self.technews_agent = TechCrunchAgent()
+            
+            # Execute the technews agent
+            result = await self.technews_agent.execute(symbol)
+            print(f"********************TechNews agent result: {len(result)}")
+            return result
+                
+        except Exception as e:
+            return f"Error fetching crypto data: {str(e)}"
+
     async def get_agent_responses(self, topic: str = None) -> str:
         """
         Get a news summary from the Azure AI Agent.
@@ -36,36 +101,30 @@ class AgentOrchestrator:
                 deployment_name=os.getenv("AZURE_AI_MODEL_DEPLOYMENT_NAME"),
             ) as agentClient
         ):
-            researcher = agentClient.create_agent(
+            bbcnews_agent = agentClient.create_agent(
                 instructions=(
-                    "You're an expert market and product researcher. Given a prompt, provide concise, factual insights,"
-                    " opportunities, and risks."
+                    "You are a helpful BBC news assistant. Provide concise and informative "
+                    "summaries of the news articles. Focus on the most important and relevant information news space."
                 ),
-                name="researcher",
+                tools=[self.get_bbc_news],
+                name="bbcnews",
             )
 
-            marketer = agentClient.create_agent(
+            crypto_agent = agentClient.create_agent(
                 instructions=(
-                    "You're a creative marketing strategist. Craft compelling value propositions and target messaging"
-                    " aligned to the prompt."
+                    "You are a helpful technology news assistant which uses techcrunch tool. You provide concise and informative about latest technology news"
+                    "summaries of the technology news. Focus on the most important and relevant information from the technology news space."
                 ),
-                name="marketer",
-            )
-
-            legal = agentClient.create_agent(
-                instructions=(
-                    "You're a cautious legal/compliance reviewer. Highlight constraints, disclaimers, and policy concerns"
-                    " based on the prompt."
-                ),
-                name="legal",
+                tools=[self.get_technews_data],
+                name="technologynews",
             )
 
             # 2) Build a concurrent workflow
             # Participants are either Agents (type of AgentProtocol) or Executors
-            workflow = ConcurrentBuilder().participants([researcher, marketer, legal]).build()
+            workflow = ConcurrentBuilder().participants([bbcnews_agent, crypto_agent]).build()
 
             # 3) Run with a single prompt and pretty-print the final combined messages
-            events = await workflow.run("We are launching a new budget-friendly electric bike for urban commuters.")
+            events = await workflow.run(topic)
             outputs = events.get_outputs()
 
 

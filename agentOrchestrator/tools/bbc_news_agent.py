@@ -26,6 +26,7 @@ class BBCNewsAgent(BaseAgent):
         """
         self.status = "working"
         try:
+            print(f"BBCNewsAgent Tool: Fetching news for query")
             async with aiohttp.ClientSession() as session:
                 async with session.get(self.base_url, timeout=aiohttp.ClientTimeout(total=10)) as response:
                     if response.status == 200:
