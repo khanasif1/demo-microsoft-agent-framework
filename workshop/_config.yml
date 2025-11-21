@@ -1,0 +1,19 @@
+# GitHub Pages Configuration
+# This file configures Jekyll for GitHub Pages
+
+# Theme (optional - GitHub Pages default)
+theme: jekyll-theme-minimal
+
+# Site settings
+title: Microsoft Agent Framework Workshop
+description: A hands-on workshop for building AI agents with Microsoft Agent Framework
+show_downloads: false
+
+# Build settings
+markdown: kramdown
+
+# Exclude from processing
+exclude:
+  - README.md
+  - .venv/
+  - __pycache__/

@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Troubleshooting - Microsoft Agent Framework Workshop</title>
+    <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <h1>🤖 Agent Framework</h1>
+            <p>Hands-on Workshop</p>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="index.html" class="nav-link"><span class="step-number">0</span>Introduction</a></li>
+            <li class="nav-item"><a href="prerequisites.html" class="nav-link"><span class="step-number">1</span>Prerequisites</a></li>
+            <li class="nav-item"><a href="environment-setup.html" class="nav-link"><span class="step-number">2</span>Environment Setup</a></li>
+            <li class="nav-item"><a href="azure-setup.html" class="nav-link"><span class="step-number">3</span>Azure AI Setup</a></li>
+            <li class="nav-item"><a href="code-walkthrough.html" class="nav-link"><span class="step-number">4</span>Code Walkthrough</a></li>
+            <li class="nav-item"><a href="running-app.html" class="nav-link"><span class="step-number">5</span>Running the Agent</a></li>
+            <li class="nav-item"><a href="troubleshooting.html" class="nav-link active"><span class="step-number">6</span>Troubleshooting</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Module 6: Troubleshooting Guide</h1>
+            <p class="page-subtitle">Common issues and solutions</p>
+            <span class="duration-badge">⏱️ Duration: As needed</span>
+        </div>
+
+        <section class="content-section">
+            <h2 class="section-title">🎯 Quick Diagnostic</h2>
+            <p>If your agent isn't working, follow this diagnostic checklist:</p>
+            <ul class="checklist">
+                <li>Is your virtual environment activated? (Look for <code>(.venv)</code> in terminal)</li>
+                <li>Are you logged into Azure CLI? (Run <code>az account show</code>)</li>
+                <li>Does your <code>.env</code> file exist in the <code>agentquickstart</code> folder?</li>
+                <li>Are the values in <code>.env</code> correct (no placeholder text)?</li>
+                <li>Is your GPT model deployed and running in Azure AI Foundry?</li>
+            </ul>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">❌ Issue 1: Authentication Errors</h2>
+            
+            <h3 class="section-subtitle">Error Message</h3>
+            <div class="code-block">
+                <pre><code>DefaultAzureCredential failed to retrieve a token
+Authentication failed: No valid credentials found</code></pre>
+            </div>
+
+            <h3 class="section-subtitle">Cause</h3>
+            <p>You're not logged into Azure CLI or your session has expired.</p>
+
+            <h3 class="section-subtitle">Solution</h3>
+            <div class="code-header">Step 1: Login to Azure CLI</div>
+            <div class="code-block">
+                <pre><code>az login</code></pre>
+            </div>
+            <p>This will open a browser window. Complete the authentication.</p>
+
+            <div class="code-header">Step 2: Verify login</div>
+            <div class="code-block">
+                <pre><code>az account show</code></pre>
+            </div>
+            <p>You should see your subscription information.</p>
+
+            <div class="code-header">Step 3: Set correct subscription (if you have multiple)</div>
+            <div class="code-block">
+                <pre><code>az account set --subscription "YOUR_SUBSCRIPTION_ID"</code></pre>
+            </div>
+
+            <div class="alert alert-success">
+                <span class="alert-icon">✅</span>
+                <strong>Verify:</strong> Run your agent again after completing these steps.
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">❌ Issue 2: Missing .env File</h2>
+            
+            <h3 class="section-subtitle">Error Message</h3>
+            <div class="code-block">
+                <pre><code>KeyError: 'AZURE_AI_PROJECT_ENDPOINT'
+NoneType error when accessing environment variables</code></pre>
+            </div>
+
+            <h3 class="section-subtitle">Cause</h3>
+            <p>The <code>.env</code> file is missing or not in the correct location.</p>
+
+            <h3 class="section-subtitle">Solution</h3>
+            <div class="code-header">Step 1: Check if .env exists</div>
+            <div class="code-block">
+                <pre><code># Windows PowerShell
+Test-Path .env
+
+# macOS/Linux
+ls -la .env</code></pre>
+            </div>
+
+            <div class="code-header">Step 2: Create .env if missing</div>
+            <div class="code-block">
+                <pre><code># Windows PowerShell
+New-Item .env -ItemType File
+
+# macOS/Linux
+touch .env</code></pre>
+            </div>
+
+            <div class="code-header">Step 3: Add required values to .env</div>
+            <p>Open <code>.env</code> in your text editor and add:</p>
+            <div class="code-block">
+                <pre><code>AZURE_AI_PROJECT_ENDPOINT=your_actual_endpoint_here
+AZURE_AI_MODEL_DEPLOYMENT_NAME=your_deployment_name_here</code></pre>
+            </div>
+
+            <div class="alert alert-warning">
+                <span class="alert-icon">⚠️</span>
+                <strong>Important:</strong> Make sure there are NO spaces around the <code>=</code> sign and NO quotes around values.
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">❌ Issue 3: Wrong Endpoint or Deployment Name</h2>
+            
+            <h3 class="section-subtitle">Error Message</h3>
+            <div class="code-block">
+                <pre><code>ResourceNotFoundError: The specified resource was not found
+404 Not Found: Deployment not found</code></pre>
+            </div>
+
+            <h3 class="section-subtitle">Cause</h3>
+            <p>The endpoint or deployment name in your <code>.env</code> file is incorrect.</p>
+
+            <h3 class="section-subtitle">Solution</h3>
+            <div class="code-header">Step 1: Retrieve correct values from Azure</div>
+            <p>Go to <a href="https://ai.azure.com" target="_blank">Azure AI Foundry</a> → Your Project → Project Overview</p>
+
+            <div class="code-header">Step 2: Copy the Project Connection String</div>
+            <p>Look for <strong>"Project connection string"</strong> - it should look like:</p>
+            <div class="code-block">
+                <pre><code>https://your-project.region.api.azureml.ms/discovery</code></pre>
+            </div>
+            <p><strong>Important:</strong> Your endpoint should END with <code>/discovery</code></p>
+
+            <div class="code-header">Step 3: Get Deployment Name</div>
+            <p>Go to <strong>Deployments</strong> tab in Azure AI Foundry and copy the exact deployment name.</p>
+
+            <div class="code-header">Step 4: Update .env</div>
+            <div class="code-block">
+                <pre><code>AZURE_AI_PROJECT_ENDPOINT=https://your-project.region.api.azureml.ms/discovery
+AZURE_AI_MODEL_DEPLOYMENT_NAME=gpt-4o</code></pre>
+            </div>
+
+            <div class="alert alert-info">
+                <span class="alert-icon">💡</span>
+                <strong>Common Mistake:</strong> Using the wrong endpoint format. It should be the project endpoint, not the model endpoint.
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">❌ Issue 4: Module Import Errors</h2>
+            
+            <h3 class="section-subtitle">Error Message</h3>
+            <div class="code-block">
+                <pre><code>ModuleNotFoundError: No module named 'agent_framework'
+ImportError: cannot import name 'AzureAIAgentClient'</code></pre>
+            </div>
+
+            <h3 class="section-subtitle">Cause</h3>
+            <p>Dependencies are not installed or virtual environment is not activated.</p>
+
+            <h3 class="section-subtitle">Solution</h3>
+            <div class="code-header">Step 1: Verify virtual environment is active</div>
+            <p>Check for <code>(.venv)</code> in your terminal prompt.</p>
+
+            <div class="code-header">Step 2: Activate if needed</div>
+            <div class="code-block">
+                <pre><code># Windows PowerShell
+.venv\Scripts\Activate.ps1
+
+# macOS/Linux
+source .venv/bin/activate</code></pre>
+            </div>
+
+            <div class="code-header">Step 3: Install dependencies</div>
+            <div class="code-block">
+                <pre><code>pip install -r requirements.txt</code></pre>
+            </div>
+
+            <div class="code-header">Step 4: Verify installation</div>
+            <div class="code-block">
+                <pre><code>pip list | Select-String "agent-framework"  # PowerShell
+pip list | grep agent-framework  # macOS/Linux</code></pre>
+            </div>
+
+            <div class="alert alert-success">
+                <span class="alert-icon">✅</span>
+                <strong>Expected:</strong> You should see <code>azure-ai-agent-framework</code> in the list.
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">❌ Issue 5: Virtual Environment Activation Fails (Windows)</h2>
+            
+            <h3 class="section-subtitle">Error Message</h3>
+            <div class="code-block">
+                <pre><code>.venv\Scripts\Activate.ps1 : File cannot be loaded because running scripts 
+is disabled on this system.</code></pre>
+            </div>
+
+            <h3 class="section-subtitle">Cause</h3>
+            <p>PowerShell execution policy restricts script execution.</p>
+
+            <h3 class="section-subtitle">Solution</h3>
+            <div class="code-header">Change execution policy for current session</div>
+            <div class="code-block">
+                <pre><code>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process</code></pre>
+            </div>
+
+            <div class="code-header">Then activate</div>
+            <div class="code-block">
+                <pre><code>.venv\Scripts\Activate.ps1</code></pre>
+            </div>
+
+            <div class="alert alert-info">
+                <span class="alert-icon">💡</span>
+                <strong>Alternative:</strong> Use Command Prompt instead: <code>.venv\Scripts\activate.bat</code>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">❌ Issue 6: Model Deployment Not Ready</h2>
+            
+            <h3 class="section-subtitle">Error Message</h3>
+            <div class="code-block">
+                <pre><code>HTTP 503: Service Unavailable
+Model deployment is not ready</code></pre>
+            </div>
+
+            <h3 class="section-subtitle">Cause</h3>
+            <p>Your model deployment is still being provisioned in Azure.</p>
+
+            <h3 class="section-subtitle">Solution</h3>
+            <div class="code-header">Step 1: Check deployment status</div>
+            <p>Go to <a href="https://ai.azure.com" target="_blank">Azure AI Foundry</a> → Deployments</p>
+
+            <div class="code-header">Step 2: Wait for "Succeeded" status</div>
+            <p>The deployment status should show <strong>"Succeeded"</strong> (not "Creating" or "Updating").</p>
+
+            <div class="code-header">Step 3: Test again</div>
+            <p>Once status is "Succeeded", wait 1-2 minutes and try running your agent again.</p>
+
+            <div class="alert alert-info">
+                <span class="alert-icon">💡</span>
+                <strong>Timing:</strong> Model deployments usually take 2-5 minutes to become available.
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">❌ Issue 7: Permission/Access Errors</h2>
+            
+            <h3 class="section-subtitle">Error Message</h3>
+            <div class="code-block">
+                <pre><code>HTTP 403: Forbidden
+You do not have permission to access this resource</code></pre>
+            </div>
+
+            <h3 class="section-subtitle">Cause</h3>
+            <p>Your Azure account doesn't have proper permissions for the resource.</p>
+
+            <h3 class="section-subtitle">Solution</h3>
+            <div class="code-header">Step 1: Verify subscription access</div>
+            <div class="code-block">
+                <pre><code>az account show</code></pre>
+            </div>
+            <p>Make sure you're using the subscription where you created the resources.</p>
+
+            <div class="code-header">Step 2: Check your role</div>
+            <p>In Azure Portal:</p>
+            <ol style="margin-left: 20px;">
+                <li>Go to your Resource Group</li>
+                <li>Click <strong>"Access control (IAM)"</strong></li>
+                <li>Check <strong>"Role assignments"</strong></li>
+                <li>Verify you have at least <strong>"Contributor"</strong> or <strong>"Cognitive Services User"</strong> role</li>
+            </ol>
+
+            <div class="alert alert-warning">
+                <span class="alert-icon">⚠️</span>
+                <strong>Need Help?</strong> Contact your Azure administrator to grant necessary permissions.
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">❌ Issue 8: Network/Connection Errors</h2>
+            
+            <h3 class="section-subtitle">Error Message</h3>
+            <div class="code-block">
+                <pre><code>ConnectionError: Failed to establish connection
+Timeout: Request timed out after 30 seconds</code></pre>
+            </div>
+
+            <h3 class="section-subtitle">Causes & Solutions</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Cause</th>
+                        <th>Solution</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>No internet connection</td>
+                        <td>Check your network connection and try again</td>
+                    </tr>
+                    <tr>
+                        <td>Firewall blocking Azure</td>
+                        <td>Check firewall settings, allow <code>*.azure.com</code></td>
+                    </tr>
+                    <tr>
+                        <td>Corporate proxy</td>
+                        <td>Configure proxy settings or use VPN</td>
+                    </tr>
+                    <tr>
+                        <td>Azure service outage</td>
+                        <td>Check <a href="https://status.azure.com" target="_blank">Azure Status</a></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="code-header">Test connectivity</div>
+            <div class="code-block">
+                <pre><code># Test Azure connection
+az account show
+
+# If this works, network is fine and issue is elsewhere</code></pre>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">❌ Issue 9: Python Version Mismatch</h2>
+            
+            <h3 class="section-subtitle">Error Message</h3>
+            <div class="code-block">
+                <pre><code>SyntaxError: invalid syntax
+TypeError: unsupported operand type(s)</code></pre>
+            </div>
+
+            <h3 class="section-subtitle">Cause</h3>
+            <p>Using Python version older than 3.8 or virtual environment using wrong Python.</p>
+
+            <h3 class="section-subtitle">Solution</h3>
+            <div class="code-header">Step 1: Check Python version</div>
+            <div class="code-block">
+                <pre><code>python --version</code></pre>
+            </div>
+            <p>Should show <strong>Python 3.8 or higher</strong></p>
+
+            <div class="code-header">Step 2: Recreate venv with correct Python</div>
+            <div class="code-block">
+                <pre><code># Deactivate current venv
+deactivate
+
+# Remove old venv
+Remove-Item -Recurse -Force .venv  # PowerShell
+rm -rf .venv  # macOS/Linux
+
+# Create new venv with specific Python version
+python3.11 -m venv .venv  # Use your installed version</code></pre>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">🛠️ Advanced Debugging</h2>
+            
+            <h3 class="section-subtitle">Enable Verbose Logging</h3>
+            <p>Add this at the top of <code>azure_ai_basic.py</code> to see detailed logs:</p>
+            <div class="code-block">
+                <pre><code>import logging
+logging.basicConfig(level=logging.DEBUG)</code></pre>
+            </div>
+
+            <h3 class="section-subtitle">Test Azure Connection Manually</h3>
+            <div class="code-block">
+                <pre><code># Test Azure CLI access
+az account show
+
+# Test AI Foundry access
+az ml workspace list --subscription YOUR_SUBSCRIPTION_ID</code></pre>
+            </div>
+
+            <h3 class="section-subtitle">Verify Environment Variables</h3>
+            <p>Add this to your script temporarily:</p>
+            <div class="code-block">
+                <pre><code>import os
+from dotenv import load_dotenv
+
+load_dotenv()
+print("Endpoint:", os.getenv("AZURE_AI_PROJECT_ENDPOINT"))
+print("Deployment:", os.getenv("AZURE_AI_MODEL_DEPLOYMENT_NAME"))</code></pre>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">🔍 Diagnostic Checklist</h2>
+            <p>If nothing works, go through this complete checklist:</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Check</th>
+                        <th>Command to Verify</th>
+                        <th>Expected Result</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Python version</td>
+                        <td><code>python --version</code></td>
+                        <td>3.8 or higher</td>
+                    </tr>
+                    <tr>
+                        <td>Virtual environment active</td>
+                        <td>Check terminal prompt</td>
+                        <td>Shows <code>(.venv)</code></td>
+                    </tr>
+                    <tr>
+                        <td>Azure CLI installed</td>
+                        <td><code>az --version</code></td>
+                        <td>Version number displays</td>
+                    </tr>
+                    <tr>
+                        <td>Azure logged in</td>
+                        <td><code>az account show</code></td>
+                        <td>Subscription info displays</td>
+                    </tr>
+                    <tr>
+                        <td>.env file exists</td>
+                        <td><code>Test-Path .env</code> (PS)</td>
+                        <td>True</td>
+                    </tr>
+                    <tr>
+                        <td>Dependencies installed</td>
+                        <td><code>pip list</code></td>
+                        <td>Shows agent-framework</td>
+                    </tr>
+                    <tr>
+                        <td>In correct directory</td>
+                        <td><code>pwd</code> or <code>cd</code></td>
+                        <td>Shows agentquickstart folder</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">💬 Still Having Issues?</h2>
+            <div style="background: var(--bg-secondary); padding: 30px; border-radius: 8px;">
+                <h3 style="margin-bottom: 15px;">Getting Help</h3>
+                <p><strong>Check the project repository:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>GitHub Issues: Search for similar problems</li>
+                    <li>README.md: Review documentation</li>
+                    <li>Sample code: Compare with your implementation</li>
+                </ul>
+                
+                <p style="margin-top: 20px;"><strong>When reporting issues, include:</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Full error message</li>
+                    <li>Python version (<code>python --version</code>)</li>
+                    <li>OS and version</li>
+                    <li>Steps you've already tried</li>
+                    <li>Relevant code snippets</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">✅ Prevention Tips</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div style="padding: 20px; background: var(--bg-secondary); border-radius: 8px; border-left: 4px solid var(--success-color);">
+                    <h4>✅ Always Do</h4>
+                    <ul style="margin-left: 20px;">
+                        <li>Activate venv before working</li>
+                        <li>Keep Azure CLI logged in</li>
+                        <li>Double-check .env values</li>
+                        <li>Wait for deployments to complete</li>
+                    </ul>
+                </div>
+                <div style="padding: 20px; background: var(--bg-secondary); border-radius: 8px; border-left: 4px solid var(--danger-color);">
+                    <h4>❌ Never Do</h4>
+                    <ul style="margin-left: 20px;">
+                        <li>Share .env file publicly</li>
+                        <li>Commit credentials to Git</li>
+                        <li>Use production credentials in demos</li>
+                        <li>Ignore warning messages</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="page-navigation">
+            <a href="running-app.html" class="nav-button secondary">← Previous: Running the Agent</a>
+            <a href="index.html" class="nav-button">Back to Workshop Home →</a>
+        </div>
+    </main>
+</body>
+</html>

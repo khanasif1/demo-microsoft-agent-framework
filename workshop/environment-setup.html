@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Environment Setup - Microsoft Agent Framework Workshop</title>
+    <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <h1>🤖 Agent Framework</h1>
+            <p>Hands-on Workshop</p>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="index.html" class="nav-link">
+                    <span class="step-number">0</span>
+                    Introduction
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="prerequisites.html" class="nav-link">
+                    <span class="step-number">1</span>
+                    Prerequisites
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="environment-setup.html" class="nav-link active">
+                    <span class="step-number">2</span>
+                    Environment Setup
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="azure-setup.html" class="nav-link">
+                    <span class="step-number">3</span>
+                    Azure AI Setup
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="code-walkthrough.html" class="nav-link">
+                    <span class="step-number">4</span>
+                    Code Walkthrough
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="running-app.html" class="nav-link">
+                    <span class="step-number">5</span>
+                    Running the Agent
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="troubleshooting.html" class="nav-link">
+                    <span class="step-number">6</span>
+                    Troubleshooting
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Module 2: Python Environment Setup</h1>
+            <p class="page-subtitle">Create an isolated Python environment and install dependencies</p>
+            <span class="duration-badge">⏱️ Duration: 10 minutes</span>
+        </div>
+
+        <!-- Introduction -->
+        <section class="content-section">
+            <h2 class="section-title">🎯 What You'll Accomplish</h2>
+            <p>
+                In this module, you'll create a Python virtual environment and install all the necessary 
+                packages for the Microsoft Agent Framework. By the end, you'll have everything ready to 
+                run the agent code.
+            </p>
+
+            <div class="alert alert-info">
+                <span class="alert-icon">💡</span>
+                <strong>Why Virtual Environments?</strong> A virtual environment creates an isolated space 
+                for your project's dependencies. This prevents conflicts with other Python projects and 
+                keeps your global Python installation clean.
+            </div>
+        </section>
+
+        <!-- Navigate to Project -->
+        <section class="content-section">
+            <h2 class="section-title">📁 Step 1: Navigate to the Project Folder</h2>
+            
+            <p>First, let's navigate to the agentquickstart folder where our code is located.</p>
+
+            <h3 class="section-subtitle">Open Your Terminal</h3>
+            <ul style="margin-left: 20px;">
+                <li><strong>Windows:</strong> Press <kbd>Win + R</kbd>, type <code>cmd</code> or <code>powershell</code>, and press Enter</li>
+                <li><strong>macOS:</strong> Press <kbd>Cmd + Space</kbd>, type <code>terminal</code>, and press Enter</li>
+                <li><strong>Linux:</strong> Press <kbd>Ctrl + Alt + T</kbd></li>
+            </ul>
+
+            <h3 class="section-subtitle">Navigate to the Folder</h3>
+            <p>Use the <code>cd</code> command to change directory:</p>
+
+            <div class="code-header">Windows (PowerShell/CMD)</div>
+            <div class="code-block">
+                <pre><code>cd C:\path\to\demo-microsoft-agent-framework\_src\agentquickstart</code></pre>
+            </div>
+
+            <div class="code-header">macOS/Linux</div>
+            <div class="code-block">
+                <pre><code>cd /path/to/demo-microsoft-agent-framework/_src/agentquickstart</code></pre>
+            </div>
+
+            <div class="alert alert-warning">
+                <span class="alert-icon">⚠️</span>
+                <strong>Replace the path:</strong> Make sure to replace <code>/path/to/</code> with the actual 
+                path where you cloned or downloaded the repository.
+            </div>
+
+            <h3 class="section-subtitle">✅ Verify You're in the Right Place</h3>
+            <p>List the files in the current directory:</p>
+
+            <div class="code-header">Windows (PowerShell)</div>
+            <div class="code-block">
+                <pre><code>dir</code></pre>
+            </div>
+
+            <div class="code-header">macOS/Linux</div>
+            <div class="code-block">
+                <pre><code>ls</code></pre>
+            </div>
+
+            <p>You should see these files:</p>
+            <div class="code-block">
+                <pre><code>azure_ai_basic.py
+README.md
+.env (might not be visible yet)</code></pre>
+            </div>
+
+            <div class="alert alert-success">
+                <span class="alert-icon">✅</span>
+                <strong>Great!</strong> If you see <code>azure_ai_basic.py</code>, you're in the correct folder.
+            </div>
+        </section>
+
+        <!-- Create Virtual Environment -->
+        <section class="content-section">
+            <h2 class="section-title">🐍 Step 2: Create a Python Virtual Environment</h2>
+            
+            <p>
+                Now let's create a virtual environment. This creates a folder called <code>.venv</code> 
+                that will contain all our Python packages isolated from your system Python.
+            </p>
+
+            <h3 class="section-subtitle">Create the Virtual Environment</h3>
+
+            <div class="code-header">Windows</div>
+            <div class="code-block">
+                <pre><code>python -m venv .venv</code></pre>
+            </div>
+
+            <div class="code-header">macOS/Linux</div>
+            <div class="code-block">
+                <pre><code>python3 -m venv .venv</code></pre>
+            </div>
+
+            <div class="alert alert-info">
+                <span class="alert-icon">💡</span>
+                <strong>What's happening?</strong>
+                <ul style="margin-top: 10px; margin-left: 20px;">
+                    <li><code>python -m venv</code> - Runs Python's built-in venv module</li>
+                    <li><code>.venv</code> - The name of the folder to create (you can use any name, but .venv is conventional)</li>
+                </ul>
+            </div>
+
+            <p style="margin-top: 15px;">This command will take a few seconds to complete. You won't see much output, but a <code>.venv</code> folder will be created.</p>
+
+            <h3 class="section-subtitle">✅ Verify Virtual Environment Creation</h3>
+            <p>Check if the <code>.venv</code> folder was created:</p>
+
+            <div class="code-header">Windows (PowerShell)</div>
+            <div class="code-block">
+                <pre><code>dir .venv</code></pre>
+            </div>
+
+            <div class="code-header">macOS/Linux</div>
+            <div class="code-block">
+                <pre><code>ls .venv</code></pre>
+            </div>
+
+            <p>You should see folders like <code>Scripts</code> (Windows) or <code>bin</code> (macOS/Linux), <code>Lib</code>, and <code>Include</code>.</p>
+        </section>
+
+        <!-- Activate Virtual Environment -->
+        <section class="content-section">
+            <h2 class="section-title">⚡ Step 3: Activate the Virtual Environment</h2>
+            
+            <p>
+                Before we can use the virtual environment, we need to <strong>activate</strong> it. 
+                This tells your terminal to use the Python interpreter and packages from the virtual environment 
+                instead of your system Python.
+            </p>
+
+            <h3 class="section-subtitle">Activation Commands</h3>
+
+            <div class="code-header">Windows (PowerShell)</div>
+            <div class="code-block">
+                <pre><code>.venv\Scripts\Activate.ps1</code></pre>
+            </div>
+
+            <div class="alert alert-danger" style="margin-top: 10px;">
+                <span class="alert-icon">❌</span>
+                <strong>PowerShell Execution Policy Error?</strong> If you get an error about execution policy, run:
+                <div class="code-block" style="margin-top: 10px;">
+                    <pre><code>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</code></pre>
+                </div>
+                Then try activating again.
+            </div>
+
+            <div class="code-header">Windows (CMD)</div>
+            <div class="code-block">
+                <pre><code>.venv\Scripts\activate.bat</code></pre>
+            </div>
+
+            <div class="code-header">macOS/Linux</div>
+            <div class="code-block">
+                <pre><code>source .venv/bin/activate</code></pre>
+            </div>
+
+            <h3 class="section-subtitle">✅ Verify Activation</h3>
+            <p>
+                After activation, you should see <code>(.venv)</code> at the beginning of your command prompt:
+            </p>
+
+            <div class="code-block">
+                <pre><code>(.venv) C:\Users\YourName\agentquickstart></code></pre>
+            </div>
+
+            <div class="alert alert-success">
+                <span class="alert-icon">✅</span>
+                <strong>Success!</strong> If you see <code>(.venv)</code> prefix, your virtual environment is active!
+            </div>
+
+            <div class="alert alert-info">
+                <span class="alert-icon">💡</span>
+                <strong>Remember:</strong> You need to activate the virtual environment every time you open 
+                a new terminal window to work on this project.
+            </div>
+        </section>
+
+        <!-- Upgrade Pip -->
+        <section class="content-section">
+            <h2 class="section-title">📦 Step 4: Upgrade pip</h2>
+            
+            <p>
+                <code>pip</code> is Python's package installer. Let's make sure we have the latest version 
+                before installing our dependencies.
+            </p>
+
+            <div class="code-header">Command (all platforms)</div>
+            <div class="code-block">
+                <pre><code>python -m pip install --upgrade pip</code></pre>
+            </div>
+
+            <p style="margin-top: 15px;">You'll see output showing pip being upgraded. This usually takes 10-30 seconds.</p>
+
+            <div class="alert alert-success">
+                <span class="alert-icon">✅</span>
+                <strong>Done!</strong> Your pip is now up to date.
+            </div>
+        </section>
+
+        <!-- Install Dependencies -->
+        <section class="content-section">
+            <h2 class="section-title">📚 Step 5: Install Required Packages</h2>
+            
+            <p>
+                Now comes the main step - installing all the packages needed for the Microsoft Agent Framework. 
+                We'll install them from the <code>requirements.txt</code> file located in the parent directory.
+            </p>
+
+            <h3 class="section-subtitle">What Packages Will Be Installed?</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Package</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>agent-framework</code></td>
+                        <td>Microsoft Agent Framework core library</td>
+                    </tr>
+                    <tr>
+                        <td><code>azure-identity</code></td>
+                        <td>Azure authentication and credential management</td>
+                    </tr>
+                    <tr>
+                        <td><code>python-dotenv</code></td>
+                        <td>Load environment variables from .env files</td>
+                    </tr>
+                    <tr>
+                        <td><code>pydantic</code></td>
+                        <td>Data validation and type hints</td>
+                    </tr>
+                    <tr>
+                        <td><code>aiohttp</code></td>
+                        <td>Async HTTP client/server</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 class="section-subtitle">Install All Packages</h3>
+            <p>Run this command to install all dependencies at once:</p>
+
+            <div class="code-header">Command</div>
+            <div class="code-block">
+                <pre><code>pip install -r ../requirements.txt</code></pre>
+            </div>
+
+            <div class="alert alert-info">
+                <span class="alert-icon">💡</span>
+                <strong>Note:</strong> The <code>../requirements.txt</code> path goes up one directory to the 
+                <code>_src</code> folder where the requirements file is located.
+            </div>
+
+            <p style="margin-top: 15px;">
+                This installation will take 2-5 minutes depending on your internet speed. You'll see a lot 
+                of output as pip downloads and installs each package and its dependencies.
+            </p>
+
+            <h3 class="section-subtitle">✅ Verify Installation</h3>
+            <p>After installation completes, verify the key packages are installed:</p>
+
+            <div class="code-header">Command</div>
+            <div class="code-block">
+                <pre><code>pip list</code></pre>
+            </div>
+
+            <p style="margin-top: 15px;">Look for these packages in the output:</p>
+            <div class="code-block">
+                <pre><code>agent-framework        x.x.x
+azure-identity         x.x.x
+python-dotenv          x.x.x
+pydantic               x.x.x
+aiohttp                x.x.x</code></pre>
+            </div>
+
+            <div class="alert alert-success">
+                <span class="alert-icon">✅</span>
+                <strong>Perfect!</strong> If you see these packages listed, the installation was successful.
+            </div>
+        </section>
+
+        <!-- Create .env file -->
+        <section class="content-section">
+            <h2 class="section-title">⚙️ Step 6: Create Environment Configuration File</h2>
+            
+            <p>
+                The agent needs to know where to connect to Azure AI services. We store this information 
+                in a <code>.env</code> file (environment file).
+            </p>
+
+            <h3 class="section-subtitle">Create the .env File</h3>
+            <p>Create a new file named <code>.env</code> in the agentquickstart folder:</p>
+
+            <div class="code-header">Windows (PowerShell)</div>
+            <div class="code-block">
+                <pre><code>New-Item .env</code></pre>
+            </div>
+
+            <div class="code-header">macOS/Linux</div>
+            <div class="code-block">
+                <pre><code>touch .env</code></pre>
+            </div>
+
+            <h3 class="section-subtitle">Add Configuration Placeholders</h3>
+            <p>Open the <code>.env</code> file in your text editor (VS Code, Notepad, etc.) and add:</p>
+
+            <div class="code-header">.env file content</div>
+            <div class="code-block">
+                <pre><code># Azure AI Project Configuration
+AZURE_AI_PROJECT_ENDPOINT=your-endpoint-here
+AZURE_AI_MODEL_DEPLOYMENT_NAME=your-deployment-name-here</code></pre>
+            </div>
+
+            <div class="alert alert-warning">
+                <span class="alert-icon">⚠️</span>
+                <strong>Don't worry about the values yet!</strong> We'll fill in the actual values in the 
+                next module when we set up Azure AI. For now, just create the file with these placeholders.
+            </div>
+
+            <div class="alert alert-info">
+                <span class="alert-icon">💡</span>
+                <strong>Important:</strong> The <code>.env</code> file should never be committed to version 
+                control (Git) because it contains sensitive information. It should already be in <code>.gitignore</code>.
+            </div>
+        </section>
+
+        <!-- Verification -->
+        <section class="content-section">
+            <h2 class="section-title">✅ Environment Setup Checklist</h2>
+            <p>Before moving to the next module, verify you've completed all these steps:</p>
+
+            <ul class="checklist">
+                <li>Navigated to the <code>agentquickstart</code> folder</li>
+                <li>Created virtual environment with <code>python -m venv .venv</code></li>
+                <li>Activated virtual environment (seeing <code>(.venv)</code> prefix)</li>
+                <li>Upgraded pip to the latest version</li>
+                <li>Installed all packages from <code>requirements.txt</code></li>
+                <li>Created <code>.env</code> file with placeholder values</li>
+            </ul>
+
+            <div class="alert alert-success">
+                <span class="alert-icon">🎉</span>
+                <strong>Excellent work!</strong> Your Python environment is now fully configured. In the next 
+                module, we'll set up Azure AI and get the values needed for the .env file.
+            </div>
+        </section>
+
+        <!-- Quick Reference -->
+        <section class="content-section">
+            <h2 class="section-title">📖 Quick Reference</h2>
+            
+            <h3 class="section-subtitle">Activating Virtual Environment (Future Sessions)</h3>
+            <p>Every time you start a new terminal session, you'll need to:</p>
+            <ol style="margin-left: 20px;">
+                <li>Navigate to the project folder: <code>cd /path/to/agentquickstart</code></li>
+                <li>Activate the virtual environment:
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li>Windows (PowerShell): <code>.venv\Scripts\Activate.ps1</code></li>
+                        <li>Windows (CMD): <code>.venv\Scripts\activate.bat</code></li>
+                        <li>macOS/Linux: <code>source .venv/bin/activate</code></li>
+                    </ul>
+                </li>
+            </ol>
+
+            <h3 class="section-subtitle">Deactivating Virtual Environment</h3>
+            <p>When you're done working, you can deactivate the virtual environment:</p>
+            <div class="code-block">
+                <pre><code>deactivate</code></pre>
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <div class="page-navigation">
+            <a href="prerequisites.html" class="nav-button secondary">
+                ← Previous: Prerequisites
+            </a>
+            <a href="azure-setup.html" class="nav-button">
+                Next: Azure AI Setup →
+            </a>
+        </div>
+    </main>
+</body>
+</html>

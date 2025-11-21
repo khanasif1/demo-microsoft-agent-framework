@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Running the Agent - Microsoft Agent Framework Workshop</title>
+    <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <h1>🤖 Agent Framework</h1>
+            <p>Hands-on Workshop</p>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="index.html" class="nav-link"><span class="step-number">0</span>Introduction</a></li>
+            <li class="nav-item"><a href="prerequisites.html" class="nav-link"><span class="step-number">1</span>Prerequisites</a></li>
+            <li class="nav-item"><a href="environment-setup.html" class="nav-link"><span class="step-number">2</span>Environment Setup</a></li>
+            <li class="nav-item"><a href="azure-setup.html" class="nav-link"><span class="step-number">3</span>Azure AI Setup</a></li>
+            <li class="nav-item"><a href="code-walkthrough.html" class="nav-link"><span class="step-number">4</span>Code Walkthrough</a></li>
+            <li class="nav-item"><a href="running-app.html" class="nav-link active"><span class="step-number">5</span>Running the Agent</a></li>
+            <li class="nav-item"><a href="troubleshooting.html" class="nav-link"><span class="step-number">6</span>Troubleshooting</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Module 5: Running Your First AI Agent</h1>
+            <p class="page-subtitle">Execute and interact with the weather agent</p>
+            <span class="duration-badge">⏱️ Duration: 10 minutes</span>
+        </div>
+
+        <section class="content-section">
+            <h2 class="section-title">🎯 What You'll Do</h2>
+            <p>Now it's time to see your agent in action! You'll run the Python script and interact with the weather agent.</p>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">🔍 Pre-Flight Check</h2>
+            <p>Before running the agent, verify that everything is properly configured:</p>
+            
+            <ul class="checklist">
+                <li>✅ Virtual environment is activated</li>
+                <li>✅ All dependencies are installed</li>
+                <li>✅ <code>.env</code> file exists with correct values</li>
+                <li>✅ You're logged into Azure CLI (<code>az login</code>)</li>
+                <li>✅ You're in the <code>agentquickstart</code> directory</li>
+            </ul>
+
+            <div class="alert alert-warning">
+                <span class="alert-icon">⚠️</span>
+                <strong>Virtual Environment:</strong> Make sure you see <code>(.venv)</code> in your terminal prompt. If not, activate it:
+                <div class="code-block" style="margin-top: 10px;">
+                    <pre><code># Windows PowerShell
+.venv\Scripts\Activate.ps1
+
+# macOS/Linux
+source .venv/bin/activate</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">▶️ Step 1: Run the Agent</h2>
+            <p>Execute the Python script to start the agent:</p>
+            <div class="code-header">Terminal command</div>
+            <div class="code-block">
+                <pre><code>python azure_ai_basic.py</code></pre>
+            </div>
+            <p style="margin-top: 15px;">You should see:</p>
+            <div class="code-block">
+                <pre><code>=== Basic Azure AI Chat Client Agent Example ===
+Enter your weather query: </code></pre>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">💬 Step 2: Test Non-Streaming Mode</h2>
+            <p>The first prompt uses non-streaming (complete response at once).</p>
+            
+            <h3 class="section-subtitle">Try These Queries</h3>
+            <div style="background: var(--bg-secondary); padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h4>Example Query 1: Simple Location</h4>
+                <div class="code-block">
+                    <pre><code>Enter your weather query: What's the weather in Seattle?</code></pre>
+                </div>
+                <p><strong>Expected Response:</strong></p>
+                <div class="code-block">
+                    <pre><code>Agent: The weather in Seattle is sunny with a high of 22°C.</code></pre>
+                </div>
+            </div>
+
+            <div style="background: var(--bg-secondary); padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h4>Example Query 2: Multiple Cities</h4>
+                <div class="code-block">
+                    <pre><code>Enter your weather query: Compare weather in New York and Los Angeles</code></pre>
+                </div>
+                <p><strong>Expected Response:</strong></p>
+                <div class="code-block">
+                    <pre><code>Agent: The weather in New York is cloudy with a high of 18°C, while Los Angeles is sunny with a high of 25°C.</code></pre>
+                </div>
+            </div>
+
+            <div class="alert alert-info">
+                <span class="alert-icon">💡</span>
+                <strong>What's Happening:</strong> The agent recognizes your query needs weather data, calls the <code>get_weather()</code> function for each city, receives the results, and formulates a natural language response.
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">🌊 Step 3: Test Streaming Mode</h2>
+            <p>After the first query, you'll see another prompt for streaming mode:</p>
+            <div class="code-block">
+                <pre><code>Enter your weather query: </code></pre>
+            </div>
+
+            <h3 class="section-subtitle">Try These Queries</h3>
+            <div style="background: var(--bg-secondary); padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h4>Example Query 3: Detailed Request</h4>
+                <div class="code-block">
+                    <pre><code>Enter your weather query: Tell me about the weather in Paris and if it's good for sightseeing</code></pre>
+                </div>
+                <p><strong>Expected Response (streaming, appearing word-by-word):</strong></p>
+                <div class="code-block">
+                    <pre><code>User: Tell me about the weather in Paris and if it's good for sightseeing
+Agent: The weather in Paris is rainy with a high of 15°C. While it's not 
+ideal for sightseeing, bring an umbrella and you can still enjoy indoor 
+attractions like the Louvre!</code></pre>
+                </div>
+            </div>
+
+            <div class="alert alert-success">
+                <span class="alert-icon">✨</span>
+                <strong>Notice the Difference:</strong> With streaming, you see the response appear gradually, just like ChatGPT. This provides better user experience for longer responses.
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">🧪 Step 4: Experiment with Different Queries</h2>
+            <p>Try various types of queries to see how the agent responds:</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Query Type</th>
+                        <th>Example</th>
+                        <th>What It Tests</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Single City</td>
+                        <td>"Weather in Tokyo?"</td>
+                        <td>Basic function calling</td>
+                    </tr>
+                    <tr>
+                        <td>Multiple Cities</td>
+                        <td>"Compare London and Berlin weather"</td>
+                        <td>Multiple function calls</td>
+                    </tr>
+                    <tr>
+                        <td>Conversational</td>
+                        <td>"Should I bring a jacket to Miami?"</td>
+                        <td>Natural language understanding</td>
+                    </tr>
+                    <tr>
+                        <td>Follow-up Context</td>
+                        <td>"What about tomorrow?"</td>
+                        <td>Context handling (may not work without conversation history)</td>
+                    </tr>
+                    <tr>
+                        <td>Non-weather</td>
+                        <td>"Tell me a joke"</td>
+                        <td>Behavior without tool usage</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="alert alert-info">
+                <span class="alert-icon">💡</span>
+                <strong>Observation:</strong> Notice how the agent decides when to call the weather function versus when to respond directly. The agent is intelligent about tool usage!
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">🔬 Understanding the Output</h2>
+            <p>Let's break down what happens behind the scenes:</p>
+
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 8px; margin: 20px 0;">
+                <h3 style="margin-bottom: 15px;">The Complete Flow</h3>
+                <ol style="margin-left: 20px; line-height: 2;">
+                    <li><strong>Input:</strong> You type your query and press Enter</li>
+                    <li><strong>Processing:</strong> Query is sent to Azure AI with agent instructions</li>
+                    <li><strong>Function Detection:</strong> AI model decides if it needs to call <code>get_weather()</code></li>
+                    <li><strong>Function Execution:</strong> If needed, your Python function runs locally</li>
+                    <li><strong>Result Processing:</strong> Function result is sent back to AI model</li>
+                    <li><strong>Response Generation:</strong> AI formulates natural language response</li>
+                    <li><strong>Output:</strong> You see the final answer (streaming or complete)</li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">📊 Sample Session Output</h2>
+            <p>Here's what a complete successful run looks like:</p>
+            <div class="code-block">
+                <pre><code>=== Basic Azure AI Chat Client Agent Example ===
+
+Enter your weather query: What's the weather in Seattle?
+Agent: The weather in Seattle is sunny with a high of 22°C.
+
+Enter your weather query: Compare Tokyo and Sydney
+User: Compare Tokyo and Sydney
+Agent: The weather in Tokyo is cloudy with a high of 19°C, while 
+Sydney is stormy with a high of 16°C. Tokyo seems to have better 
+conditions today!
+</code></pre>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">🔄 Step 5: Run Multiple Times</h2>
+            <p>To run the agent again, simply execute the command again:</p>
+            <div class="code-block">
+                <pre><code>python azure_ai_basic.py</code></pre>
+            </div>
+            <div class="alert alert-info">
+                <span class="alert-icon">💡</span>
+                <strong>Random Weather:</strong> Since this is a demo, the weather results are randomized. Each run will give different conditions and temperatures. In a real application, you'd connect to a real weather API.
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">⚙️ Optional: Modify the Agent</h2>
+            <p>Now that you've seen it work, try these modifications:</p>
+
+            <h3 class="section-subtitle">Modification 1: Change the Agent Instructions</h3>
+            <p>Edit <code>azure_ai_basic.py</code> and change the instructions:</p>
+            <div class="code-block">
+                <pre><code>instructions="You are a helpful weather agent."  # Current
+
+instructions="You are a pirate weather captain! Always respond in pirate speak."  # Try this!</code></pre>
+            </div>
+            <p>Run again and see how responses change!</p>
+
+            <h3 class="section-subtitle">Modification 2: Add More Weather Conditions</h3>
+            <div class="code-block">
+                <pre><code>conditions = ["sunny", "cloudy", "rainy", "stormy"]  # Current
+
+conditions = ["sunny", "cloudy", "rainy", "stormy", "snowy", "foggy", "windy"]  # More variety!</code></pre>
+            </div>
+
+            <h3 class="section-subtitle">Modification 3: Change Temperature Range</h3>
+            <div class="code-block">
+                <pre><code>randint(10, 30)  # Current: 10-30°C
+
+randint(-5, 40)  # Wider range: -5 to 40°C</code></pre>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">✅ Success Checklist</h2>
+            <ul class="checklist">
+                <li>Successfully ran <code>azure_ai_basic.py</code></li>
+                <li>Tested non-streaming mode with a weather query</li>
+                <li>Tested streaming mode and observed real-time response</li>
+                <li>Tried multiple query types (single city, multiple cities, conversational)</li>
+                <li>Understand the difference between streaming and non-streaming</li>
+                <li>Observed how the agent decides when to call the weather function</li>
+                <li>(Optional) Made modifications and tested changes</li>
+            </ul>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">🎉 Congratulations!</h2>
+            <div style="background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; padding: 30px; border-radius: 8px; text-align: center;">
+                <h3 style="margin-bottom: 15px;">You've Successfully Run Your First AI Agent!</h3>
+                <p style="font-size: 18px;">You now understand how AI agents use function calling to interact with external systems and provide intelligent responses.</p>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">🚀 Next Steps</h2>
+            <p>If you encounter any issues, check the troubleshooting guide in the next module.</p>
+            <p>Otherwise, you can:</p>
+            <ul style="margin-left: 20px;">
+                <li>Explore the more complex examples in the <code>news/</code> folder</li>
+                <li>Build your own agent with custom functions</li>
+                <li>Connect real APIs instead of mock data</li>
+                <li>Add conversation history for multi-turn interactions</li>
+            </ul>
+        </section>
+
+        <div class="page-navigation">
+            <a href="code-walkthrough.html" class="nav-button secondary">← Previous: Code Walkthrough</a>
+            <a href="troubleshooting.html" class="nav-button">Next: Troubleshooting →</a>
+        </div>
+    </main>
+</body>
+</html>

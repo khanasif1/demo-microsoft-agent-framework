@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Walkthrough - Microsoft Agent Framework Workshop</title>
+    <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <h1>🤖 Agent Framework</h1>
+            <p>Hands-on Workshop</p>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="index.html" class="nav-link"><span class="step-number">0</span>Introduction</a></li>
+            <li class="nav-item"><a href="prerequisites.html" class="nav-link"><span class="step-number">1</span>Prerequisites</a></li>
+            <li class="nav-item"><a href="environment-setup.html" class="nav-link"><span class="step-number">2</span>Environment Setup</a></li>
+            <li class="nav-item"><a href="azure-setup.html" class="nav-link"><span class="step-number">3</span>Azure AI Setup</a></li>
+            <li class="nav-item"><a href="code-walkthrough.html" class="nav-link active"><span class="step-number">4</span>Code Walkthrough</a></li>
+            <li class="nav-item"><a href="running-app.html" class="nav-link"><span class="step-number">5</span>Running the Agent</a></li>
+            <li class="nav-item"><a href="troubleshooting.html" class="nav-link"><span class="step-number">6</span>Troubleshooting</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Module 4: Understanding the Agent Code</h1>
+            <p class="page-subtitle">Deep dive into azure_ai_basic.py</p>
+            <span class="duration-badge">⏱️ Duration: 10 minutes</span>
+        </div>
+
+        <section class="content-section">
+            <h2 class="section-title">🎯 What You'll Learn</h2>
+            <p>In this module, we'll walk through the <code>azure_ai_basic.py</code> file to understand how AI agents work with Microsoft Agent Framework.</p>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">📂 Open the Code File</h2>
+            <p>Open <code>azure_ai_basic.py</code> in your text editor (VS Code recommended).</p>
+            <div class="code-header">VS Code command</div>
+            <div class="code-block">
+                <pre><code>code azure_ai_basic.py</code></pre>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">📦 Part 1: Imports</h2>
+            <p>At the top of the file, we import the necessary libraries:</p>
+            <div class="code-block">
+                <pre><code>import asyncio
+from random import randint
+from typing import Annotated
+
+from agent_framework.azure import AzureAIAgentClient
+from azure.identity.aio import AzureCliCredential
+from pydantic import Field
+from dotenv import load_dotenv
+import os</code></pre>
+            </div>
+            
+            <table style="margin-top: 20px;">
+                <thead>
+                    <tr>
+                        <th>Import</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>asyncio</code></td>
+                        <td>Enables asynchronous programming for better performance</td>
+                    </tr>
+                    <tr>
+                        <td><code>AzureAIAgentClient</code></td>
+                        <td>The main class for creating and managing AI agents</td>
+                    </tr>
+                    <tr>
+                        <td><code>AzureCliCredential</code></td>
+                        <td>Uses Azure CLI login for authentication</td>
+                    </tr>
+                    <tr>
+                        <td><code>Field</code></td>
+                        <td>Helps define function parameters for the AI</td>
+                    </tr>
+                    <tr>
+                        <td><code>dotenv</code></td>
+                        <td>Loads environment variables from .env file</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="code-block" style="margin-top: 20px;">
+                <pre><code>load_dotenv()  # Load .env file</code></pre>
+            </div>
+            <p>This line reads your <code>.env</code> file and makes the variables available to the program.</p>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">🔧 Part 2: The Weather Function (Tool)</h2>
+            <p>This is the function our AI agent can call:</p>
+            <div class="code-block">
+                <pre><code>def get_weather(
+    location: Annotated[str, Field(description="The location to get the weather for.")],
+) -> str:
+    """Get the weather for a given location."""
+    conditions = ["sunny", "cloudy", "rainy", "stormy"]
+    return f"The weather in {location} is {conditions[randint(0, 3)]} with a high of {randint(10, 30)}°C."</code></pre>
+            </div>
+
+            <h3 class="section-subtitle">Key Components Explained</h3>
+            <table>
+                <tr>
+                    <td><strong>Function Name</strong></td>
+                    <td><code>get_weather</code> - The AI will "understand" this is for weather queries</td>
+                </tr>
+                <tr>
+                    <td><strong>Type Annotation</strong></td>
+                    <td><code>Annotated[str, Field(...)]</code> - Tells the AI what this parameter is for</td>
+                </tr>
+                <tr>
+                    <td><strong>Description</strong></td>
+                    <td>The Field description helps the AI understand when to use this function</td>
+                </tr>
+                <tr>
+                    <td><strong>Return Value</strong></td>
+                    <td>A string with simulated weather data (random in this demo)</td>
+                </tr>
+            </table>
+
+            <div class="alert alert-info">
+                <span class="alert-icon">💡</span>
+                <strong>In Real Applications:</strong> Instead of generating random data, you would call a real weather API here (like OpenWeather or Weather.com API).
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">📡 Part 3: Non-Streaming Example</h2>
+            <p>This function demonstrates getting a complete response at once:</p>
+            <div class="code-block">
+                <pre><code>async def non_streaming_example() -> None:
+    async with (
+        AzureCliCredential() as credential,
+        AzureAIAgentClient(
+            async_credential=credential,
+            project_endpoint=os.getenv("AZURE_AI_PROJECT_ENDPOINT"),
+            model_deployment_name=os.getenv("AZURE_AI_MODEL_DEPLOYMENT_NAME"),
+        ).create_agent(
+            name="WeatherAgent",
+            instructions="You are a helpful weather agent.",
+            tools=get_weather,
+        ) as agent,
+    ):
+        query = input("Enter your weather query: ")
+        result = await agent.run(query)
+        print(f"Agent: {result}\n")</code></pre>
+            </div>
+
+            <h3 class="section-subtitle">Breaking It Down</h3>
+            <ol class="steps-list">
+                <li>
+                    <strong>Authentication</strong>
+                    <p><code>AzureCliCredential()</code> - Uses your Azure CLI login for authentication</p>
+                </li>
+                <li>
+                    <strong>Create Client</strong>
+                    <p><code>AzureAIAgentClient(...)</code> - Connects to your Azure AI project using .env values</p>
+                </li>
+                <li>
+                    <strong>Create Agent</strong>
+                    <p><code>.create_agent(...)</code> - Creates a new agent with:</p>
+                    <ul style="margin-left: 20px;">
+                        <li><strong>name:</strong> "WeatherAgent" (identifier)</li>
+                        <li><strong>instructions:</strong> System prompt telling the agent its role</li>
+                        <li><strong>tools:</strong> The <code>get_weather</code> function</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Get User Input</strong>
+                    <p><code>input(...)</code> - Asks user for a weather query</p>
+                </li>
+                <li>
+                    <strong>Run Agent</strong>
+                    <p><code>agent.run(query)</code> - Sends query to agent, waits for complete response</p>
+                </li>
+            </ol>
+
+            <div class="alert alert-info">
+                <span class="alert-icon">💡</span>
+                <strong>Context Manager (async with):</strong> The <code>async with</code> statement automatically handles cleanup. When the block ends, the agent is properly closed and resources are released.
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">🌊 Part 4: Streaming Example</h2>
+            <p>This function demonstrates real-time response streaming:</p>
+            <div class="code-block">
+                <pre><code>async def streaming_example() -> None:
+    async with (
+        AzureCliCredential() as credential,
+        AzureAIAgentClient(
+            async_credential=credential,
+            project_endpoint=os.getenv("AZURE_AI_PROJECT_ENDPOINT"),
+            model_deployment_name=os.getenv("AZURE_AI_MODEL_DEPLOYMENT_NAME"),
+        ).create_agent(
+            name="WeatherAgent",
+            instructions="You are a helpful weather agent.",
+            tools=get_weather,
+        ) as agent,
+    ):
+        query = input("Enter your weather query: ")
+        print(f"User: {query}")
+        print("Agent: ", end="", flush=True)
+        async for chunk in agent.run_stream(query):
+            if chunk.text:
+                print(chunk.text, end="", flush=True)
+        print("\n")</code></pre>
+            </div>
+
+            <h3 class="section-subtitle">Key Differences from Non-Streaming</h3>
+            <table>
+                <tr>
+                    <td><strong>Method</strong></td>
+                    <td><code>agent.run_stream()</code> instead of <code>agent.run()</code></td>
+                </tr>
+                <tr>
+                    <td><strong>Iteration</strong></td>
+                    <td><code>async for chunk in ...</code> - Process response as it arrives</td>
+                </tr>
+                <tr>
+                    <td><strong>Output</strong></td>
+                    <td>Print each chunk immediately with <code>flush=True</code></td>
+                </tr>
+                <tr>
+                    <td><strong>User Experience</strong></td>
+                    <td>User sees response appear in real-time, like ChatGPT</td>
+                </tr>
+            </table>
+
+            <div class="alert alert-success">
+                <span class="alert-icon">✨</span>
+                <strong>Why Streaming?</strong> Streaming provides better user experience for longer responses. Users see output immediately instead of waiting for the complete response.
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">▶️ Part 5: Main Function</h2>
+            <p>The main function orchestrates the examples:</p>
+            <div class="code-block">
+                <pre><code>async def main() -> None:
+    print("=== Basic Azure AI Chat Client Agent Example ===")
+    await non_streaming_example()
+    await streaming_example()
+
+if __name__ == "__main__":
+    asyncio.run(main())</code></pre>
+            </div>
+
+            <ul style="margin-left: 20px; margin-top: 15px;">
+                <li><code>await</code> - Waits for each async function to complete</li>
+                <li><code>asyncio.run(main())</code> - Entry point that starts the async program</li>
+                <li><code>if __name__ == "__main__":</code> - Only runs when file is executed directly</li>
+            </ul>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">🔄 How It All Works Together</h2>
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 8px; margin: 20px 0;">
+                <h3 style="margin-bottom: 15px;">The Agent Workflow</h3>
+                <ol style="margin-left: 20px; line-height: 2;">
+                    <li><strong>User enters query:</strong> "What's the weather in Seattle?"</li>
+                    <li><strong>Agent analyzes query:</strong> Recognizes it needs weather data</li>
+                    <li><strong>Agent calls function:</strong> Executes <code>get_weather("Seattle")</code></li>
+                    <li><strong>Function returns data:</strong> "The weather in Seattle is sunny..."</li>
+                    <li><strong>Agent formulates response:</strong> Creates natural language answer</li>
+                    <li><strong>User sees response:</strong> "The weather in Seattle is sunny with a high of 22°C."</li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">💡 Key Concepts Summary</h2>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div style="padding: 20px; background: var(--bg-secondary); border-radius: 8px; border-left: 4px solid var(--accent-color);">
+                    <h4>🔧 Function Tools</h4>
+                    <p>Python functions that agents can call to perform specific tasks. Use type annotations and Field descriptions to help the AI understand when to use them.</p>
+                </div>
+                <div style="padding: 20px; background: var(--bg-secondary); border-radius: 8px; border-left: 4px solid var(--success-color);">
+                    <h4>🤖 Agent Instructions</h4>
+                    <p>The "system prompt" that defines the agent's behavior and personality. Keep it clear and specific.</p>
+                </div>
+                <div style="padding: 20px; background: var(--bg-secondary); border-radius: 8px; border-left: 4px solid var(--warning-color);">
+                    <h4>⚡ Async/Await</h4>
+                    <p>Python's way of handling operations that take time (like API calls) without blocking the program.</p>
+                </div>
+                <div style="padding: 20px; background: var(--bg-secondary); border-radius: 8px; border-left: 4px solid var(--danger-color);">
+                    <h4>🌊 Streaming</h4>
+                    <p>Send results back in chunks as they're generated, providing real-time feedback to users.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">✅ Code Understanding Checklist</h2>
+            <ul class="checklist">
+                <li>Understand how imports bring in necessary libraries</li>
+                <li>Know what <code>get_weather()</code> function does</li>
+                <li>Understand difference between streaming and non-streaming</li>
+                <li>Recognize how agents are created with <code>AzureAIAgentClient</code></li>
+                <li>See how .env values are loaded and used</li>
+                <li>Understand the agent workflow from query to response</li>
+            </ul>
+        </section>
+
+        <div class="page-navigation">
+            <a href="azure-setup.html" class="nav-button secondary">← Previous: Azure Setup</a>
+            <a href="running-app.html" class="nav-button">Next: Running the Agent →</a>
+        </div>
+    </main>
+</body>
+</html>

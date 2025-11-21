@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prerequisites - Microsoft Agent Framework Workshop</title>
+    <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <h1>🤖 Agent Framework</h1>
+            <p>Hands-on Workshop</p>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="index.html" class="nav-link">
+                    <span class="step-number">0</span>
+                    Introduction
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="prerequisites.html" class="nav-link active">
+                    <span class="step-number">1</span>
+                    Prerequisites
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="environment-setup.html" class="nav-link">
+                    <span class="step-number">2</span>
+                    Environment Setup
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="azure-setup.html" class="nav-link">
+                    <span class="step-number">3</span>
+                    Azure AI Setup
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="code-walkthrough.html" class="nav-link">
+                    <span class="step-number">4</span>
+                    Code Walkthrough
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="running-app.html" class="nav-link">
+                    <span class="step-number">5</span>
+                    Running the Agent
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="troubleshooting.html" class="nav-link">
+                    <span class="step-number">6</span>
+                    Troubleshooting
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Module 1: Prerequisites</h1>
+            <p class="page-subtitle">Install and verify required tools</p>
+            <span class="duration-badge">⏱️ Duration: 15 minutes</span>
+        </div>
+
+        <!-- Introduction -->
+        <section class="content-section">
+            <h2 class="section-title">📦 What We'll Install</h2>
+            <p>
+                Before we can build our AI agent, we need to set up our development environment. 
+                In this module, you'll install and verify all the necessary tools.
+            </p>
+
+            <div class="alert alert-info">
+                <span class="alert-icon">💡</span>
+                <strong>Note:</strong> If you already have these tools installed, you can skip to the 
+                verification steps to ensure they're working correctly.
+            </div>
+        </section>
+
+        <!-- Python Installation -->
+        <section class="content-section">
+            <h2 class="section-title">🐍 Step 1: Install Python 3.8 or Higher</h2>
+            
+            <h3 class="section-subtitle">Why Python?</h3>
+            <p>
+                Python is the programming language we'll use to build our AI agent. The Microsoft Agent 
+                Framework requires Python 3.8 or higher.
+            </p>
+
+            <h3 class="section-subtitle">Installation Instructions</h3>
+            
+            <div style="margin: 20px 0;">
+                <strong style="font-size: 1.1rem;">🪟 Windows:</strong>
+                <ol class="steps-list" style="margin-top: 15px;">
+                    <li>
+                        <strong>Download Python</strong>
+                        <p>Visit <a href="https://www.python.org/downloads/" target="_blank">python.org/downloads</a> 
+                        and download the latest Python 3.x version (3.8 or higher).</p>
+                    </li>
+                    <li>
+                        <strong>Run the Installer</strong>
+                        <p>
+                            <span class="highlight">⚠️ IMPORTANT:</span> Check the box that says 
+                            <strong>"Add Python to PATH"</strong> before clicking Install.
+                        </p>
+                        <div class="alert alert-warning">
+                            <span class="alert-icon">⚠️</span>
+                            This is crucial! Without adding Python to PATH, you won't be able to run Python 
+                            from the command line.
+                        </div>
+                    </li>
+                    <li>
+                        <strong>Complete Installation</strong>
+                        <p>Click "Install Now" and wait for the installation to complete.</p>
+                    </li>
+                </ol>
+            </div>
+
+            <div style="margin: 20px 0;">
+                <strong style="font-size: 1.1rem;">🍎 macOS:</strong>
+                <p style="margin-top: 10px;">Python comes pre-installed on macOS, but it's usually an older version. 
+                Install the latest version using Homebrew:</p>
+                <div class="code-header">Terminal</div>
+                <div class="code-block">
+                    <pre><code># Install Homebrew if you don't have it
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Install Python
+brew install python@3.11</code></pre>
+                </div>
+            </div>
+
+            <div style="margin: 20px 0;">
+                <strong style="font-size: 1.1rem;">🐧 Linux:</strong>
+                <div class="code-header">Terminal</div>
+                <div class="code-block">
+                    <pre><code># Ubuntu/Debian
+sudo apt update
+sudo apt install python3.11 python3.11-venv python3-pip
+
+# Fedora
+sudo dnf install python3.11</code></pre>
+                </div>
+            </div>
+
+            <h3 class="section-subtitle">✅ Verify Python Installation</h3>
+            <p>Open a new terminal/command prompt and run:</p>
+            <div class="code-header">Command</div>
+            <div class="code-block">
+                <pre><code>python --version</code></pre>
+            </div>
+            <p style="margin-top: 10px;">You should see output like:</p>
+            <div class="code-block">
+                <pre><code>Python 3.11.5</code></pre>
+            </div>
+
+            <div class="alert alert-success">
+                <span class="alert-icon">✅</span>
+                <strong>Success!</strong> If you see a version number 3.8 or higher, Python is correctly installed.
+            </div>
+
+            <div class="alert alert-danger" style="margin-top: 15px;">
+                <span class="alert-icon">❌</span>
+                <strong>Troubleshooting:</strong> If you get "command not found" or "not recognized":
+                <ul style="margin-top: 10px;">
+                    <li>On Windows: Try <code>py --version</code> instead</li>
+                    <li>On macOS/Linux: Try <code>python3 --version</code></li>
+                    <li>Make sure you checked "Add Python to PATH" during installation</li>
+                    <li>Restart your terminal after installation</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Azure CLI Installation -->
+        <section class="content-section">
+            <h2 class="section-title">☁️ Step 2: Install Azure CLI</h2>
+            
+            <h3 class="section-subtitle">Why Azure CLI?</h3>
+            <p>
+                Azure CLI is a command-line tool that lets you interact with Azure services. We'll use it 
+                for authentication and managing Azure resources.
+            </p>
+
+            <h3 class="section-subtitle">Installation Instructions</h3>
+            
+            <div style="margin: 20px 0;">
+                <strong style="font-size: 1.1rem;">🪟 Windows:</strong>
+                <p style="margin-top: 10px;"><strong>Option 1: Using Windows Package Manager (Recommended)</strong></p>
+                <div class="code-header">PowerShell</div>
+                <div class="code-block">
+                    <pre><code>winget install -e --id Microsoft.AzureCLI</code></pre>
+                </div>
+
+                <p style="margin-top: 15px;"><strong>Option 2: Download MSI Installer</strong></p>
+                <p>Visit <a href="https://aka.ms/installazurecliwindows" target="_blank">aka.ms/installazurecliwindows</a> 
+                and download the MSI installer.</p>
+            </div>
+
+            <div style="margin: 20px 0;">
+                <strong style="font-size: 1.1rem;">🍎 macOS:</strong>
+                <div class="code-header">Terminal</div>
+                <div class="code-block">
+                    <pre><code>brew update && brew install azure-cli</code></pre>
+                </div>
+            </div>
+
+            <div style="margin: 20px 0;">
+                <strong style="font-size: 1.1rem;">🐧 Linux:</strong>
+                <div class="code-header">Terminal</div>
+                <div class="code-block">
+                    <pre><code>curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash</code></pre>
+                </div>
+            </div>
+
+            <h3 class="section-subtitle">✅ Verify Azure CLI Installation</h3>
+            <p>Open a new terminal/command prompt and run:</p>
+            <div class="code-header">Command</div>
+            <div class="code-block">
+                <pre><code>az --version</code></pre>
+            </div>
+            <p style="margin-top: 10px;">You should see output showing the Azure CLI version and Python location:</p>
+            <div class="code-block">
+                <pre><code>azure-cli                         2.55.0
+core                              2.55.0
+telemetry                          1.1.0
+Python location 'C:\Program Files\...'</code></pre>
+            </div>
+
+            <div class="alert alert-success">
+                <span class="alert-icon">✅</span>
+                <strong>Success!</strong> Azure CLI is correctly installed.
+            </div>
+        </section>
+
+        <!-- Text Editor -->
+        <section class="content-section">
+            <h2 class="section-title">📝 Step 3: Install a Text Editor or IDE</h2>
+            
+            <p>
+                You'll need a text editor to view and potentially modify the code. We recommend 
+                <strong>Visual Studio Code</strong> (VS Code) as it's free, powerful, and works on all platforms.
+            </p>
+
+            <h3 class="section-subtitle">Install VS Code (Recommended)</h3>
+            <ul class="steps-list">
+                <li>
+                    <strong>Download VS Code</strong>
+                    <p>Visit <a href="https://code.visualstudio.com/" target="_blank">code.visualstudio.com</a> 
+                    and download the installer for your operating system.</p>
+                </li>
+                <li>
+                    <strong>Install Python Extension</strong>
+                    <p>After installing VS Code, open it and install the Python extension by Microsoft from the Extensions marketplace.</p>
+                </li>
+            </ul>
+
+            <div class="alert alert-info">
+                <span class="alert-icon">💡</span>
+                <strong>Alternatives:</strong> You can also use PyCharm, Sublime Text, Atom, or even a simple 
+                text editor like Notepad++ (Windows) or TextEdit (macOS).
+            </div>
+        </section>
+
+        <!-- Azure Account -->
+        <section class="content-section">
+            <h2 class="section-title">🌐 Step 4: Azure Account Setup</h2>
+            
+            <h3 class="section-subtitle">Create an Azure Account</h3>
+            <p>
+                If you don't have an Azure account yet, you'll need to create one. Microsoft offers a 
+                <strong>free trial</strong> with $200 credit for 30 days.
+            </p>
+
+            <ol class="steps-list">
+                <li>
+                    <strong>Sign Up</strong>
+                    <p>Visit <a href="https://azure.microsoft.com/free/" target="_blank">azure.microsoft.com/free</a> 
+                    and click "Start free".</p>
+                </li>
+                <li>
+                    <strong>Provide Information</strong>
+                    <p>You'll need to provide:</p>
+                    <ul style="margin-left: 20px; margin-top: 10px;">
+                        <li>A Microsoft account (or create a new one)</li>
+                        <li>Phone number for verification</li>
+                        <li>Credit card (for identity verification - you won't be charged unless you upgrade)</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Complete Setup</strong>
+                    <p>Follow the on-screen instructions to complete your account setup.</p>
+                </li>
+            </ol>
+
+            <div class="alert alert-warning">
+                <span class="alert-icon">💰</span>
+                <strong>Cost Awareness:</strong> This workshop will use Azure AI services. With the free trial, 
+                you have $200 credit. The expected cost for this workshop is minimal (~$0.50-$2.00). Always 
+                monitor your usage in the Azure portal.
+            </div>
+
+            <h3 class="section-subtitle">✅ Login to Azure CLI</h3>
+            <p>Once you have an Azure account, authenticate Azure CLI:</p>
+            <div class="code-header">Command</div>
+            <div class="code-block">
+                <pre><code>az login</code></pre>
+            </div>
+            <p style="margin-top: 10px;">
+                This will open your web browser. Log in with your Azure account credentials. 
+                After successful login, you'll see your subscription information in the terminal.
+            </p>
+
+            <div class="alert alert-success">
+                <span class="alert-icon">✅</span>
+                <strong>Success!</strong> If you see your subscription details, you're authenticated with Azure.
+            </div>
+        </section>
+
+        <!-- Git (Optional) -->
+        <section class="content-section">
+            <h2 class="section-title">🔧 Step 5: Clone or Download Workshop Code</h2>
+            
+            <p>You need to get the workshop code on your local machine. Choose one of these options:</p>
+
+            <h3 class="section-subtitle">Option 1: Using Git (Recommended)</h3>
+            <div class="code-header">Command</div>
+            <div class="code-block">
+                <pre><code>git clone https://github.com/khanasif1/demo-microsoft-agent-framework.git
+cd demo-microsoft-agent-framework/_src/agentquickstart</code></pre>
+            </div>
+
+            <h3 class="section-subtitle">Option 2: Download ZIP</h3>
+            <ol class="steps-list">
+                <li>
+                    <strong>Download</strong>
+                    <p>Go to <a href="https://github.com/khanasif1/demo-microsoft-agent-framework" target="_blank">the repository</a> 
+                    and click "Code" → "Download ZIP".</p>
+                </li>
+                <li>
+                    <strong>Extract</strong>
+                    <p>Extract the ZIP file to a location on your computer.</p>
+                </li>
+                <li>
+                    <strong>Navigate</strong>
+                    <p>Open terminal/command prompt and navigate to <code>demo-microsoft-agent-framework/_src/agentquickstart</code></p>
+                </li>
+            </ol>
+        </section>
+
+        <!-- Verification Checklist -->
+        <section class="content-section">
+            <h2 class="section-title">✅ Prerequisites Checklist</h2>
+            <p>Before moving to the next module, verify you have completed all these steps:</p>
+
+            <ul class="checklist">
+                <li>Python 3.8+ installed and verified with <code>python --version</code></li>
+                <li>Azure CLI installed and verified with <code>az --version</code></li>
+                <li>Azure CLI logged in with <code>az login</code></li>
+                <li>Text editor or IDE (VS Code recommended) installed</li>
+                <li>Workshop code downloaded or cloned to your machine</li>
+                <li>Azure account created with active subscription</li>
+            </ul>
+
+            <div class="alert alert-success">
+                <span class="alert-icon">🎉</span>
+                <strong>Great job!</strong> If you've completed all items above, you're ready to move to the next module!
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <div class="page-navigation">
+            <a href="index.html" class="nav-button secondary">
+                ← Previous: Introduction
+            </a>
+            <a href="environment-setup.html" class="nav-button">
+                Next: Environment Setup →
+            </a>
+        </div>
+    </main>
+</body>
+</html>

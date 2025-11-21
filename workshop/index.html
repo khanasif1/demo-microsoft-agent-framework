@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microsoft Agent Framework Workshop - Getting Started</title>
+    <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <h1>🤖 Agent Framework</h1>
+            <p>Hands-on Workshop</p>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a href="index.html" class="nav-link active">
+                    <span class="step-number">0</span>
+                    Introduction
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="prerequisites.html" class="nav-link">
+                    <span class="step-number">1</span>
+                    Prerequisites
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="environment-setup.html" class="nav-link">
+                    <span class="step-number">2</span>
+                    Environment Setup
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="azure-setup.html" class="nav-link">
+                    <span class="step-number">3</span>
+                    Azure AI Setup
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="code-walkthrough.html" class="nav-link">
+                    <span class="step-number">4</span>
+                    Code Walkthrough
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="running-app.html" class="nav-link">
+                    <span class="step-number">5</span>
+                    Running the Agent
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="troubleshooting.html" class="nav-link">
+                    <span class="step-number">6</span>
+                    Troubleshooting
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Welcome to Microsoft Agent Framework Workshop</h1>
+            <p class="page-subtitle">Build Your First AI Agent with Azure AI</p>
+            <span class="duration-badge">⏱️ Duration: 45-60 minutes</span>
+        </div>
+
+        <!-- Workshop Overview -->
+        <section class="content-section">
+            <h2 class="section-title">📋 Workshop Overview</h2>
+            <p>
+                Welcome! In this hands-on workshop, you'll learn how to build intelligent AI agents using 
+                Microsoft Agent Framework and Azure AI services. By the end of this workshop, you'll have 
+                a working AI agent that can understand natural language queries and execute functions.
+            </p>
+
+            <div class="alert alert-info">
+                <span class="alert-icon">💡</span>
+                <strong>What You'll Build:</strong> A weather agent that uses Azure AI to understand user 
+                queries and respond with weather information using function calling capabilities.
+            </div>
+        </section>
+
+        <!-- What You'll Learn -->
+        <section class="content-section">
+            <h2 class="section-title">🎯 What You'll Learn</h2>
+            <ul class="steps-list">
+                <li>
+                    <strong>Setting Up Python Development Environment</strong>
+                    <p>Create and activate a Python virtual environment for isolated dependency management.</p>
+                </li>
+                <li>
+                    <strong>Configuring Azure AI Foundry</strong>
+                    <p>Create an Azure AI project and deploy a GPT model for your agent.</p>
+                </li>
+                <li>
+                    <strong>Understanding Agent Framework Concepts</strong>
+                    <p>Learn about agents, function tools, streaming vs non-streaming responses.</p>
+                </li>
+                <li>
+                    <strong>Building Function Tools</strong>
+                    <p>Create Python functions that your AI agent can call to perform tasks.</p>
+                </li>
+                <li>
+                    <strong>Running Your First Agent</strong>
+                    <p>Execute your agent and interact with it using natural language.</p>
+                </li>
+            </ul>
+        </section>
+
+        <!-- Prerequisites Overview -->
+        <section class="content-section">
+            <h2 class="section-title">✅ Prerequisites</h2>
+            <p>Before starting this workshop, you should have:</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Requirement</th>
+                        <th>Description</th>
+                        <th>Why It's Needed</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Python 3.8+</strong></td>
+                        <td>Python programming language</td>
+                        <td>Required to run the agent code</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Azure Account</strong></td>
+                        <td>Active Azure subscription</td>
+                        <td>To use Azure AI services</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Azure CLI</strong></td>
+                        <td>Command-line tool for Azure</td>
+                        <td>For authentication and management</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Text Editor/IDE</strong></td>
+                        <td>VS Code, PyCharm, or similar</td>
+                        <td>To view and edit code</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Basic Python Knowledge</strong></td>
+                        <td>Functions, async/await, imports</td>
+                        <td>To understand the code</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="alert alert-warning">
+                <span class="alert-icon">⚠️</span>
+                <strong>Azure Costs:</strong> This workshop uses Azure AI services which may incur costs. 
+                Make sure you have an active Azure subscription. Costs are typically minimal for this workshop 
+                (~$0.50-$2.00 depending on usage).
+            </div>
+        </section>
+
+        <!-- Workshop Structure -->
+        <section class="content-section">
+            <h2 class="section-title">🗺️ Workshop Structure</h2>
+            <p>This workshop is divided into progressive modules, each building on the previous one:</p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px;">
+                <div style="padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 8px;">
+                    <h3 style="margin-bottom: 10px;">📚 Module 1</h3>
+                    <strong>Prerequisites</strong>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Install required tools and verify your setup</p>
+                </div>
+                <div style="padding: 20px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; border-radius: 8px;">
+                    <h3 style="margin-bottom: 10px;">🐍 Module 2</h3>
+                    <strong>Environment Setup</strong>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Create Python virtual environment and install dependencies</p>
+                </div>
+                <div style="padding: 20px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; border-radius: 8px;">
+                    <h3 style="margin-bottom: 10px;">☁️ Module 3</h3>
+                    <strong>Azure AI Setup</strong>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Configure Azure AI Foundry and deploy GPT model</p>
+                </div>
+                <div style="padding: 20px; background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white; border-radius: 8px;">
+                    <h3 style="margin-bottom: 10px;">💻 Module 4</h3>
+                    <strong>Code Walkthrough</strong>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Understand the agent code structure</p>
+                </div>
+                <div style="padding: 20px; background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); color: white; border-radius: 8px;">
+                    <h3 style="margin-bottom: 10px;">🚀 Module 5</h3>
+                    <strong>Running the Agent</strong>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Execute and interact with your AI agent</p>
+                </div>
+                <div style="padding: 20px; background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); color: white; border-radius: 8px;">
+                    <h3 style="margin-bottom: 10px;">🔧 Module 6</h3>
+                    <strong>Troubleshooting</strong>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Common issues and solutions</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Concepts -->
+        <section class="content-section">
+            <h2 class="section-title">🔑 Key Concepts You'll Master</h2>
+            
+            <h3 class="section-subtitle">AI Agents</h3>
+            <p>
+                An <strong>AI agent</strong> is an intelligent software entity that can perceive its environment, 
+                make decisions, and take actions to achieve specific goals. In this workshop, your agent will:
+            </p>
+            <ul>
+                <li>Understand natural language input from users</li>
+                <li>Decide when to call specific functions (tools)</li>
+                <li>Generate human-like responses</li>
+            </ul>
+
+            <h3 class="section-subtitle">Function Calling (Tools)</h3>
+            <p>
+                <strong>Function calling</strong> allows AI agents to use external tools. For example, when a user 
+                asks "What's the weather in Seattle?", the agent:
+            </p>
+            <ol>
+                <li>Recognizes this needs weather data</li>
+                <li>Calls the <code>get_weather()</code> function with "Seattle" as parameter</li>
+                <li>Gets the result and formulates a natural response</li>
+            </ol>
+
+            <h3 class="section-subtitle">Streaming vs Non-Streaming</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px;">
+                <div style="padding: 15px; background-color: var(--bg-secondary); border-radius: 8px; border-left: 4px solid var(--accent-color);">
+                    <h4>Non-Streaming</h4>
+                    <p><strong>Complete response at once</strong></p>
+                    <p style="font-size: 0.9rem; color: var(--text-light);">
+                        Wait for entire response, then display. Good for batch processing.
+                    </p>
+                </div>
+                <div style="padding: 15px; background-color: var(--bg-secondary); border-radius: 8px; border-left: 4px solid var(--success-color);">
+                    <h4>Streaming</h4>
+                    <p><strong>Response in real-time chunks</strong></p>
+                    <p style="font-size: 0.9rem; color: var(--text-light);">
+                        Display response as it's generated. Better user experience.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Getting Started -->
+        <section class="content-section">
+            <h2 class="section-title">🚀 Ready to Begin?</h2>
+            <p>
+                Let's get started! Click the button below to proceed to the prerequisites section where 
+                we'll make sure you have everything needed for this workshop.
+            </p>
+
+            <div class="alert alert-success">
+                <span class="alert-icon">✨</span>
+                <strong>Pro Tip:</strong> Keep this workshop open in your browser. You can navigate between 
+                sections using the sidebar menu on the left. Each section builds on the previous one, so 
+                it's best to follow them in order.
+            </div>
+        </section>
+
+        <!-- Navigation -->
+        <div class="page-navigation">
+            <div>
+                <!-- No previous page -->
+            </div>
+            <a href="prerequisites.html" class="nav-button">
+                Next: Prerequisites →
+            </a>
+        </div>
+    </main>
+</body>
+</html>
