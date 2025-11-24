@@ -12,57 +12,31 @@ This guide explains how to publish your Microsoft Agent Framework workshop to Gi
 
 ### Method 1: GitHub Actions (Automatic - Recommended)
 
-1. **Create GitHub Actions Workflow**
-   
-   Create `.github/workflows/pages.yml`:
-   ```yaml
-   name: Deploy Workshop to GitHub Pages
-   
-   on:
-     push:
-       branches: [ main ]
-     workflow_dispatch:
-   
-   permissions:
-     contents: read
-     pages: write
-     id-token: write
-   
-   jobs:
-     deploy:
-       runs-on: ubuntu-latest
-       steps:
-         - name: Checkout
-           uses: actions/checkout@v4
-         
-         - name: Setup Pages
-           uses: actions/configure-pages@v4
-         
-         - name: Upload artifact
-           uses: actions/upload-pages-artifact@v3
-           with:
-             path: './workshop'
-         
-         - name: Deploy to GitHub Pages
-           id: deployment
-           uses: actions/deploy-pages@v4
-   ```
+✅ **Good news!** The GitHub Actions workflow is already configured in this repository.
 
-2. **Enable GitHub Pages**
-   - Go to your repository settings
+1. **Enable GitHub Pages**
+   - Go to your repository settings on GitHub
    - Navigate to **Settings → Pages**
    - Under **Source**, select **GitHub Actions**
-   - Save changes
+   - Click **Save**
 
-3. **Push to GitHub**
+2. **Push to GitHub**
    ```bash
    git add .
-   git commit -m "Add workshop deployment"
+   git commit -m "Deploy workshop to GitHub Pages"
    git push origin main
    ```
 
+3. **Monitor Deployment**
+   - Go to **Actions** tab in your GitHub repository
+   - Watch the "Deploy Workshop to GitHub Pages" workflow run
+   - It should complete in 1-2 minutes
+
 4. **Access Your Workshop**
    - Visit: `https://YOUR_USERNAME.github.io/demo-microsoft-agent-framework/`
+   - The workshop will be automatically available at the root URL
+
+**Note:** The workflow file is located at `.github/workflows/pages.yml` and deploys the `workshop/` folder contents.
 
 ### Method 2: Manual (Branch-based)
 
