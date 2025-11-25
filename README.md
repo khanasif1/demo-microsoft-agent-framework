@@ -31,11 +31,12 @@ A comprehensive repository featuring **hands-on code samples** and **step-by-ste
 <img src="https://img.shields.io/badge/⚡_INTERACTIVE-8B5CF6?style=flat-square&logoColor=white" alt="Interactive"> <img src="https://img.shields.io/badge/📚_7_MODULES-A855F7?style=flat-square&logoColor=white" alt="7 Modules"> <img src="https://img.shields.io/badge/⏱️_45--60_MIN-C084FC?style=flat-square&logoColor=white" alt="Duration"> <img src="https://img.shields.io/badge/✨_HANDS--ON-D8B4FE?style=flat-square&logoColor=white" alt="Hands-on">
 
 **Experience the complete workshop online with:**
-- ✅ Beautiful, responsive interface
-- ✅ Progressive learning modules
-- ✅ Copy-paste code examples
-- ✅ Platform-specific instructions
-- ✅ Real-time troubleshooting guides
+<br>
+✅ Beautiful, responsive interface <br>
+✅ Progressive learning modules <br>
+✅ Copy-paste code examples <br>
+✅ Platform-specific instructions <br>
+✅ Real-time troubleshooting guides <br
 
 </div>
 
