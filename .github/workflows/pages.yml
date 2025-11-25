@@ -3,6 +3,9 @@ name: Deploy Workshop to GitHub Pages
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'workshop/**'
+      - '.github/workflows/pages.yml'
   workflow_dispatch:
 
 permissions:
