@@ -1,14 +1,53 @@
-# 🤖 Microsoft Agent Framework - Complete Learning Repository
+<div align="center">
+
+# 🔮 Microsoft Agent Framework
+## Complete Learning Repository
+
+<img src="https://img.shields.io/badge/STATUS-ACTIVE-9333EA?style=for-the-badge&logoColor=white" alt="Status">
+
+</div>
 
 A comprehensive repository featuring **hands-on code samples** and **step-by-step workshop materials** for building intelligent AI agents using the Microsoft Agent Framework with Azure AI services.
 
-[![Azure AI](https://img.shields.io/badge/Azure-AI%20Foundry-0078D4?logo=microsoft-azure)](https://ai.azure.com)
-[![Python](https://img.shields.io/badge/Python-3.8%2B-3776AB?logo=python)](https://python.org)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Azure AI](https://img.shields.io/badge/Azure-AI%20Foundry-7C3AED?logo=microsoft-azure&logoColor=white)](https://ai.azure.com)
+[![Python](https://img.shields.io/badge/Python-3.8%2B-A855F7?logo=python&logoColor=white)](https://python.org)
+[![License](https://img.shields.io/badge/License-MIT-C084FC?logoColor=white)](LICENSE)
+[![Workshop](https://img.shields.io/badge/Workshop-Live-9333EA?logo=google-scholar&logoColor=white)](https://khanasif1.github.io/demo-microsoft-agent-framework/)
+
+---
+
+## 🌐 Live Interactive Workshop
+
+<div align="center">
+
+### 🎓 **Ready to Start Learning?**
+
+<a href="https://khanasif1.github.io/demo-microsoft-agent-framework/">
+  <img src="https://img.shields.io/badge/🚀_Launch_Workshop-9333EA?style=for-the-badge&logo=rocket&logoColor=white" alt="Launch Workshop" height="55">
+</a>
+
+**👉 [https://khanasif1.github.io/demo-microsoft-agent-framework/](https://khanasif1.github.io/demo-microsoft-agent-framework/) 👈**
+
+<img src="https://img.shields.io/badge/⚡_INTERACTIVE-8B5CF6?style=flat-square&logoColor=white" alt="Interactive"> <img src="https://img.shields.io/badge/📚_7_MODULES-A855F7?style=flat-square&logoColor=white" alt="7 Modules"> <img src="https://img.shields.io/badge/⏱️_45--60_MIN-C084FC?style=flat-square&logoColor=white" alt="Duration"> <img src="https://img.shields.io/badge/✨_HANDS--ON-D8B4FE?style=flat-square&logoColor=white" alt="Hands-on">
+
+**Experience the complete workshop online with:**
+- ✅ Beautiful, responsive interface
+- ✅ Progressive learning modules
+- ✅ Copy-paste code examples
+- ✅ Platform-specific instructions
+- ✅ Real-time troubleshooting guides
+
+</div>
 
 ---
 
 ## 📖 What is Microsoft Agent Framework?
+
+<div align="center">
+  <img src="./assets/microsoft-agent-framework-logo.png" alt="Microsoft Agent Framework" width="400">
+</div>
+
+<br>
 
 The **Microsoft Agent Framework** is a powerful Python library that enables developers to build intelligent AI agents capable of:
 
@@ -38,10 +77,10 @@ Four production-ready sample applications demonstrating different agent patterns
 
 | Sample | Description | Key Pattern | Difficulty |
 |--------|-------------|-------------|------------|
-| [**agentquickstart**](./_src/agentquickstart) | Basic agent with function calling | Simple Agent + Tools | 🟢 Beginner |
-| [**agentConcurrentOrchestrator**](./_src/agentConcurrentOrchestrator) | Web chatbot with news fetching | Fan-Out/Fan-In + Web UI | 🟡 Intermediate |
-| [**agentTools**](./_src/agentTools) | Multi-agent data orchestrator | Multi-Agent + AI Routing | 🟠 Intermediate |
-| [**agentVisualization**](./_src/agentVisualization) | Advanced workflow patterns | Event-Driven + Visualization | 🔴 Advanced |
+| [**agentquickstart**](./_src/agentquickstart) | Basic agent with function calling | Simple Agent + Tools | 🟣 Beginner |
+| [**agentConcurrentOrchestrator**](./_src/agentConcurrentOrchestrator) | Web chatbot with news fetching | Fan-Out/Fan-In + Web UI | 🟪 Intermediate |
+| [**agentTools**](./_src/agentTools) | Multi-agent data orchestrator | Multi-Agent + AI Routing | 🟪 Intermediate |
+| [**agentVisualization**](./_src/agentVisualization) | Advanced workflow patterns | Event-Driven + Visualization | 🟣 Advanced |
 
 ➡️ **[Explore Code Samples](./_src/README.md)**
 
@@ -141,29 +180,46 @@ Before you begin, ensure you have:
 
 ## 🎓 Learning Path
 
-### For Complete Beginners
+<table>
+<tr>
+<td width="33%" align="center">
 
-```
-1. Workshop Module 0-6 → 2. agentquickstart → 3. agentConcurrentOrchestrator
-```
+### 🟣 Beginner
+**Workshop Module 0-6**  
+↓  
+**agentquickstart**  
+↓  
+**agentConcurrentOrchestrator**
 
-**Time:** ~2 hours total
+⏱️ **~2 hours**
 
-### For Developers with Basic Knowledge
+</td>
+<td width="33%" align="center">
 
-```
-1. agentquickstart → 2. agentConcurrentOrchestrator → 3. agentTools
-```
+### 🟪 Intermediate
+**agentquickstart**  
+↓  
+**agentConcurrentOrchestrator**  
+↓  
+**agentTools**
 
-**Time:** ~1.5 hours
+⏱️ **~1.5 hours**
 
-### For Advanced Developers
+</td>
+<td width="33%" align="center">
 
-```
-1. agentTools → 2. agentVisualization → 3. Build your own!
-```
+### 🔮 Advanced
+**agentTools**  
+↓  
+**agentVisualization**  
+↓  
+**Build Your Own!**
 
-**Time:** ~1 hour
+⏱️ **~1 hour**
+
+</td>
+</tr>
+</table>
 
 ---
 
@@ -211,21 +267,32 @@ Prompt: "Analyze product launch"
 
 ## 💡 Key Features Demonstrated
 
-### Design Patterns
-- ✅ **Function Calling** - AI agents call Python functions intelligently
-- ✅ **Streaming Responses** - Real-time response generation
-- ✅ **Fan-Out/Fan-In** - Concurrent execution with result aggregation
-- ✅ **Multi-Agent Systems** - Specialized agents working together
-- ✅ **Event-Driven Architecture** - Handler-based workflow execution
-- ✅ **Workflow Visualization** - Mermaid and GraphViz diagrams
+<table>
+<tr>
+<td width="50%">
 
-### Technologies
-- **Microsoft Agent Framework** - Core agent capabilities
-- **Azure AI Foundry** - Cloud AI infrastructure
-- **FastAPI** - Modern web framework for APIs
-- **BeautifulSoup** - Web scraping capabilities
-- **asyncio** - Asynchronous programming
-- **Pydantic** - Data validation and settings management
+### 🎨 Design Patterns
+- 🟣 **Function Calling** - AI agents call Python functions intelligently
+- 🟪 **Streaming Responses** - Real-time response generation
+- 🔮 **Fan-Out/Fan-In** - Concurrent execution with result aggregation
+- 💜 **Multi-Agent Systems** - Specialized agents working together
+- 🟣 **Event-Driven Architecture** - Handler-based workflow execution
+- 🟪 **Workflow Visualization** - Mermaid and GraphViz diagrams
+
+</td>
+<td width="50%">
+
+### ⚡ Technologies
+- 🟣 **Microsoft Agent Framework** - Core agent capabilities
+- 🟪 **Azure AI Foundry** - Cloud AI infrastructure
+- 🔮 **FastAPI** - Modern web framework for APIs
+- 💜 **BeautifulSoup** - Web scraping capabilities
+- 🟣 **asyncio** - Asynchronous programming
+- 🟪 **Pydantic** - Data validation and settings management
+
+</td>
+</tr>
+</table>
 
 ---
 
@@ -282,14 +349,14 @@ AZURE_AI_MODEL_DEPLOYMENT_NAME=gpt-4o
 
 ## 🎯 Use Cases
 
-This repository helps you build:
+<div align="center">
 
-- 🤖 **Chatbots** - Conversational AI assistants
-- 📰 **Data Aggregators** - Fetch and combine data from multiple sources
-- 🔍 **Research Assistants** - Multi-agent information gathering
-- 📊 **Analysis Tools** - Expert systems with specialized agents
-- 🌐 **Web Applications** - AI-powered web services
-- 🔄 **Workflow Automation** - Complex multi-step processes
+| 🟣 | 🟪 | 🔮 |
+|---|---|---|
+| **🤖 Chatbots**<br/>Conversational AI assistants | **📰 Data Aggregators**<br/>Fetch and combine data | **🔍 Research Assistants**<br/>Multi-agent information gathering |
+| **📊 Analysis Tools**<br/>Expert systems with specialized agents | **🌐 Web Applications**<br/>AI-powered web services | **🔄 Workflow Automation**<br/>Complex multi-step processes |
+
+</div>
 
 ---
 
@@ -375,15 +442,30 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🌟 Getting Started Checklist
 
+<table>
+<tr>
+<td width="50%">
+
+**🟣 Setup Phase**
 - [ ] Clone this repository
-- [ ] Choose your learning path (Workshop or Code Samples)
+- [ ] Choose your learning path
 - [ ] Install prerequisites (Python, Azure CLI)
 - [ ] Set up Azure AI Foundry account
 - [ ] Deploy a GPT model in Azure
+
+</td>
+<td width="50%">
+
+**🟪 Build Phase**
 - [ ] Configure environment variables
 - [ ] Run your first agent
 - [ ] Explore additional samples
 - [ ] Build your own agent application
+- [ ] Share your creation! 🚀
+
+</td>
+</tr>
+</table>
 
 ---
 
@@ -407,13 +489,26 @@ After completing the workshop and exploring the samples:
 
 ---
 
-**Ready to build intelligent AI agents?** 
+<div align="center">
 
-🚀 **[Start with the Workshop →](./workshop/index.html)**  
-💻 **[Explore Code Samples →](./_src/README.md)**
+## 🚀 Ready to Build Intelligent AI Agents?
+
+<a href="./workshop/index.html">
+  <img src="https://img.shields.io/badge/📚_Start_with_Workshop-9333EA?style=for-the-badge&logo=google-scholar&logoColor=white" alt="Workshop" height="45">
+</a>
+&nbsp;&nbsp;
+<a href="./_src/README.md">
+  <img src="https://img.shields.io/badge/💻_Explore_Code_Samples-A855F7?style=for-the-badge&logo=github&logoColor=white" alt="Code Samples" height="45">
+</a>
 
 ---
 
-**Built with ❤️ using Microsoft Agent Framework**
+### 💜 Built with Microsoft Agent Framework
 
-*Last Updated: November 2025*
+<img src="https://img.shields.io/badge/⭐_Star_this_repo-C084FC?style=flat-square&logo=github&logoColor=white" alt="Star">
+<img src="https://img.shields.io/badge/🔔_Watch_for_updates-D8B4FE?style=flat-square&logo=github&logoColor=white" alt="Watch">
+<img src="https://img.shields.io/badge/🍴_Fork_and_customize-E9D5FF?style=flat-square&logo=github&logoColor=white" alt="Fork">
+
+*Last Updated: November 2025* ✨
+
+</div>
