@@ -44,7 +44,7 @@ A comprehensive repository featuring **hands-on code samples** and **step-by-ste
 ## 📖 What is Microsoft Agent Framework?
 
 <div align="center">
-  <img src="./assets/microsoft-agent-framework-logo.png" alt="Microsoft Agent Framework" width="400">
+  <img src="https://github.com/khanasif1/demo-microsoft-agent-framework/blob/main/assets/maxresdefault.jpg" alt="Microsoft Agent Framework" width="400">
 </div>
 
 <br>
