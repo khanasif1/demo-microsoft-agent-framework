@@ -207,6 +207,7 @@ body {
     padding: 20px;
     margin: 20px 0;
     overflow-x: auto;
+    position: relative;
 }
 
 .code-block pre {
@@ -229,11 +230,52 @@ body {
     font-weight: 600;
     font-size: 0.9rem;
     margin: 20px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .code-header + .code-block {
     margin-top: 0;
     border-radius: 0 0 8px 8px;
+}
+
+/* Copy Button */
+.copy-button {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.copy-button:hover {
+    background-color: #0d5a9f;
+    transform: translateY(-1px);
+}
+
+.copy-button:active {
+    transform: translateY(0);
+}
+
+.copy-button.copied {
+    background-color: var(--success-color);
+}
+
+.copy-button::before {
+    content: '📋';
+    font-size: 1rem;
+}
+
+.copy-button.copied::before {
+    content: '✓';
 }
 
 /* Inline Code */
