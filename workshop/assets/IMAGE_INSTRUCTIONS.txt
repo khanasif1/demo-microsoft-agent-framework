@@ -1,0 +1,4 @@
+﻿The images should be saved from the attachments provided by the user. Since I cannot directly access the binary image data from attachments, I'll create placeholder instructions for the user.
+Please save the two images from your attachments to the workshop/assets folder with these names:
+1. codespaces-code-button.png (the first image showing the Code button dropdown)
+2. codespaces-vscode-view.png (the second image showing the VS Code interface)
