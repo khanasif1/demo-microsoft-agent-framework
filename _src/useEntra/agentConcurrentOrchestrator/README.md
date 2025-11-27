@@ -33,6 +33,26 @@ graph TB
 
 ---
 
+##  Quick Start Options
+
+### Option A: GitHub Codespaces (Recommended)  **Zero Setup!**
+
+GitHub Codespaces provides a fully configured environment with Python, Azure CLI, and all dependencies pre-installed. **Port 8000 auto-forwards** for instant web UI access!
+
+>  **Detailed Codespaces Guide:** See [Main README - GitHub Codespaces](../../README.md#option-a-github-codespaces-recommended---zero-setup-) for complete step-by-step instructions.
+
+**Quick Launch:**
+1. Open repository on GitHub → Click **"Code"** → **"Codespaces"** tab → **"Create codespace"**
+2. Once launched, authenticate: `az login --use-device-code`
+3. Navigate to this solution: `cd _src/useEntra/agentConcurrentOrchestrator`
+4. Create `.env` file (see Configuration step below)
+5. Run: `python main.py`
+6. Click the **port notification** to open the web UI in your browser
+
+---
+
+### Option B: Local Setup
+
 ##  Clone & Setup
 
 ### 1 Navigate to Solution
@@ -50,7 +70,7 @@ az account show
 
 ### 3 Install Dependencies
 
->  **Full setup instructions:** See [Main README - Getting Started](../../README.md#-getting-started) for virtual environment and package installation.
+>  **Full setup instructions:** See [Main README - Local Development Setup](../../README.md#option-b-local-development-setup) for virtual environment and package installation.
 
 Quick setup:
 ```bash

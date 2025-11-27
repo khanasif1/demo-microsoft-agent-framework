@@ -184,14 +184,113 @@ AZURE_OPENAI_API_VERSION=2024-05-01-preview
 
 ##  Getting Started
 
-### Clone Repository
+### Option A: GitHub Codespaces (Recommended - Zero Setup! 🚀)
+
+GitHub Codespaces provides a **fully configured cloud development environment** with all dependencies pre-installed. No local setup required!
+
+#### What's Pre-configured in Codespaces
+
+✅ **Python 3.11+** - Latest Python runtime  
+✅ **All Dependencies** - Packages from requirements.txt auto-installed  
+✅ **Azure CLI** - Pre-installed and ready for authentication  
+✅ **VS Code Extensions** - Python, Pylance, Azure extensions included  
+✅ **Port Forwarding** - Automatic for web apps (e.g., FastAPI on port 8000)  
+✅ **Environment Variables** - Secure secrets management via Codespaces Secrets
+
+#### Step-by-Step: Launch Codespaces
+
+**Step 1: Open Repository in Codespaces**
+
+1. Navigate to the [repository on GitHub](https://github.com/khanasif1/demo-microsoft-agent-framework)
+2. Click the green **"Code"** button
+3. Select the **"Codespaces"** tab
+4. Click **"Create codespace on main"**
+
+The environment will build automatically (takes ~2-3 minutes first time).
+
+**Step 2: Configure Azure Credentials**
+
+Once Codespaces opens, you have two authentication options:
+
+**Option 2a: Entra ID Authentication (Recommended for Codespaces)**
+
+```bash
+# Login to Azure CLI in the terminal
+az login --use-device-code
+
+# Follow the prompts:
+# 1. Copy the code displayed
+# 2. Open https://microsoft.com/devicelogin in browser
+# 3. Paste code and authenticate
+# 4. Return to Codespaces terminal
+
+# Verify login
+az account show
+```
+
+**Option 2b: API Key Authentication**
+
+1. Get your API key from [Azure Portal](https://portal.azure.com) (see "useKey" section above)
+2. In Codespaces, go to **Settings** (gear icon) → **Secrets** → **New secret**
+3. Create secrets:
+   - `AZURE_OPENAI_ENDPOINT` = Your endpoint URL
+   - `AZURE_OPENAI_API_KEY` = Your API key
+   - `AZURE_OPENAI_DEPLOYMENT_NAME` = Your model deployment name
+4. Restart Codespaces to apply secrets
+
+**Step 3: Create `.env` File**
+
+Navigate to your chosen sample and create a `.env` file:
+
+```bash
+# For Entra ID authentication
+cd _src/useEntra/agentquickstart
+cat > .env << 'EOF'
+AZURE_AI_PROJECT_ENDPOINT=https://your-project.openai.azure.com/
+AZURE_AI_MODEL_DEPLOYMENT_NAME=gpt-4o
+EOF
+
+# OR for API Key authentication
+cd _src/useKey/agentquickstart
+cat > .env << 'EOF'
+AZURE_OPENAI_ENDPOINT=https://your-resource.openai.azure.com/
+AZURE_OPENAI_API_KEY=your-api-key-here
+AZURE_OPENAI_DEPLOYMENT_NAME=gpt-4o
+AZURE_OPENAI_API_VERSION=2024-05-01-preview
+EOF
+```
+
+**Step 4: Run Your First Sample**
+
+```bash
+# Virtual environment is already activated in Codespaces!
+python azure_ai_basic.py  # for useEntra
+# or
+python main.py            # for useKey
+```
+
+#### 💡 Codespaces Tips
+
+- **Access Web Apps:** For samples like `agentConcurrentOrchestrator`, Codespaces auto-forwards port 8000. Click the notification to open the web UI.
+- **Multiple Terminals:** Use the terminal panel to run multiple commands simultaneously.
+- **Persist Changes:** Commit and push your changes to save work between Codespaces sessions.
+- **Free Tier:** GitHub provides 60 hours/month free for personal accounts (120 core-hours).
+- **Stop Codespace:** Click Codespaces icon (bottom-left) → "Stop Current Codespace" when done to save hours.
+
+---
+
+### Option B: Local Development Setup
+
+For developers who prefer working on their local machine.
+
+#### Clone Repository
 
 ```bash
 git clone https://github.com/khanasif1/demo-microsoft-agent-framework.git
 cd demo-microsoft-agent-framework/_src
 ```
 
-### Choose Authentication Method
+#### Choose Authentication Method
 
 **For Entra ID (Azure CLI):**
 ```bash
@@ -203,7 +302,7 @@ cd useEntra/agentquickstart
 cd useKey/agentquickstart
 ```
 
-### Setup Virtual Environment
+#### Setup Virtual Environment
 
 **Windows (PowerShell):**
 ```bash
@@ -219,11 +318,11 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### Create `.env` File
+#### Create `.env` File
 
 Create a `.env` file with your Azure configuration (see authentication sections above).
 
-### Run the Sample
+#### Run the Sample
 
 ```bash
 python azure_ai_basic.py  # for useEntra
@@ -233,4 +332,4 @@ python main.py            # for useKey
 
 ---
 
-**That's it!** Choose your authentication method, pick a sample, and start building AI agents.
+**That's it!** Choose Codespaces for instant setup or local development for offline work. Start building AI agents today!

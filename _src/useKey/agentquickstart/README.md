@@ -29,6 +29,24 @@ graph LR
 
 ---
 
+##  Quick Start Options
+
+### Option A: GitHub Codespaces (Recommended)  **Zero Setup!**
+
+GitHub Codespaces provides a fully configured environment with Python, Azure CLI, and all dependencies pre-installed.
+
+>  **Detailed Codespaces Guide:** See [Main README - GitHub Codespaces](../../README.md#option-a-github-codespaces-recommended---zero-setup-) for complete step-by-step instructions.
+
+**Quick Launch:**
+1. Open repository on GitHub → Click **"Code"** → **"Codespaces"** tab → **"Create codespace"**
+2. Once launched, navigate to this solution: `cd _src/useKey/agentquickstart`
+3. Create `.env` file (see Configuration step below)
+4. Run: `python azure_ai_basic.py`
+
+---
+
+### Option B: Local Setup
+
 ##  Clone & Setup
 
 ### 1 Navigate to Solution
@@ -39,7 +57,7 @@ cd demo-microsoft-agent-framework/_src/useKey/agentquickstart
 
 ### 2 Install Dependencies
 
->  **Full setup instructions:** See [Main README - Getting Started](../../README.md#-getting-started) for virtual environment and package installation.
+>  **Full setup instructions:** See [Main README - Local Development Setup](../../README.md#option-b-local-development-setup) for virtual environment and package installation.
 
 Quick setup:
 ```bash
