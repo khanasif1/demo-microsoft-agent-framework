@@ -2,8 +2,7 @@
 
 function copyCode(button) {
     // Find the code block associated with this button
-    const codeBlock = button.closest('.code-header').nextElementSibling.querySelector('code') || 
-                      button.closest('.code-block').querySelector('code');
+    const codeBlock = button.closest('.code-header').nextElementSibling.querySelector('code');
     
     if (!codeBlock) return;
     
@@ -30,31 +29,17 @@ function copyCode(button) {
     });
 }
 
-// Add copy buttons to all code blocks on page load
+// Add copy buttons only to Terminal Command code blocks on page load
 document.addEventListener('DOMContentLoaded', function() {
-    // Add copy buttons to code blocks with headers
+    // Add copy buttons only to code blocks with "Terminal Command" header
     document.querySelectorAll('.code-header').forEach(header => {
-        if (!header.querySelector('.copy-button')) {
+        // Check if the header contains "Terminal Command" or "Terminal command"
+        if (header.textContent.includes('Terminal') && !header.querySelector('.copy-button')) {
             const copyBtn = document.createElement('button');
             copyBtn.className = 'copy-button';
             copyBtn.innerHTML = 'Copy';
             copyBtn.onclick = function() { copyCode(this); };
             header.appendChild(copyBtn);
-        }
-    });
-    
-    // Add copy buttons to standalone code blocks
-    document.querySelectorAll('.code-block:not(.code-header + .code-block)').forEach(block => {
-        if (!block.querySelector('.copy-button') && block.querySelector('code')) {
-            const copyBtn = document.createElement('button');
-            copyBtn.className = 'copy-button';
-            copyBtn.innerHTML = 'Copy';
-            copyBtn.style.position = 'absolute';
-            copyBtn.style.top = '10px';
-            copyBtn.style.right = '10px';
-            copyBtn.onclick = function() { copyCode(this); };
-            block.style.position = 'relative';
-            block.appendChild(copyBtn);
         }
     });
 });
