@@ -21,38 +21,32 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="prerequisites.html" class="nav-link">
-                    <span class="step-number">1</span>
-                    Prerequisites
-                </a>
-            </li>
-            <li class="nav-item">
                 <a href="environment-setup.html" class="nav-link">
-                    <span class="step-number">2</span>
-                    Environment Setup
+                    <span class="step-number">1</span>
+                    Codespaces Setup
                 </a>
             </li>
             <li class="nav-item">
                 <a href="azure-setup.html" class="nav-link">
-                    <span class="step-number">3</span>
-                    Azure AI Setup
+                    <span class="step-number">2</span>
+                    Azure OpenAI Setup
                 </a>
             </li>
             <li class="nav-item">
                 <a href="code-walkthrough.html" class="nav-link">
-                    <span class="step-number">4</span>
+                    <span class="step-number">3</span>
                     Code Walkthrough
                 </a>
             </li>
             <li class="nav-item">
                 <a href="running-app.html" class="nav-link">
-                    <span class="step-number">5</span>
+                    <span class="step-number">4</span>
                     Running the Agent
                 </a>
             </li>
             <li class="nav-item">
                 <a href="troubleshooting.html" class="nav-link">
-                    <span class="step-number">6</span>
+                    <span class="step-number">5</span>
                     Troubleshooting
                 </a>
             </li>
@@ -114,8 +108,8 @@
 
         <!-- Prerequisites Overview -->
         <section class="content-section">
-            <h2 class="section-title">✅ Prerequisites</h2>
-            <p>Before starting this workshop, you should have:</p>
+            <h2 class="section-title">✅ What You'll Need</h2>
+            <p>Thanks to GitHub Codespaces, setup is minimal! You only need:</p>
             
             <table>
                 <thead>
@@ -129,12 +123,7 @@
                     <tr>
                         <td><strong>GitHub Account</strong></td>
                         <td>Free GitHub account</td>
-                        <td>To access GitHub Codespaces</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Web Browser</strong></td>
-                        <td>Chrome, Edge, Firefox, or Safari</td>
-                        <td>To run Codespaces and Azure Portal</td>
+                        <td>To access GitHub Codespaces (60 hours/month free)</td>
                     </tr>
                     <tr>
                         <td><strong>Azure Account</strong></td>
@@ -142,16 +131,26 @@
                         <td>To use Azure OpenAI services</td>
                     </tr>
                     <tr>
-                        <td><strong>Basic Python Knowledge</strong></td>
-                        <td>Functions, async/await, imports</td>
-                        <td>To understand the code</td>
+                        <td><strong>Web Browser</strong></td>
+                        <td>Chrome, Edge, Firefox, or Safari</td>
+                        <td>To run Codespaces and Azure Portal</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Internet Connection</strong></td>
+                        <td>5+ Mbps recommended</td>
+                        <td>For cloud-based development</td>
                     </tr>
                 </tbody>
             </table>
 
+            <div class="alert alert-success">
+                <span class="alert-icon">✨</span>
+                <strong>No Installation Required!</strong> Python, VS Code, packages - everything runs in the cloud!
+            </div>
+
             <div class="alert alert-warning">
                 <span class="alert-icon">⚠️</span>
-                <strong>Azure Costs:</strong> This workshop uses Azure AI services which may incur costs. 
+                <strong>Azure Costs:</strong> This workshop uses Azure OpenAI services which may incur costs. 
                 Make sure you have an active Azure subscription. Costs are typically minimal for this workshop 
                 (~$0.50-$2.00 depending on usage).
             </div>
@@ -163,33 +162,28 @@
             <p>This workshop is divided into progressive modules, each building on the previous one:</p>
 
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px;">
-                <div style="padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 8px;">
-                    <h3 style="margin-bottom: 10px;">📚 Module 1</h3>
-                    <strong>Prerequisites</strong>
-                    <p style="font-size: 0.9rem; margin-top: 10px;">Install required tools and verify your setup</p>
-                </div>
                 <div style="padding: 20px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; border-radius: 8px;">
-                    <h3 style="margin-bottom: 10px;">🚀 Module 2</h3>
+                    <h3 style="margin-bottom: 10px;">🚀 Module 1</h3>
                     <strong>GitHub Codespaces Setup</strong>
-                    <p style="font-size: 0.9rem; margin-top: 10px;">Launch pre-configured cloud development environment</p>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Launch pre-configured cloud development environment - zero installation!</p>
                 </div>
                 <div style="padding: 20px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; border-radius: 8px;">
-                    <h3 style="margin-bottom: 10px;">☁️ Module 3</h3>
+                    <h3 style="margin-bottom: 10px;">☁️ Module 2</h3>
                     <strong>Azure OpenAI Setup</strong>
                     <p style="font-size: 0.9rem; margin-top: 10px;">Get API Key from Azure Portal for authentication</p>
                 </div>
                 <div style="padding: 20px; background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white; border-radius: 8px;">
-                    <h3 style="margin-bottom: 10px;">💻 Module 4</h3>
+                    <h3 style="margin-bottom: 10px;">💻 Module 3</h3>
                     <strong>Code Walkthrough</strong>
                     <p style="font-size: 0.9rem; margin-top: 10px;">Understand the agent code structure</p>
                 </div>
                 <div style="padding: 20px; background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); color: white; border-radius: 8px;">
-                    <h3 style="margin-bottom: 10px;">🚀 Module 5</h3>
+                    <h3 style="margin-bottom: 10px;">🚀 Module 4</h3>
                     <strong>Running the Agent</strong>
                     <p style="font-size: 0.9rem; margin-top: 10px;">Execute and interact with your AI agent</p>
                 </div>
                 <div style="padding: 20px; background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); color: white; border-radius: 8px;">
-                    <h3 style="margin-bottom: 10px;">🔧 Module 6</h3>
+                    <h3 style="margin-bottom: 10px;">🔧 Module 5</h3>
                     <strong>Troubleshooting</strong>
                     <p style="font-size: 0.9rem; margin-top: 10px;">Common issues and solutions</p>
                 </div>
@@ -262,8 +256,8 @@
             <div>
                 <!-- No previous page -->
             </div>
-            <a href="prerequisites.html" class="nav-button">
-                Next: Prerequisites →
+            <a href="environment-setup.html" class="nav-button">
+                Next: Codespaces Setup →
             </a>
         </div>
     </main>
