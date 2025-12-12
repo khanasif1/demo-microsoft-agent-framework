@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Orchestrator - AI Agent Dashboard</title>
+    <!-- Material Design Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', 'Segoe UI', sans-serif;
+            background: #121212;
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #1e1e1e;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.7;
+            font-weight: 300;
+        }
+
+        .control-panel {
+            background: #1e1e1e;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        .fetch-button {
+            width: 100%;
+            padding: 20px;
+            font-size: 1.3rem;
+            font-weight: 500;
+            background: #bb86fc;
+            color: #000000;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 8px rgba(187, 134, 252, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .fetch-button:hover {
+            background: #d0a7ff;
+            box-shadow: 0 6px 12px rgba(187, 134, 252, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .fetch-button:active {
+            transform: translateY(0);
+        }
+
+        .fetch-button:disabled {
+            background: #3d3d3d;
+            color: #666;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .workflow-diagram {
+            background: #1e1e1e;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        .workflow-title {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 20px;
+            color: #bb86fc;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        .workflow-visual {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            background: #2d2d2d;
+            border-radius: 8px;
+        }
+
+        .workflow-box {
+            background: #1e1e1e;
+            border: 2px solid #bb86fc;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            min-width: 150px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .workflow-box.active {
+            background: #bb86fc;
+            color: #000000;
+            border-color: #bb86fc;
+            box-shadow: 0 0 20px rgba(187, 134, 252, 0.6),
+                        0 0 40px rgba(187, 134, 252, 0.4);
+            animation: blink 0.8s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { 
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% { 
+                opacity: 0.7;
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Agent Logo Animation */
+        .agent-logo {
+            width: 40px;
+            height: 40px;
+            margin: 10px auto;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .agent-logo-circle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #bb86fc 0%, #3700b3 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(187, 134, 252, 0.3);
+        }
+
+        .workflow-box.active .agent-logo-circle {
+            animation: agentPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes agentPulse {
+            0%, 100% {
+                transform: scale(1) rotate(0deg);
+                box-shadow: 0 2px 8px rgba(187, 134, 252, 0.3);
+            }
+            50% {
+                transform: scale(1.1) rotate(180deg);
+                box-shadow: 0 4px 16px rgba(187, 134, 252, 0.8);
+            }
+        }
+
+        /* Tool Logo Animation */
+        .tool-logo {
+            width: 35px;
+            height: 35px;
+            margin: 8px auto;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tool-logo-box {
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #03dac6 0%, #018786 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(3, 218, 198, 0.3);
+        }
+
+        .workflow-agent-box.active .tool-logo-box {
+            animation: toolSpin 2s linear infinite;
+        }
+
+        @keyframes toolSpin {
+            0% {
+                transform: rotate(0deg) scale(1);
+                box-shadow: 0 2px 8px rgba(3, 218, 198, 0.3);
+            }
+            50% {
+                transform: rotate(180deg) scale(1.15);
+                box-shadow: 0 4px 16px rgba(3, 218, 198, 0.8);
+            }
+            100% {
+                transform: rotate(360deg) scale(1);
+                box-shadow: 0 2px 8px rgba(3, 218, 198, 0.3);
+            }
+        }
+
+        /* Logo Icons */
+        .logo-icon {
+            font-size: 1.3rem;
+            color: white;
+        }
+
+        .logo-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 18px;
+            height: 18px;
+            background: #03dac6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .workflow-box.active .logo-badge {
+            animation: badgePulse 1s ease-in-out infinite;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.3);
+            }
+        }
+
+        .workflow-arrow {
+            font-size: 2rem;
+            color: #bb86fc;
+            margin: 0 10px;
+            animation: flowArrow 2s ease-in-out infinite;
+        }
+
+        .workflow-arrow.active {
+            color: #03dac6;
+            animation: flowArrowActive 0.5s ease-in-out infinite;
+        }
+
+        @keyframes flowArrow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes flowArrowActive {
+            0%, 100% { 
+                opacity: 1;
+                transform: translateX(0);
+            }
+            50% { 
+                opacity: 0.7;
+                transform: translateX(5px);
+            }
+        }
+
+        .workflow-agents {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .workflow-agent-box {
+            background: #1e1e1e;
+            border: 2px solid #03dac6;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .workflow-agent-box.active {
+            background: #03dac6;
+            color: #000000;
+            border-color: #03dac6;
+            box-shadow: 0 0 20px rgba(3, 218, 198, 0.6),
+                        0 0 40px rgba(3, 218, 198, 0.4);
+            animation: blink 0.8s ease-in-out infinite;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .news-section {
+            background: #1e1e1e;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        .news-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #2d2d2d;
+        }
+
+        .news-icon {
+            font-size: 2rem;
+        }
+
+        .news-title {
+            font-size: 1.5rem;
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        .news-count {
+            margin-left: auto;
+            background: #bb86fc;
+            color: #000000;
+            padding: 5px 15px;
+            border-radius: 16px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .news-item {
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #2d2d2d;
+            border-radius: 8px;
+            border-left: 4px solid #bb86fc;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .news-item:hover {
+            background: #353535;
+            transform: translateX(5px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .news-item-title {
+            font-weight: 500;
+            color: #ffffff;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .news-item-link {
+            color: #bb86fc;
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-top: 5px;
+            font-weight: 500;
+        }
+
+        .news-item-link:hover {
+            color: #d0a7ff;
+            text-decoration: underline;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #bb86fc;
+            font-size: 1.2rem;
+        }
+
+        .spinner {
+            border: 4px solid #2d2d2d;
+            border-top: 4px solid #bb86fc;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: #cf6679;
+            color: #000000;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 5px solid #b00020;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+            background: #1e1e1e;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .workflow-status {
+            text-align: center;
+            margin-top: 15px;
+            color: #bb86fc;
+            font-weight: 500;
+            padding: 10px;
+            background: #2d2d2d;
+            border-radius: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .workflow-visual {
+                flex-direction: column;
+            }
+
+            .workflow-arrow {
+                transform: rotate(90deg);
+                margin: 10px 0;
+            }
+
+            .header h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🤖 AI News Orchestrator</h1>
+            <p>Concurrent Multi-Agent News Fetching with Fan-Out/Fan-In Pattern</p>
+        </div>
+
+        <!-- Control Panel -->
+        <div class="control-panel">
+            <button id="fetchButton" class="fetch-button" onclick="fetchNews()">
+                <span class="material-icons" style="vertical-align: middle; margin-right: 8px;">rocket_launch</span>
+                Fetch Latest News from All Sources
+            </button>
+        </div>
+
+        <!-- Workflow Diagram -->
+        <div class="workflow-diagram" id="workflowDiagram" style="display: none;">
+            <div class="workflow-title">
+                <span class="material-icons" style="vertical-align: middle; font-size: 2rem;">account_tree</span>
+                Workflow Execution Pattern
+            </div>
+            <div class="workflow-visual">
+                <div class="workflow-box" id="dispatcher">
+                    <span class="material-icons" style="font-size: 2.5rem;">hub</span>
+                    <div class="agent-logo">
+                        <div class="agent-logo-circle">
+                            <span class="material-icons logo-icon">smart_toy</span>
+                        </div>
+                        <div class="logo-badge">
+                            <span class="material-icons" style="font-size: 0.7rem;">psychology</span>
+                        </div>
+                    </div>
+                    <div style="font-weight: 500; margin-top: 5px;">Dispatcher</div>
+                    <div style="font-size: 0.8rem; opacity: 0.7;">Fan-Out Agent</div>
+                </div>
+                
+                <div class="workflow-arrow" id="arrow1">→</div>
+                
+                <div class="workflow-agents">
+                    <div class="workflow-agent-box" id="bbcAgent">
+                        <span class="material-icons" style="vertical-align: middle; margin-right: 5px;">article</span>
+                        <div class="tool-logo">
+                            <div class="tool-logo-box">
+                                <span class="material-icons logo-icon">rss_feed</span>
+                            </div>
+                        </div>
+                        BBC News Tool
+                    </div>
+                    <div class="workflow-agent-box" id="techAgent">
+                        <span class="material-icons" style="vertical-align: middle; margin-right: 5px;">computer</span>
+                        <div class="tool-logo">
+                            <div class="tool-logo-box">
+                                <span class="material-icons logo-icon">web</span>
+                            </div>
+                        </div>
+                        TechCrunch Tool
+                    </div>
+                </div>
+                
+                <div class="workflow-arrow" id="arrow2">→</div>
+                
+                <div class="workflow-box" id="aggregator">
+                    <span class="material-icons" style="font-size: 2.5rem;">merge_type</span>
+                    <div class="agent-logo">
+                        <div class="agent-logo-circle">
+                            <span class="material-icons logo-icon">smart_toy</span>
+                        </div>
+                        <div class="logo-badge">
+                            <span class="material-icons" style="font-size: 0.7rem;">check</span>
+                        </div>
+                    </div>
+                    <div style="font-weight: 500; margin-top: 5px;">Aggregator</div>
+                    <div style="font-size: 0.8rem; opacity: 0.7;">Fan-In Agent</div>
+                </div>
+            </div>
+            <div class="workflow-status">
+                <span id="workflowStatus">
+                    <span class="material-icons" style="vertical-align: middle; font-size: 1.2rem;">check_circle</span>
+                    Ready to fetch news...
+                </span>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loadingState" style="display: none;">
+            <div class="loading">
+                <div class="spinner"></div>
+                <p>Fetching news from multiple sources...</p>
+            </div>
+        </div>
+
+        <!-- Error State -->
+        <div id="errorState" style="display: none;">
+            <div class="error">
+                <strong>❌ Error:</strong>
+                <p id="errorMessage"></p>
+            </div>
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyState" class="empty-state">
+            <div class="empty-state-icon">
+                <span class="material-icons" style="font-size: 5rem; color: #bb86fc;">newspaper</span>
+            </div>
+            <h2 style="color: #fff; margin-bottom: 10px;">Welcome to AI News Orchestrator</h2>
+            <p style="color: #b0b0b0;">Click the button above to fetch the latest news from BBC and TechCrunch</p>
+            <p style="margin-top: 10px; color: #888; font-size: 0.9rem;">
+                <span class="material-icons" style="vertical-align: middle; font-size: 1rem;">psychology</span>
+                Using Microsoft Agent Framework with concurrent execution
+            </p>
+        </div>
+
+        <!-- News Grid -->
+        <div id="newsGrid" class="news-grid" style="display: none;">
+            <!-- BBC News Section -->
+            <div class="news-section">
+                <div class="news-header">
+                    <span class="material-icons news-icon" style="color: #03dac6;">article</span>
+                    <span class="news-title">BBC News</span>
+                    <span class="news-count" id="bbcCount">0</span>
+                </div>
+                <div id="bbcNews"></div>
+            </div>
+
+            <!-- Tech News Section -->
+            <div class="news-section">
+                <div class="news-header">
+                    <span class="material-icons news-icon" style="color: #bb86fc;">computer</span>
+                    <span class="news-title">Technology News</span>
+                    <span class="news-count" id="techCount">0</span>
+                </div>
+                <div id="techNews"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8000';
+
+        async function fetchNews() {
+            const button = document.getElementById('fetchButton');
+            const loadingState = document.getElementById('loadingState');
+            const errorState = document.getElementById('errorState');
+            const emptyState = document.getElementById('emptyState');
+            const newsGrid = document.getElementById('newsGrid');
+            const workflowDiagram = document.getElementById('workflowDiagram');
+
+            // Reset states
+            button.disabled = true;
+            button.innerHTML = '<span class="material-icons" style="vertical-align: middle; margin-right: 8px;">hourglass_top</span>Fetching News...';
+            loadingState.style.display = 'block';
+            errorState.style.display = 'none';
+            emptyState.style.display = 'none';
+            newsGrid.style.display = 'none';
+            workflowDiagram.style.display = 'block';
+
+            // Animate workflow
+            animateWorkflow();
+
+            try {
+                const response = await fetch(`${API_URL}/api/fetch-news`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                // Display news
+                displayNews(data);
+
+                // Update workflow status
+                document.getElementById('workflowStatus').innerHTML = 
+                    `<span class="material-icons" style="vertical-align: middle; font-size: 1.2rem; color: #03dac6;">check_circle</span> Success! Fetched ${data.workflow_info.total_articles} articles using ${data.workflow_info.pattern}`;
+
+            } catch (error) {
+                console.error('Error fetching news:', error);
+                errorState.style.display = 'block';
+                document.getElementById('errorMessage').innerHTML = 
+                    `<span class="material-icons" style="vertical-align: middle;">error</span> ${error.message}`;
+                document.getElementById('workflowStatus').innerHTML = 
+                    '<span class="material-icons" style="vertical-align: middle; font-size: 1.2rem; color: #cf6679;">cancel</span> Failed to fetch news';
+            } finally {
+                loadingState.style.display = 'none';
+                button.disabled = false;
+                button.innerHTML = '<span class="material-icons" style="vertical-align: middle; margin-right: 8px;">rocket_launch</span>Fetch Latest News from All Sources';
+                resetWorkflowAnimation();
+            }
+        }
+
+        function animateWorkflow() {
+            // Stage 1: Dispatcher active (500ms)
+            setTimeout(() => {
+                document.getElementById('dispatcher').classList.add('active');
+                document.getElementById('workflowStatus').innerHTML = 
+                    '<span class="material-icons" style="vertical-align: middle; font-size: 1.2rem;">send</span> Dispatching requests...';
+            }, 500);
+
+            // Stage 2: Arrow 1 active, transition to agents (1500ms)
+            setTimeout(() => {
+                document.getElementById('arrow1').classList.add('active');
+                document.getElementById('dispatcher').classList.remove('active');
+            }, 1500);
+
+            // Stage 3: Agents active (2000ms)
+            setTimeout(() => {
+                document.getElementById('arrow1').classList.remove('active');
+                document.getElementById('bbcAgent').classList.add('active');
+                document.getElementById('techAgent').classList.add('active');
+                document.getElementById('workflowStatus').innerHTML = 
+                    '<span class="material-icons" style="vertical-align: middle; font-size: 1.2rem;">bolt</span> Fetching from BBC and TechCrunch in parallel...';
+            }, 2000);
+
+            // Stage 4: Arrow 2 active, transition to aggregator (3500ms)
+            setTimeout(() => {
+                document.getElementById('arrow2').classList.add('active');
+                document.getElementById('bbcAgent').classList.remove('active');
+                document.getElementById('techAgent').classList.remove('active');
+            }, 3500);
+
+            // Stage 5: Aggregator active (4000ms)
+            setTimeout(() => {
+                document.getElementById('arrow2').classList.remove('active');
+                document.getElementById('aggregator').classList.add('active');
+                document.getElementById('workflowStatus').innerHTML = 
+                    '<span class="material-icons" style="vertical-align: middle; font-size: 1.2rem;">analytics</span> Aggregating results...';
+            }, 4000);
+        }
+
+        function resetWorkflowAnimation() {
+            document.getElementById('dispatcher').classList.remove('active');
+            document.getElementById('arrow1').classList.remove('active');
+            document.getElementById('bbcAgent').classList.remove('active');
+            document.getElementById('techAgent').classList.remove('active');
+            document.getElementById('arrow2').classList.remove('active');
+            document.getElementById('aggregator').classList.remove('active');
+        }
+
+        function displayNews(data) {
+            const newsGrid = document.getElementById('newsGrid');
+            const bbcNews = document.getElementById('bbcNews');
+            const techNews = document.getElementById('techNews');
+
+            // Display BBC News
+            document.getElementById('bbcCount').textContent = data.bbc_news.length;
+            bbcNews.innerHTML = data.bbc_news.map(article => `
+                <div class="news-item">
+                    <div class="news-item-title">${article.title}</div>
+                    <a href="${article.url}" target="_blank" class="news-item-link">
+                        <span class="material-icons" style="vertical-align: middle; font-size: 1rem; margin-right: 4px;">open_in_new</span>
+                        Read more
+                    </a>
+                </div>
+            `).join('');
+
+            // Display Tech News
+            document.getElementById('techCount').textContent = data.tech_news.length;
+            techNews.innerHTML = data.tech_news.map(article => `
+                <div class="news-item">
+                    <div class="news-item-title">${article.title}</div>
+                    <a href="${article.url}" target="_blank" class="news-item-link">
+                        <span class="material-icons" style="vertical-align: middle; font-size: 1rem; margin-right: 4px;">open_in_new</span>
+                        Read more
+                    </a>
+                </div>
+            `).join('');
+
+            newsGrid.style.display = 'grid';
+        }
+
+        // Auto-fetch on page load (optional)
+        // window.onload = () => fetchNews();
+    </script>
+</body>
+</html>

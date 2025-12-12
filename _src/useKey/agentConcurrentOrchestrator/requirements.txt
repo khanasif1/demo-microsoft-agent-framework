@@ -1,0 +1,9 @@
+fastapi==0.109.0
+uvicorn==0.27.0
+python-dotenv==1.0.0
+aiohttp==3.9.1
+beautifulsoup4==4.12.2
+lxml==5.1.0
+pydantic==2.5.3
+azure-identity==1.15.0
+agent-framework
