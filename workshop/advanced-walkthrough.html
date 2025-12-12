@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Deep Dive - Microsoft Agent Framework Workshop</title>
+    <link rel="stylesheet" href="assets/styles.css">
+    <script src="assets/copy-code.js" defer></script>
+    <script src="assets/menu.js" defer></script>
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <h1>🤖 Microsoft Agent Framework</h1>
+            <p>Hands-on Workshop</p>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="index.html" class="nav-link">Introduction</a></li>
+            
+            <!-- Beginners Section -->
+            <li class="nav-section">
+                <div class="nav-section-header" data-section="beginners">👨‍🎓 BEGINNERS</div>
+                <ul class="nav-section-content collapsed">
+                    <li class="nav-item"><a href="beginner-start.html" class="nav-link"><span class="step-number">★</span>Getting Started</a></li>
+                    <li class="nav-item"><a href="environment-setup.html" class="nav-link"><span class="step-number">1</span>Codespaces Setup</a></li>
+                    <li class="nav-item"><a href="azure-setup.html" class="nav-link"><span class="step-number">2</span>Azure OpenAI Setup</a></li>
+                    <li class="nav-item"><a href="code-walkthrough.html" class="nav-link"><span class="step-number">3</span>Code Walkthrough</a></li>
+                    <li class="nav-item"><a href="running-app.html" class="nav-link"><span class="step-number">4</span>Running the Agent</a></li>
+                    <li class="nav-item"><a href="troubleshooting.html" class="nav-link"><span class="step-number">5</span>Troubleshooting</a></li>
+                </ul>
+            </li>
+
+            <!-- Advanced Section -->
+            <li class="nav-section">
+                <div class="nav-section-header" data-section="advanced">🚀 ADVANCED</div>
+                <ul class="nav-section-content">
+                    <li class="nav-item"><a href="advanced-start.html" class="nav-link"><span class="step-number">★</span>Getting Started</a></li>
+                    <li class="nav-item"><a href="advanced-architecture.html" class="nav-link"><span class="step-number">1</span>Architecture Overview</a></li>
+                    <li class="nav-item"><a href="advanced-setup.html" class="nav-link"><span class="step-number">2</span>Environment Setup</a></li>
+                    <li class="nav-item"><a href="advanced-walkthrough.html" class="nav-link active"><span class="step-number">3</span>Code Deep Dive</a></li>
+                    <li class="nav-item"><a href="advanced-running.html" class="nav-link"><span class="step-number">4</span>Running the App</a></li>
+                    <li class="nav-item"><a href="advanced-troubleshooting.html" class="nav-link"><span class="step-number">5</span>Troubleshooting</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Module 3: Code Deep Dive</h1>
+            <p class="page-subtitle">Understanding the multi-agent orchestrator implementation</p>
+            <span class="duration-badge">⏱️ Duration: 25 minutes</span>
+        </div>
+
+        <section class="content-section">
+            <h2 class="section-title">🔍 Exploring agentApp.py</h2>
+            <p>The heart of our system is <code>agentApp.py</code>. Let's examine its key components:</p>
+
+            <h3 class="code-block-header">Terminal Command</h3>
+            <div class="code-block">
+                <pre><code>code agentApp.py</code></pre>
+            </div>
+
+            <h3 class="section-subtitle">1. Imports and Setup</h3>
+            <p>First, let's understand the key imports:</p>
+
+            <div class="code-block">
+                <pre><code>from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
+import asyncio
+import logging
+from typing import Dict, Any
+import os
+from dotenv import load_dotenv
+
+from azure.ai.inference.aio import ChatCompletionsClient
+from azure.ai.inference.models import UserMessage
+from azure.core.credentials import AzureKeyCredential
+
+# Import our custom agent tools
+from tools.bbc_news_agent import BBCNewsAgent
+from tools.techcrunch_agent import TechCrunchAgent</code></pre>
+            </div>
+
+            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h4 style="margin-bottom: 15px;">🔍 Import Breakdown:</h4>
+                <ul style="margin-left: 20px; font-size: 0.95rem; line-height: 1.8;">
+                    <li><strong>FastAPI:</strong> Modern Python web framework with automatic API docs</li>
+                    <li><strong>asyncio:</strong> For concurrent agent execution (Fan-Out/Fan-In)</li>
+                    <li><strong>ChatCompletionsClient:</strong> Azure OpenAI client for GPT interactions</li>
+                    <li><strong>Custom Agents:</strong> Our specialized news scraping agents</li>
+                </ul>
+            </div>
+
+            <h3 class="section-subtitle">2. AgentOrchestrator Class</h3>
+            <p>The core orchestrator that manages multiple agents:</p>
+
+            <div class="code-block">
+                <pre><code>class AgentOrchestrator:
+    def __init__(self):
+        load_dotenv()
+        
+        # Azure OpenAI configuration
+        self.endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
+        self.api_key = os.getenv("AZURE_OPENAI_API_KEY")
+        self.deployment_name = os.getenv("AZURE_OPENAI_DEPLOYMENT_NAME")
+        
+        # Initialize Azure client
+        self.client = ChatCompletionsClient(
+            endpoint=self.endpoint,
+            credential=AzureKeyCredential(self.api_key)
+        )
+        
+        # Setup logging
+        logging.basicConfig(level=logging.INFO)
+        self.logger = logging.getLogger(__name__)
+    
+    async def fetch_all_news(self, query: str = "latest news") -> Dict[str, Any]:
+        """
+        Orchestrates multiple news agents concurrently using Fan-Out/Fan-In pattern
+        """
+        self.logger.info(f"🚀 Starting news orchestration for query: {query}")
+        
+        try:
+            # Create agent instances with specific instructions
+            bbc_agent = BBCNewsAgent(
+                client=self.client,
+                model=self.deployment_name,
+                instructions="You are a BBC news assistant. Fetch and format the latest global news headlines."
+            )
+            
+            techcrunch_agent = TechCrunchAgent(
+                client=self.client, 
+                model=self.deployment_name,
+                instructions="You are a technology news assistant. Fetch and format the latest tech news."
+            )
+            
+            # FAN-OUT: Execute agents concurrently
+            self.logger.info("📤 Fan-Out: Dispatching agents concurrently...")
+            bbc_task = bbc_agent.run_agent(query)
+            tech_task = techcrunch_agent.run_agent(query)
+            
+            # Wait for all agents to complete
+            bbc_result, tech_result = await asyncio.gather(bbc_task, tech_task)
+            
+            # FAN-IN: Aggregate results
+            self.logger.info("📥 Fan-In: Aggregating results...")
+            combined_results = {
+                "bbc_news": bbc_result,
+                "tech_news": tech_result,
+                "timestamp": asyncio.get_event_loop().time(),
+                "status": "success"
+            }
+            
+            self.logger.info("✅ News orchestration completed successfully")
+            return combined_results
+            
+        except Exception as e:
+            self.logger.error(f"❌ Error in news orchestration: {str(e)}")
+            return {
+                "error": str(e),
+                "status": "error",
+                "bbc_news": None,
+                "tech_news": None
+            }</code></pre>
+            </div>
+
+            <div class="alert alert-info">
+                <span class="alert-icon">ℹ️</span>
+                <strong>Key Pattern:</strong> Notice how <code>asyncio.gather()</code> enables true parallel execution. Both agents start simultaneously and run independently.
+            </div>
+
+            <h3 class="section-subtitle">3. FastAPI Application</h3>
+            <p>The web server that exposes our orchestrator:</p>
+
+            <div class="code-block">
+                <pre><code># Initialize FastAPI app
+app = FastAPI(title="Multi-Agent News Orchestrator", version="1.0.0")
+
+# Serve static files (HTML, CSS, JS)
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+# Global orchestrator instance
+orchestrator = AgentOrchestrator()
+
+@app.get("/")
+async def read_root():
+    """Serve the main web interface"""
+    return FileResponse("static/index.html")
+
+@app.post("/api/fetch-news")
+async def fetch_news(request: Request):
+    """
+    Main API endpoint for fetching news from multiple sources
+    """
+    try:
+        # Get request data (optional query parameter)
+        body = await request.json() if request.headers.get("content-type") == "application/json" else {}
+        query = body.get("query", "latest news")
+        
+        # Orchestrate news fetching
+        result = await orchestrator.fetch_all_news(query)
+        
+        return JSONResponse(content=result)
+        
+    except Exception as e:
+        return JSONResponse(
+            content={"error": str(e), "status": "error"}, 
+            status_code=500
+        )
+
+@app.get("/health")
+async def health_check():
+    """Health check endpoint"""
+    return {"status": "healthy", "service": "multi-agent-orchestrator"}
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)</code></pre>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">🛠️ Understanding the Agent Tools</h2>
+            <p>Now let's examine the specialized agent tools that do the actual work.</p>
+
+            <h3 class="section-subtitle">Base Agent Architecture</h3>
+            <p>First, let's look at the abstract base class:</p>
+
+            <h3 class="code-block-header">Terminal Command</h3>
+            <div class="code-block">
+                <pre><code>code tools/base_agent.py</code></pre>
+            </div>
+
+            <div class="code-block">
+                <pre><code>from abc import ABC, abstractmethod
+from azure.ai.inference.aio import ChatCompletionsClient
+import asyncio
+import logging
+
+class BaseAgent(ABC):
+    """
+    Abstract base class for all specialized agents
+    """
+    
+    def __init__(self, client: ChatCompletionsClient, model: str, instructions: str):
+        self.client = client
+        self.model = model
+        self.instructions = instructions
+        self.logger = logging.getLogger(self.__class__.__name__)
+    
+    @abstractmethod
+    async def execute(self, query: str):
+        """
+        Each agent must implement its own execution logic
+        """
+        pass
+    
+    async def run_agent(self, query: str):
+        """
+        Main entry point for agent execution
+        """
+        try:
+            self.logger.info(f"🤖 {self.__class__.__name__} starting...")
+            result = await self.execute(query)
+            self.logger.info(f"✅ {self.__class__.__name__} completed")
+            return result
+        except Exception as e:
+            self.logger.error(f"❌ {self.__class__.__name__} failed: {str(e)}")
+            return {"error": str(e), "agent": self.__class__.__name__}</code></pre>
+            </div>
+
+            <h3 class="section-subtitle">BBC News Agent Implementation</h3>
+            <p>Let's examine the BBC news scraping agent:</p>
+
+            <h3 class="code-block-header">Terminal Command</h3>
+            <div class="code-block">
+                <pre><code>code tools/bbc_news_agent.py</code></pre>
+            </div>
+
+            <div class="code-block">
+                <pre><code>import aiohttp
+from bs4 import BeautifulSoup
+from typing import Dict, List, Any
+from .base_agent import BaseAgent
+
+class BBCNewsAgent(BaseAgent):
+    """
+    Specialized agent for fetching BBC news headlines
+    """
+    
+    async def execute(self, query: str) -> Dict[str, Any]:
+        """
+        Scrape BBC news and format results using Azure OpenAI
+        """
+        try:
+            # Step 1: Scrape BBC website
+            raw_articles = await self._scrape_bbc_news()
+            
+            if not raw_articles:
+                return {"articles": [], "source": "BBC", "error": "No articles found"}
+            
+            # Step 2: Process with Azure OpenAI
+            formatted_news = await self._process_with_ai(raw_articles, query)
+            
+            return {
+                "articles": formatted_news,
+                "source": "BBC",
+                "count": len(formatted_news)
+            }
+            
+        except Exception as e:
+            self.logger.error(f"Error in BBC agent: {str(e)}")
+            return {"articles": [], "source": "BBC", "error": str(e)}
+    
+    async def _scrape_bbc_news(self) -> List[Dict[str, str]]:
+        """
+        Scrape BBC homepage for news headlines
+        """
+        url = "https://www.bbc.com/news"
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        }
+        
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.get(url, headers=headers, timeout=10) as response:
+                    html = await response.text()
+            
+            soup = BeautifulSoup(html, 'lxml')
+            articles = []
+            
+            # Find news headlines (BBC's current HTML structure)
+            for headline in soup.find_all(['h2', 'h3'], class_=lambda x: x and 'gs-c-promo-heading__title' in x):
+                title = headline.get_text().strip()
+                link_elem = headline.find('a')
+                link = f"https://www.bbc.com{link_elem['href']}" if link_elem and link_elem.get('href') else ""
+                
+                if title and len(title) > 10:  # Filter out short/empty titles
+                    articles.append({
+                        "title": title,
+                        "url": link,
+                        "summary": ""  # Will be enhanced by AI
+                    })
+            
+            self.logger.info(f"Scraped {len(articles)} articles from BBC")
+            return articles[:10]  # Limit to top 10 articles
+            
+        except Exception as e:
+            self.logger.error(f"Error scraping BBC: {str(e)}")
+            return []
+    
+    async def _process_with_ai(self, articles: List[Dict], query: str) -> List[Dict]:
+        """
+        Use Azure OpenAI to enhance and format news articles
+        """
+        try:
+            # Prepare data for AI processing
+            articles_text = "\n".join([f"- {article['title']}" for article in articles])
+            
+            prompt = f"""
+            {self.instructions}
+            
+            Here are the latest BBC headlines:
+            {articles_text}
+            
+            Please format these as engaging news summaries. For each article:
+            1. Keep the original title
+            2. Add a brief, compelling summary (2-3 sentences)
+            3. Focus on the most important/interesting aspects
+            
+            Query context: {query}
+            
+            Return as JSON array with title, summary, and url fields.
+            """
+            
+            # Call Azure OpenAI
+            response = await self.client.complete(
+                model=self.model,
+                messages=[{"role": "user", "content": prompt}]
+            )
+            
+            # Parse AI response and combine with original URLs
+            ai_articles = self._parse_ai_response(response.choices[0].message.content)
+            
+            # Merge with original URLs
+            for i, article in enumerate(ai_articles[:len(articles)]):
+                if i < len(articles):
+                    article["url"] = articles[i]["url"]
+            
+            return ai_articles
+            
+        except Exception as e:
+            self.logger.error(f"Error processing with AI: {str(e)}")
+            # Fallback to original articles
+            return articles</code></pre>
+            </div>
+
+            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h4 style="margin-bottom: 15px;">🔍 BBC Agent Flow:</h4>
+                <ol style="margin-left: 20px; font-size: 0.95rem; line-height: 1.8;">
+                    <li><strong>Web Scraping:</strong> Uses aiohttp to fetch BBC's homepage asynchronously</li>
+                    <li><strong>HTML Parsing:</strong> BeautifulSoup extracts headlines from specific CSS classes</li>
+                    <li><strong>AI Enhancement:</strong> Azure OpenAI adds compelling summaries to raw headlines</li>
+                    <li><strong>Data Structuring:</strong> Returns consistent JSON format with title, summary, URL</li>
+                </ol>
+            </div>
+
+            <h3 class="section-subtitle">TechCrunch Agent (Similar Pattern)</h3>
+            <p>The TechCrunch agent follows the same pattern but targets tech news:</p>
+
+            <div class="code-block">
+                <pre><code>class TechCrunchAgent(BaseAgent):
+    """
+    Specialized agent for fetching TechCrunch technology news
+    """
+    
+    async def _scrape_techcrunch_news(self) -> List[Dict[str, str]]:
+        """
+        Scrape TechCrunch homepage for tech headlines
+        """
+        url = "https://techcrunch.com/"
+        # Similar scraping logic but tailored for TechCrunch's HTML structure
+        # Looks for different CSS selectors specific to TechCrunch</code></pre>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">🌐 Frontend Integration</h2>
+            <p>Let's examine how the web interface communicates with our FastAPI backend.</p>
+
+            <h3 class="section-subtitle">JavaScript API Communication</h3>
+            <h3 class="code-block-header">Terminal Command</h3>
+            <div class="code-block">
+                <pre><code>code static/script.js</code></pre>
+            </div>
+
+            <div class="code-block">
+                <pre><code>// Main function to fetch news from our multi-agent API
+async function fetchNews() {
+    const loadingIndicator = document.getElementById('loading');
+    const newsContainer = document.getElementById('news-container');
+    const fetchButton = document.getElementById('fetch-news-btn');
+    
+    // Show loading state
+    loadingIndicator.style.display = 'block';
+    fetchButton.disabled = true;
+    fetchButton.textContent = 'Fetching News...';
+    newsContainer.innerHTML = '';
+    
+    try {
+        // Call our FastAPI endpoint
+        const response = await fetch('/api/fetch-news', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                query: 'latest news'
+            })
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        // Handle successful response
+        if (data.status === 'success') {
+            displayNews(data);
+        } else {
+            displayError(data.error || 'Unknown error occurred');
+        }
+        
+    } catch (error) {
+        console.error('Error fetching news:', error);
+        displayError('Failed to fetch news. Please try again.');
+    } finally {
+        // Reset button state
+        loadingIndicator.style.display = 'none';
+        fetchButton.disabled = false;
+        fetchButton.textContent = 'Fetch Latest News';
+    }
+}
+
+// Display news from both agents
+function displayNews(data) {
+    const newsContainer = document.getElementById('news-container');
+    
+    // Create sections for BBC and TechCrunch news
+    if (data.bbc_news && data.bbc_news.articles) {
+        createNewsSection('BBC News', data.bbc_news.articles, '#1d8102');
+    }
+    
+    if (data.tech_news && data.tech_news.articles) {
+        createNewsSection('Technology News', data.tech_news.articles, '#ff9900');
+    }
+}
+
+function createNewsSection(title, articles, color) {
+    const newsContainer = document.getElementById('news-container');
+    
+    const section = document.createElement('div');
+    section.className = 'news-section';
+    
+    const sectionTitle = document.createElement('h2');
+    sectionTitle.textContent = title;
+    sectionTitle.style.color = color;
+    section.appendChild(sectionTitle);
+    
+    articles.forEach(article => {
+        const articleCard = document.createElement('div');
+        articleCard.className = 'news-card';
+        articleCard.innerHTML = `
+            <h3><a href="${article.url}" target="_blank">${article.title}</a></h3>
+            <p>${article.summary || 'No summary available'}</p>
+        `;
+        section.appendChild(articleCard);
+    });
+    
+    newsContainer.appendChild(section);
+}</code></pre>
+            </div>
+
+            <div class="alert alert-info">
+                <span class="alert-icon">ℹ️</span>
+                <strong>Frontend Flow:</strong> The UI sends POST requests to <code>/api/fetch-news</code>, receives JSON with both BBC and TechCrunch results, then dynamically renders news cards for each source.
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">🔄 Execution Flow Summary</h2>
+            <p>Here's how everything works together when a user clicks "Fetch News":</p>
+
+            <div style="background: #f9f9f9; padding: 30px; border-radius: 12px; margin: 20px 0;">
+                <div style="display: flex; flex-direction: column; gap: 15px;">
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <div style="background: #667eea; color: white; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: bold;">1</div>
+                        <div>
+                            <strong>User clicks "Fetch News"</strong><br>
+                            <span style="font-size: 0.9rem; color: #666;">JavaScript sends POST request to /api/fetch-news</span>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <div style="background: #ff9900; color: white; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: bold;">2</div>
+                        <div>
+                            <strong>FastAPI receives request</strong><br>
+                            <span style="font-size: 0.9rem; color: #666;">AgentOrchestrator.fetch_all_news() is called</span>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <div style="background: #1d8102; color: white; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: bold;">3</div>
+                        <div>
+                            <strong>Fan-Out: Agents dispatched</strong><br>
+                            <span style="font-size: 0.9rem; color: #666;">BBC and TechCrunch agents start concurrently via asyncio.gather()</span>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <div style="background: #d13212; color: white; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: bold;">4</div>
+                        <div>
+                            <strong>Parallel web scraping</strong><br>
+                            <span style="font-size: 0.9rem; color: #666;">Both agents scrape their respective websites simultaneously</span>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <div style="background: #0078d4; color: white; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: bold;">5</div>
+                        <div>
+                            <strong>AI processing</strong><br>
+                            <span style="font-size: 0.9rem; color: #666;">Azure OpenAI enhances headlines with summaries</span>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <div style="background: #6f42c1; color: white; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: bold;">6</div>
+                        <div>
+                            <strong>Fan-In: Results aggregated</strong><br>
+                            <span style="font-size: 0.9rem; color: #666;">Orchestrator combines both agents' results into single response</span>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <div style="background: #198754; color: white; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; font-weight: bold;">7</div>
+                        <div>
+                            <strong>UI updates</strong><br>
+                            <span style="font-size: 0.9rem; color: #666;">JavaScript renders news cards for both BBC and TechCrunch</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert alert-success">
+                <span class="alert-icon">✅</span>
+                <strong>Performance Benefit:</strong> Thanks to the Fan-Out/Fan-In pattern, steps 3-5 happen in parallel, making the system approximately 2x faster than sequential execution.
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">🎯 Key Takeaways</h2>
+            <p>Now you understand the core implementation patterns:</p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 20px 0;">
+                <div style="padding: 20px; background: #e9f5e9; border-radius: 8px; border-left: 4px solid #1d8102;">
+                    <h4>🏗️ Modular Architecture</h4>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Base agent class ensures consistent interfaces, while specialized agents handle specific data sources.</p>
+                </div>
+                <div style="padding: 20px; background: #e7f2fa; border-radius: 8px; border-left: 4px solid #146eb4;">
+                    <h4>⚡ Async/Concurrent</h4>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">asyncio.gather() enables true parallel execution of multiple agents, improving performance significantly.</p>
+                </div>
+                <div style="padding: 20px; background: #fff3cd; border-radius: 8px; border-left: 4px solid #ff9900;">
+                    <h4>🤖 AI-Enhanced</h4>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Azure OpenAI transforms raw scraped data into engaging, summarized content.</p>
+                </div>
+                <div style="padding: 20px; background: #f8d7da; border-radius: 8px; border-left: 4px solid #d13212;">
+                    <h4>🌐 Web-Native</h4>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">FastAPI provides modern REST API with automatic documentation and async support.</p>
+                </div>
+            </div>
+
+            <p>In the next module, we'll run the application and see all these components working together in real-time.</p>
+        </section>
+
+        <div class="page-navigation">
+            <a href="advanced-setup.html" class="nav-button secondary">← Environment Setup</a>
+            <a href="advanced-running.html" class="nav-button">Next: Running the App →</a>
+        </div>
+    </main>
+</body>
+</html>

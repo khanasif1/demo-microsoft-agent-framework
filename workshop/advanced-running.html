@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Running the App - Microsoft Agent Framework Workshop</title>
+    <link rel="stylesheet" href="assets/styles.css">
+    <script src="assets/copy-code.js" defer></script>
+    <script src="assets/menu.js" defer></script>
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <h1>🤖 Microsoft Agent Framework</h1>
+            <p>Hands-on Workshop</p>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="index.html" class="nav-link">Introduction</a></li>
+            
+            <!-- Beginners Section -->
+            <li class="nav-section">
+                <div class="nav-section-header" data-section="beginners">👨‍🎓 BEGINNERS</div>
+                <ul class="nav-section-content collapsed">
+                    <li class="nav-item"><a href="beginner-start.html" class="nav-link"><span class="step-number">★</span>Getting Started</a></li>
+                    <li class="nav-item"><a href="environment-setup.html" class="nav-link"><span class="step-number">1</span>Codespaces Setup</a></li>
+                    <li class="nav-item"><a href="azure-setup.html" class="nav-link"><span class="step-number">2</span>Azure OpenAI Setup</a></li>
+                    <li class="nav-item"><a href="code-walkthrough.html" class="nav-link"><span class="step-number">3</span>Code Walkthrough</a></li>
+                    <li class="nav-item"><a href="running-app.html" class="nav-link"><span class="step-number">4</span>Running the Agent</a></li>
+                    <li class="nav-item"><a href="troubleshooting.html" class="nav-link"><span class="step-number">5</span>Troubleshooting</a></li>
+                </ul>
+            </li>
+
+            <!-- Advanced Section -->
+            <li class="nav-section">
+                <div class="nav-section-header" data-section="advanced">🚀 ADVANCED</div>
+                <ul class="nav-section-content">
+                    <li class="nav-item"><a href="advanced-start.html" class="nav-link"><span class="step-number">★</span>Getting Started</a></li>
+                    <li class="nav-item"><a href="advanced-architecture.html" class="nav-link"><span class="step-number">1</span>Architecture Overview</a></li>
+                    <li class="nav-item"><a href="advanced-setup.html" class="nav-link"><span class="step-number">2</span>Environment Setup</a></li>
+                    <li class="nav-item"><a href="advanced-walkthrough.html" class="nav-link"><span class="step-number">3</span>Code Deep Dive</a></li>
+                    <li class="nav-item"><a href="advanced-running.html" class="nav-link active"><span class="step-number">4</span>Running the App</a></li>
+                    <li class="nav-item"><a href="advanced-troubleshooting.html" class="nav-link"><span class="step-number">5</span>Troubleshooting</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Module 4: Running the App</h1>
+            <p class="page-subtitle">Launch the multi-agent orchestrator and explore its capabilities</p>
+            <span class="duration-badge">⏱️ Duration: 15 minutes</span>
+        </div>
+
+        <section class="content-section">
+            <h2 class="section-title">🚀 Starting the FastAPI Server</h2>
+            <p>Let's launch the multi-agent orchestrator and see it in action!</p>
+
+            <h3 class="section-subtitle">Method 1: Direct Python Execution</h3>
+            <h3 class="code-block-header">Terminal Command</h3>
+            <div class="code-block">
+                <pre><code>python agentApp.py</code></pre>
+            </div>
+
+            <h3 class="section-subtitle">Method 2: Using Uvicorn (Recommended)</h3>
+            <h3 class="code-block-header">Terminal Command</h3>
+            <div class="code-block">
+                <pre><code>uvicorn agentApp:app --host 0.0.0.0 --port 8000 --reload</code></pre>
+            </div>
+
+            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h4 style="margin-bottom: 15px;">🔍 Uvicorn Options Explained:</h4>
+                <ul style="margin-left: 20px; font-size: 0.95rem; line-height: 1.8;">
+                    <li><strong>--host 0.0.0.0:</strong> Makes server accessible from any IP (important for Codespaces)</li>
+                    <li><strong>--port 8000:</strong> Runs on port 8000 (default for our app)</li>
+                    <li><strong>--reload:</strong> Automatically restarts server when code changes (development mode)</li>
+                </ul>
+            </div>
+
+            <p>You should see output similar to this:</p>
+            <div class="code-block">
+                <pre><code>INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [12345] using statreload
+INFO:     Started server process [12346]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.</code></pre>
+            </div>
+
+            <div class="alert alert-success">
+                <span class="alert-icon">✅</span>
+                <strong>Success!</strong> Your FastAPI server is now running and ready to orchestrate multiple agents.
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">🌐 Accessing the Web Interface</h2>
+            <p>Now let's access the web dashboard that will trigger our multi-agent system.</p>
+
+            <h3 class="section-subtitle">In GitHub Codespaces</h3>
+            <p>Codespaces automatically detects the running server and provides port forwarding:</p>
+
+            <div class="steps-list">
+                <li>
+                    <strong>Port Forwarding Notification</strong><br>
+                    VS Code will show a notification: "Your application running on port 8000 is available"
+                </li>
+                <li>
+                    <strong>Click "Open in Browser"</strong><br>
+                    This opens the web interface in a new tab
+                </li>
+                <li>
+                    <strong>Alternative: Ports Tab</strong><br>
+                    In VS Code, click the "Ports" tab → Right-click port 8000 → "Open in Browser"
+                </li>
+            </div>
+
+            <h3 class="section-subtitle">Local Development</h3>
+            <p>If running locally, open your browser to:</p>
+            <div class="code-block">
+                <pre><code>http://localhost:8000</code></pre>
+            </div>
+
+            <div class="alert alert-info">
+                <span class="alert-icon">ℹ️</span>
+                <strong>Expected Result:</strong> You should see a modern news dashboard with a "Fetch Latest News" button and sections for BBC News and Technology News.
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">🎯 Testing the Multi-Agent System</h2>
+            <p>Now let's trigger the orchestrator and watch the Fan-Out/Fan-In pattern in action!</p>
+
+            <h3 class="section-subtitle">Step 1: Click "Fetch Latest News"</h3>
+            <p>In the web interface, click the prominent blue button. You should see:</p>
+            <ul style="margin-left: 20px; line-height: 1.8;">
+                <li>Button changes to "Fetching News..." with a loading spinner</li>
+                <li>Console logs start appearing in your terminal</li>
+                <li>After 5-10 seconds, news cards populate the dashboard</li>
+            </ul>
+
+            <h3 class="section-subtitle">Step 2: Watch the Terminal Logs</h3>
+            <p>In your terminal where the server is running, you'll see detailed orchestration logs:</p>
+
+            <div class="code-block">
+                <pre><code>INFO:AgentOrchestrator:🚀 Starting news orchestration for query: latest news
+INFO:AgentOrchestrator:📤 Fan-Out: Dispatching agents concurrently...
+INFO:BBCNewsAgent:🤖 BBCNewsAgent starting...
+INFO:TechCrunchAgent:🤖 TechCrunchAgent starting...
+INFO:BBCNewsAgent:Scraped 10 articles from BBC
+INFO:TechCrunchAgent:Scraped 8 articles from TechCrunch
+INFO:BBCNewsAgent:✅ BBCNewsAgent completed
+INFO:TechCrunchAgent:✅ TechCrunchAgent completed
+INFO:AgentOrchestrator:📥 Fan-In: Aggregating results...
+INFO:AgentOrchestrator:✅ News orchestration completed successfully</code></pre>
+            </div>
+
+            <div style="background: #e9f5e9; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h4 style="margin-bottom: 15px;">🔍 What You're Observing:</h4>
+                <ol style="margin-left: 20px; font-size: 0.95rem; line-height: 1.8;">
+                    <li><strong>Fan-Out:</strong> Both agents start simultaneously (notice they start at nearly the same time)</li>
+                    <li><strong>Parallel Execution:</strong> BBC and TechCrunch agents work independently</li>
+                    <li><strong>Web Scraping:</strong> Each agent fetches and parses HTML from its respective site</li>
+                    <li><strong>AI Enhancement:</strong> Azure OpenAI processes raw headlines into engaging summaries</li>
+                    <li><strong>Fan-In:</strong> Orchestrator combines results from both agents</li>
+                </ol>
+            </div>
+
+            <h3 class="section-subtitle">Step 3: Explore the Results</h3>
+            <p>The web interface now displays two sections:</p>
+            <ul style="margin-left: 20px; line-height: 1.8;">
+                <li><strong>BBC News:</strong> Global headlines with AI-generated summaries</li>
+                <li><strong>Technology News:</strong> Tech-focused articles from TechCrunch</li>
+                <li><strong>Clickable Links:</strong> Each headline links to the original article</li>
+            </ul>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">📊 Exploring the API Directly</h2>
+            <p>FastAPI automatically generates interactive API documentation. Let's explore it!</p>
+
+            <h3 class="section-subtitle">Access Swagger UI</h3>
+            <p>Open a new browser tab and navigate to:</p>
+            <div class="code-block">
+                <pre><code>http://your-codespace-url:8000/docs</code></pre>
+            </div>
+
+            <p>Or locally:</p>
+            <div class="code-block">
+                <pre><code>http://localhost:8000/docs</code></pre>
+            </div>
+
+            <h3 class="section-subtitle">Test the API Endpoints</h3>
+            <p>In the Swagger UI, you'll see three endpoints:</p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+                <div style="padding: 20px; background: #e9f5e9; border-radius: 8px; border-left: 4px solid #1d8102;">
+                    <h4>GET /</h4>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Serves the main web interface HTML</p>
+                </div>
+                <div style="padding: 20px; background: #fff3cd; border-radius: 8px; border-left: 4px solid #ff9900;">
+                    <h4>POST /api/fetch-news</h4>
+                    <p style="font-size: 0.9rem; margin-top: 10px;"><strong>Main endpoint:</strong> Triggers multi-agent orchestration</p>
+                </div>
+                <div style="padding: 20px; background: #e7f2fa; border-radius: 8px; border-left: 4px solid #146eb4;">
+                    <h4>GET /health</h4>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Simple health check for monitoring</p>
+                </div>
+            </div>
+
+            <p><strong>Try it:</strong> Click on <code>POST /api/fetch-news</code> → "Try it out" → "Execute"</p>
+            <p>You'll see the raw JSON response from the orchestrator!</p>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">⚡ Performance Analysis</h2>
+            <p>Let's measure the performance benefits of the Fan-Out/Fan-In pattern.</p>
+
+            <h3 class="section-subtitle">Timing the Orchestration</h3>
+            <p>Look at the timestamps in your terminal logs or add timing to see the performance benefit:</p>
+
+            <h3 class="code-block-header">Terminal Command</h3>
+            <div class="code-block">
+                <pre><code>curl -w "Total time: %{time_total}s\n" \
+     -X POST \
+     -H "Content-Type: application/json" \
+     -d '{"query": "latest news"}' \
+     http://localhost:8000/api/fetch-news</code></pre>
+            </div>
+
+            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h4 style="margin-bottom: 15px;">📈 Typical Performance:</h4>
+                <ul style="margin-left: 20px; font-size: 0.95rem; line-height: 1.8;">
+                    <li><strong>Sequential execution:</strong> ~12-15 seconds (if agents ran one after another)</li>
+                    <li><strong>Parallel execution (Fan-Out/Fan-In):</strong> ~6-8 seconds</li>
+                    <li><strong>Performance gain:</strong> ~50% faster execution time</li>
+                    <li><strong>Scale benefit:</strong> Adding more agents doesn't proportionally increase time</li>
+                </ul>
+            </div>
+
+            <div class="alert alert-success">
+                <span class="alert-icon">🚀</span>
+                <strong>Concurrency Win:</strong> The Fan-Out/Fan-In pattern provides significant performance improvements as the system scales to more agents!
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">🔍 Understanding the Live System</h2>
+            <p>Now that it's running, let's understand what makes this system production-ready:</p>
+
+            <h3 class="section-subtitle">1. Scalability Features</h3>
+            <ul style="margin-left: 20px; line-height: 2;">
+                <li>🚀 <strong>Async/Await:</strong> Non-blocking I/O allows handling many concurrent requests</li>
+                <li>⚡ <strong>Concurrent Agents:</strong> Adding more agents doesn't linearly increase execution time</li>
+                <li>🏗️ <strong>Modular Architecture:</strong> Easy to add new news sources or data types</li>
+                <li>📊 <strong>FastAPI:</strong> High-performance web framework with automatic validation</li>
+            </ul>
+
+            <h3 class="section-subtitle">2. Reliability Features</h3>
+            <ul style="margin-left: 20px; line-height: 2;">
+                <li>🛡️ <strong>Error Handling:</strong> Individual agent failures don't crash the system</li>
+                <li>📝 <strong>Comprehensive Logging:</strong> Detailed logs for debugging and monitoring</li>
+                <li>🔄 <strong>Graceful Degradation:</strong> System returns partial results if some agents fail</li>
+                <li>⚖️ <strong>Timeout Protection:</strong> HTTP requests have timeouts to prevent hanging</li>
+            </ul>
+
+            <h3 class="section-subtitle">3. Developer Experience</h3>
+            <ul style="margin-left: 20px; line-height: 2;">
+                <li>📚 <strong>Auto-Generated Docs:</strong> Swagger UI at <code>/docs</code></li>
+                <li>🔄 <strong>Hot Reload:</strong> Changes are reflected immediately in development</li>
+                <li>🎯 <strong>Type Safety:</strong> Pydantic models ensure data validation</li>
+                <li>🧪 <strong>Easy Testing:</strong> Each agent and endpoint can be tested independently</li>
+            </ul>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">🎯 Experiment and Explore</h2>
+            <p>Now that the system is running, try these experiments:</p>
+
+            <div class="steps-list">
+                <li>
+                    <strong>Multiple Requests</strong><br>
+                    Click "Fetch Latest News" multiple times to see how the system handles concurrent requests
+                </li>
+                <li>
+                    <strong>Browser Developer Tools</strong><br>
+                    Open browser DevTools → Network tab to see the API calls and response times
+                </li>
+                <li>
+                    <strong>API Testing</strong><br>
+                    Use the Swagger UI at <code>/docs</code> to test different query parameters
+                </li>
+                <li>
+                    <strong>Log Analysis</strong><br>
+                    Watch the terminal logs to understand the orchestration flow
+                </li>
+                <li>
+                    <strong>Health Monitoring</strong><br>
+                    Check the <code>/health</code> endpoint to verify system status
+                </li>
+            </div>
+
+            <div class="alert alert-info">
+                <span class="alert-icon">💡</span>
+                <strong>Pro Tip:</strong> Leave the server running and open multiple browser tabs to test concurrent request handling!
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">🎉 What You've Accomplished</h2>
+            <p>Congratulations! You now have a fully functioning multi-agent orchestrator system:</p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 20px 0;">
+                <div style="padding: 20px; background: #e9f5e9; border-radius: 8px; border-left: 4px solid #1d8102;">
+                    <h4>🏗️ Production-Ready API</h4>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">FastAPI server with automatic documentation, validation, and error handling</p>
+                </div>
+                <div style="padding: 20px; background: #e7f2fa; border-radius: 8px; border-left: 4px solid #146eb4;">
+                    <h4>🤖 Multi-Agent System</h4>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Concurrent orchestration of specialized agents using Fan-Out/Fan-In pattern</p>
+                </div>
+                <div style="padding: 20px; background: #fff3cd; border-radius: 8px; border-left: 4px solid #ff9900;">
+                    <h4>🌐 Modern Web Interface</h4>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Responsive dashboard that dynamically displays results from multiple sources</p>
+                </div>
+                <div style="padding: 20px; background: #f8d7da; border-radius: 8px; border-left: 4px solid #d13212;">
+                    <h4>⚡ High Performance</h4>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Parallel execution provides ~50% performance improvement over sequential processing</p>
+                </div>
+            </div>
+
+            <p>This system demonstrates enterprise-grade patterns that can be applied to many different multi-agent scenarios!</p>
+        </section>
+
+        <div class="page-navigation">
+            <a href="advanced-walkthrough.html" class="nav-button secondary">← Code Deep Dive</a>
+            <a href="advanced-troubleshooting.html" class="nav-button">Next: Troubleshooting →</a>
+        </div>
+    </main>
+</body>
+</html>

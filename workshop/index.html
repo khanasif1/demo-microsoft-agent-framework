@@ -5,50 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Microsoft Agent Framework Workshop - Getting Started</title>
     <link rel="stylesheet" href="assets/styles.css">
+    <script src="assets/menu.js" defer></script>
 </head>
 <body>
     <!-- Sidebar Navigation -->
     <nav class="sidebar">
         <div class="sidebar-header">
-            <h1>🤖 Agent Framework</h1>
+            <h1>🤖 Microsoft Agent Framework</h1>
             <p>Hands-on Workshop</p>
         </div>
         <ul class="nav-menu">
-            <li class="nav-item">
-                <a href="index.html" class="nav-link active">
-                    <span class="step-number">0</span>
-                    Introduction
-                </a>
+            <li class="nav-item"><a href="index.html" class="nav-link active">Introduction</a></li>
+            
+            <!-- Beginners Section -->
+            <li class="nav-section">
+                <div class="nav-section-header" data-section="beginners">👨‍🎓 BEGINNERS</div>
+                <ul class="nav-section-content">
+                    <li class="nav-item"><a href="beginner-start.html" class="nav-link"><span class="step-number">★</span>Getting Started</a></li>
+                    <li class="nav-item"><a href="environment-setup.html" class="nav-link"><span class="step-number">1</span>Codespaces Setup</a></li>
+                    <li class="nav-item"><a href="azure-setup.html" class="nav-link"><span class="step-number">2</span>Azure OpenAI Setup</a></li>
+                    <li class="nav-item"><a href="code-walkthrough.html" class="nav-link"><span class="step-number">3</span>Code Walkthrough</a></li>
+                    <li class="nav-item"><a href="running-app.html" class="nav-link"><span class="step-number">4</span>Running the Agent</a></li>
+                    <li class="nav-item"><a href="troubleshooting.html" class="nav-link"><span class="step-number">5</span>Troubleshooting</a></li>
+                </ul>
             </li>
-            <li class="nav-item">
-                <a href="environment-setup.html" class="nav-link">
-                    <span class="step-number">1</span>
-                    Codespaces Setup
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="azure-setup.html" class="nav-link">
-                    <span class="step-number">2</span>
-                    Azure OpenAI Setup
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="code-walkthrough.html" class="nav-link">
-                    <span class="step-number">3</span>
-                    Code Walkthrough
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="running-app.html" class="nav-link">
-                    <span class="step-number">4</span>
-                    Running the Agent
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="troubleshooting.html" class="nav-link">
-                    <span class="step-number">5</span>
-                    Troubleshooting
-                </a>
+
+            <!-- Advanced Section -->
+            <li class="nav-section">
+                <div class="nav-section-header" data-section="advanced">🚀 ADVANCED</div>
+                <ul class="nav-section-content">
+                    <li class="nav-item"><a href="advanced-start.html" class="nav-link"><span class="step-number">★</span>Getting Started</a></li>
+                    <li class="nav-item"><a href="advanced-architecture.html" class="nav-link"><span class="step-number">1</span>Architecture Overview</a></li>
+                    <li class="nav-item"><a href="advanced-setup.html" class="nav-link"><span class="step-number">2</span>Environment Setup</a></li>
+                    <li class="nav-item"><a href="advanced-walkthrough.html" class="nav-link"><span class="step-number">3</span>Code Deep Dive</a></li>
+                    <li class="nav-item"><a href="advanced-running.html" class="nav-link"><span class="step-number">4</span>Running the App</a></li>
+                    <li class="nav-item"><a href="advanced-troubleshooting.html" class="nav-link"><span class="step-number">5</span>Troubleshooting</a></li>
+                </ul>
             </li>
         </ul>
     </nav>
@@ -57,25 +49,42 @@
     <main class="main-content">
         <div class="page-header">
             <h1 class="page-title">Welcome to Microsoft Agent Framework Workshop</h1>
-            <p class="page-subtitle">Build Your First AI Agent with Azure AI</p>
-            <span class="duration-badge">⏱️ Duration: 45-60 minutes</span>
+            <p class="page-subtitle">Build Intelligent AI Agents with Azure OpenAI</p>
+            <span class="duration-badge">⏱️ Duration: Beginner (30-45 min) | Advanced (60-90 min)</span>
         </div>
 
         <!-- Workshop Overview -->
         <section class="content-section">
             <h2 class="section-title">📋 Workshop Overview</h2>
             <p>
-                Welcome! In this hands-on workshop, you'll learn how to build intelligent AI agents using 
-                Microsoft Agent Framework and Azure AI services. By the end of this workshop, you'll have 
-                a working AI agent that can understand natural language queries and execute functions.
+                Welcome! This hands-on workshop teaches you how to build intelligent AI agents using 
+                Microsoft Agent Framework and Azure OpenAI. Choose your learning path based on your experience level:
             </p>
 
-            <div class="alert alert-info">
-                <span class="alert-icon">💡</span>
-                <strong>What You'll Build:</strong> A weather agent that uses Azure OpenAI to understand user 
-                queries and respond with weather information using function calling capabilities. You'll use 
-                <strong>GitHub Codespaces</strong> for zero-setup development and <strong>API Key authentication</strong> 
-                for simple Azure OpenAI access.
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 20px 0;">
+                <div style="padding: 25px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 12px;">
+                    <h3 style="margin-bottom: 15px;">👨‍🎓 Beginner Track</h3>
+                    <p style="font-size: 0.95rem; margin-bottom: 15px;">Perfect for getting started with AI agents. Build a simple weather agent that uses function calling.</p>
+                    <ul style="font-size: 0.9rem; line-height: 1.8;">
+                        <li>✅ Single agent with custom functions</li>
+                        <li>✅ GitHub Codespaces setup</li>
+                        <li>✅ API Key authentication</li>
+                        <li>✅ Real-time streaming responses</li>
+                    </ul>
+                    <a href="beginner-start.html" style="display: inline-block; margin-top: 15px; padding: 10px 20px; background: white; color: #667eea; border-radius: 6px; text-decoration: none; font-weight: 600;">Start Beginner Track →</a>
+                </div>
+                
+                <div style="padding: 25px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; border-radius: 12px;">
+                    <h3 style="margin-bottom: 15px;">🚀 Advanced Track</h3>
+                    <p style="font-size: 0.95rem; margin-bottom: 15px;">Build a production-ready multi-agent orchestrator with concurrent execution and web UI.</p>
+                    <ul style="font-size: 0.9rem; line-height: 1.8;">
+                        <li>✅ Multi-agent orchestration</li>
+                        <li>✅ Fan-Out/Fan-In pattern</li>
+                        <li>✅ FastAPI backend + Web UI</li>
+                        <li>✅ Custom tools & web scraping</li>
+                    </ul>
+                    <a href="advanced-start.html" style="display: inline-block; margin-top: 15px; padding: 10px 20px; background: white; color: #f5576c; border-radius: 6px; text-decoration: none; font-weight: 600;">Start Advanced Track →</a>
+                </div>
             </div>
         </section>
 
@@ -159,33 +168,69 @@
         <!-- Workshop Structure -->
         <section class="content-section">
             <h2 class="section-title">🗺️ Workshop Structure</h2>
-            <p>This workshop is divided into progressive modules, each building on the previous one:</p>
+            <p>Both tracks follow a structured learning path with hands-on modules:</p>
 
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px;">
-                <div style="padding: 20px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); color: white; border-radius: 8px;">
-                    <h3 style="margin-bottom: 10px;">🚀 Module 1</h3>
-                    <strong>GitHub Codespaces Setup</strong>
-                    <p style="font-size: 0.9rem; margin-top: 10px;">Launch pre-configured cloud development environment - zero installation!</p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 30px; margin-top: 30px;">
+                <!-- Beginner Track Modules -->
+                <div>
+                    <h3 style="color: #667eea; margin-bottom: 20px;">👨‍🎓 Beginner Track Modules</h3>
+                    <div style="display: flex; flex-direction: column; gap: 15px;">
+                        <div style="padding: 15px; background: var(--bg-secondary); border-radius: 8px; border-left: 4px solid #667eea;">
+                            <strong>★ Getting Started</strong>
+                            <p style="font-size: 0.9rem; margin-top: 5px; color: var(--text-light);">Solution overview & architecture</p>
+                        </div>
+                        <div style="padding: 15px; background: var(--bg-secondary); border-radius: 8px; border-left: 4px solid #667eea;">
+                            <strong>Module 1:</strong> Codespaces Setup
+                            <p style="font-size: 0.9rem; margin-top: 5px; color: var(--text-light);">Launch cloud environment</p>
+                        </div>
+                        <div style="padding: 15px; background: var(--bg-secondary); border-radius: 8px; border-left: 4px solid #667eea;">
+                            <strong>Module 2:</strong> Azure OpenAI Setup
+                            <p style="font-size: 0.9rem; margin-top: 5px; color: var(--text-light);">Get API keys</p>
+                        </div>
+                        <div style="padding: 15px; background: var(--bg-secondary); border-radius: 8px; border-left: 4px solid #667eea;">
+                            <strong>Module 3:</strong> Code Walkthrough
+                            <p style="font-size: 0.9rem; margin-top: 5px; color: var(--text-light);">Understand the code</p>
+                        </div>
+                        <div style="padding: 15px; background: var(--bg-secondary); border-radius: 8px; border-left: 4px solid #667eea;">
+                            <strong>Module 4:</strong> Running the Agent
+                            <p style="font-size: 0.9rem; margin-top: 5px; color: var(--text-light);">Execute and test</p>
+                        </div>
+                        <div style="padding: 15px; background: var(--bg-secondary); border-radius: 8px; border-left: 4px solid #667eea;">
+                            <strong>Module 5:</strong> Troubleshooting
+                            <p style="font-size: 0.9rem; margin-top: 5px; color: var(--text-light);">Debug common issues</p>
+                        </div>
+                    </div>
                 </div>
-                <div style="padding: 20px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); color: white; border-radius: 8px;">
-                    <h3 style="margin-bottom: 10px;">☁️ Module 2</h3>
-                    <strong>Azure OpenAI Setup</strong>
-                    <p style="font-size: 0.9rem; margin-top: 10px;">Get API Key from Azure Portal for authentication</p>
-                </div>
-                <div style="padding: 20px; background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); color: white; border-radius: 8px;">
-                    <h3 style="margin-bottom: 10px;">💻 Module 3</h3>
-                    <strong>Code Walkthrough</strong>
-                    <p style="font-size: 0.9rem; margin-top: 10px;">Understand the agent code structure</p>
-                </div>
-                <div style="padding: 20px; background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); color: white; border-radius: 8px;">
-                    <h3 style="margin-bottom: 10px;">🚀 Module 4</h3>
-                    <strong>Running the Agent</strong>
-                    <p style="font-size: 0.9rem; margin-top: 10px;">Execute and interact with your AI agent</p>
-                </div>
-                <div style="padding: 20px; background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); color: white; border-radius: 8px;">
-                    <h3 style="margin-bottom: 10px;">🔧 Module 5</h3>
-                    <strong>Troubleshooting</strong>
-                    <p style="font-size: 0.9rem; margin-top: 10px;">Common issues and solutions</p>
+
+                <!-- Advanced Track Modules -->
+                <div>
+                    <h3 style="color: #f5576c; margin-bottom: 20px;">🚀 Advanced Track Modules</h3>
+                    <div style="display: flex; flex-direction: column; gap: 15px;">
+                        <div style="padding: 15px; background: var(--bg-secondary); border-radius: 8px; border-left: 4px solid #f5576c;">
+                            <strong>★ Getting Started</strong>
+                            <p style="font-size: 0.9rem; margin-top: 5px; color: var(--text-light);">Multi-agent system overview</p>
+                        </div>
+                        <div style="padding: 15px; background: var(--bg-secondary); border-radius: 8px; border-left: 4px solid #f5576c;">
+                            <strong>Module 1:</strong> Architecture Overview
+                            <p style="font-size: 0.9rem; margin-top: 5px; color: var(--text-light);">System design & patterns</p>
+                        </div>
+                        <div style="padding: 15px; background: var(--bg-secondary); border-radius: 8px; border-left: 4px solid #f5576c;">
+                            <strong>Module 2:</strong> Environment Setup
+                            <p style="font-size: 0.9rem; margin-top: 5px; color: var(--text-light);">Codespaces + dependencies</p>
+                        </div>
+                        <div style="padding: 15px; background: var(--bg-secondary); border-radius: 8px; border-left: 4px solid #f5576c;">
+                            <strong>Module 3:</strong> Code Deep Dive
+                            <p style="font-size: 0.9rem; margin-top: 5px; color: var(--text-light);">Orchestrator, agents & tools</p>
+                        </div>
+                        <div style="padding: 15px; background: var(--bg-secondary); border-radius: 8px; border-left: 4px solid #f5576c;">
+                            <strong>Module 4:</strong> Running the App
+                            <p style="font-size: 0.9rem; margin-top: 5px; color: var(--text-light);">Launch FastAPI + Web UI</p>
+                        </div>
+                        <div style="padding: 15px; background: var(--bg-secondary); border-radius: 8px; border-left: 4px solid #f5576c;">
+                            <strong>Module 5:</strong> Troubleshooting
+                            <p style="font-size: 0.9rem; margin-top: 5px; color: var(--text-light);">Multi-agent debugging</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -256,9 +301,14 @@
             <div>
                 <!-- No previous page -->
             </div>
-            <a href="environment-setup.html" class="nav-button">
-                Next: Codespaces Setup →
-            </a>
+            <div style="display: flex; gap: 15px;">
+                <a href="beginner-start.html" class="nav-button">
+                    Start Beginner Track →
+                </a>
+                <a href="advanced-start.html" class="nav-button secondary">
+                    Start Advanced Track →
+                </a>
+            </div>
         </div>
     </main>
 </body>

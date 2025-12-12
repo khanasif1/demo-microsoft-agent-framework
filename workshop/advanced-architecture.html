@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architecture Overview - Microsoft Agent Framework Workshop</title>
+    <link rel="stylesheet" href="assets/styles.css">
+    <script src="assets/copy-code.js" defer></script>
+    <script src="assets/menu.js" defer></script>
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <h1>🤖 Microsoft Agent Framework</h1>
+            <p>Hands-on Workshop</p>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="index.html" class="nav-link">Introduction</a></li>
+            
+            <!-- Beginners Section -->
+            <li class="nav-section">
+                <div class="nav-section-header" data-section="beginners">👨‍🎓 BEGINNERS</div>
+                <ul class="nav-section-content collapsed">
+                    <li class="nav-item"><a href="beginner-start.html" class="nav-link"><span class="step-number">★</span>Getting Started</a></li>
+                    <li class="nav-item"><a href="environment-setup.html" class="nav-link"><span class="step-number">1</span>Codespaces Setup</a></li>
+                    <li class="nav-item"><a href="azure-setup.html" class="nav-link"><span class="step-number">2</span>Azure OpenAI Setup</a></li>
+                    <li class="nav-item"><a href="code-walkthrough.html" class="nav-link"><span class="step-number">3</span>Code Walkthrough</a></li>
+                    <li class="nav-item"><a href="running-app.html" class="nav-link"><span class="step-number">4</span>Running the Agent</a></li>
+                    <li class="nav-item"><a href="troubleshooting.html" class="nav-link"><span class="step-number">5</span>Troubleshooting</a></li>
+                </ul>
+            </li>
+
+            <!-- Advanced Section -->
+            <li class="nav-section">
+                <div class="nav-section-header" data-section="advanced">🚀 ADVANCED</div>
+                <ul class="nav-section-content">
+                    <li class="nav-item"><a href="advanced-start.html" class="nav-link"><span class="step-number">★</span>Getting Started</a></li>
+                    <li class="nav-item"><a href="advanced-architecture.html" class="nav-link active"><span class="step-number">1</span>Architecture Overview</a></li>
+                    <li class="nav-item"><a href="advanced-setup.html" class="nav-link"><span class="step-number">2</span>Environment Setup</a></li>
+                    <li class="nav-item"><a href="advanced-walkthrough.html" class="nav-link"><span class="step-number">3</span>Code Deep Dive</a></li>
+                    <li class="nav-item"><a href="advanced-running.html" class="nav-link"><span class="step-number">4</span>Running the App</a></li>
+                    <li class="nav-item"><a href="advanced-troubleshooting.html" class="nav-link"><span class="step-number">5</span>Troubleshooting</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Module 1: Architecture Overview</h1>
+            <p class="page-subtitle">Understanding the multi-agent orchestrator system design</p>
+            <span class="duration-badge">⏱️ Duration: 15 minutes</span>
+        </div>
+
+        <section class="content-section">
+            <h2 class="section-title">📐 System Architecture</h2>
+            <p>The News Orchestrator is a production-ready multi-agent system built using the Fan-Out/Fan-In pattern. Here's how all the components work together:</p>
+
+            <!-- Architecture Diagram -->
+            <div style="background: #f9f9f9; padding: 40px; border-radius: 12px; margin: 30px 0;">
+                <div style="max-width: 1000px; margin: 0 auto;">
+                    <!-- Layer 1: User -->
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <div style="display: inline-block; padding: 15px 40px; background: #667eea; color: white; border-radius: 8px; font-weight: 600; font-size: 1.1rem;">
+                            👤 User (Browser)
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; font-size: 1.2rem; margin: 15px 0;">↓</div>
+
+                    <!-- Layer 2: Frontend -->
+                    <div style="background: white; padding: 25px; border-radius: 12px; margin-bottom: 20px; border: 3px solid #146eb4;">
+                        <div style="text-align: center; font-size: 1.8rem; margin-bottom: 10px;">🌐</div>
+                        <h3 style="text-align: center; color: #146eb4; margin-bottom: 15px;">Frontend (Web Interface)</h3>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                            <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; text-align: center;">
+                                <strong>index.html</strong>
+                                <p style="font-size: 0.85rem; margin-top: 5px; color: #666;">UI Layout & Dashboard</p>
+                            </div>
+                            <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; text-align: center;">
+                                <strong>script.js</strong>
+                                <p style="font-size: 0.85rem; margin-top: 5px; color: #666;">API Communication</p>
+                            </div>
+                            <div style="background: #f9f9f9; padding: 15px; border-radius: 8px; text-align: center;">
+                                <strong>styles.css</strong>
+                                <p style="font-size: 0.85rem; margin-top: 5px; color: #666;">Visual Styling</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; font-size: 1.2rem; margin: 15px 0;">↓ HTTP POST /api/fetch-news</div>
+
+                    <!-- Layer 3: FastAPI Backend -->
+                    <div style="background: white; padding: 25px; border-radius: 12px; margin-bottom: 20px; border: 3px solid #ff9900;">
+                        <div style="text-align: center; font-size: 1.8rem; margin-bottom: 10px;">⚡</div>
+                        <h3 style="text-align: center; color: #ff9900; margin-bottom: 15px;">FastAPI Backend (agentApp.py)</h3>
+                        <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                            <strong>AgentOrchestrator Class</strong>
+                            <p style="font-size: 0.9rem; margin-top: 5px;">Coordinates multiple agents and manages their execution</p>
+                        </div>
+                        <div style="display: flex; justify-content: space-around; margin-top: 15px;">
+                            <div style="text-align: center;">
+                                <div style="background: #e7f2fa; padding: 10px 20px; border-radius: 6px; margin-bottom: 5px;">
+                                    <strong>REST Endpoints</strong>
+                                </div>
+                                <p style="font-size: 0.85rem; color: #666;">/api/fetch-news</p>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="background: #e7f2fa; padding: 10px 20px; border-radius: 6px; margin-bottom: 5px;">
+                                    <strong>Async/Await</strong>
+                                </div>
+                                <p style="font-size: 0.85rem; color: #666;">Non-blocking IO</p>
+                            </div>
+                            <div style="text-align: center;">
+                                <div style="background: #e7f2fa; padding: 10px 20px; border-radius: 6px; margin-bottom: 5px;">
+                                    <strong>Error Handling</strong>
+                                </div>
+                                <p style="font-size: 0.85rem; color: #666;">Robust logging</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; font-size: 1.2rem; margin: 15px 0; color: #ff9900; font-weight: 600;">↓ FAN-OUT (Parallel Dispatch)</div>
+
+                    <!-- Layer 4: AI Agents -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                        <div style="background: white; padding: 20px; border-radius: 12px; border: 3px solid #1d8102;">
+                            <div style="text-align: center; font-size: 1.5rem; margin-bottom: 10px;">🤖</div>
+                            <h4 style="text-align: center; color: #1d8102;">BBC News Agent</h4>
+                            <p style="text-align: center; font-size: 0.9rem; margin-top: 10px;">Fetches global news headlines from BBC</p>
+                            <div style="background: #e9f5e9; padding: 10px; border-radius: 6px; margin-top: 15px; font-size: 0.85rem;">
+                                <strong>Instructions:</strong> "You are a BBC news assistant..."
+                            </div>
+                        </div>
+                        <div style="background: white; padding: 20px; border-radius: 12px; border: 3px solid #1d8102;">
+                            <div style="text-align: center; font-size: 1.5rem; margin-bottom: 10px;">🤖</div>
+                            <h4 style="text-align: center; color: #1d8102;">TechCrunch Agent</h4>
+                            <p style="text-align: center; font-size: 0.9rem; margin-top: 10px;">Fetches technology news from TechCrunch</p>
+                            <div style="background: #e9f5e9; padding: 10px; border-radius: 6px; margin-top: 15px; font-size: 0.85rem;">
+                                <strong>Instructions:</strong> "You are a technology news assistant..."
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; font-size: 1.2rem; margin: 15px 0;">↓ Calls Tools</div>
+
+                    <!-- Layer 5: Tools -->
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                        <div style="background: #fff3cd; padding: 20px; border-radius: 12px; border-left: 4px solid #ff9900;">
+                            <h4 style="color: #856404;">🛠️ bbc_news_agent.py</h4>
+                            <ul style="font-size: 0.9rem; margin-top: 10px; line-height: 1.8;">
+                                <li>Sends HTTP request to BBC</li>
+                                <li>Parses HTML with BeautifulSoup</li>
+                                <li>Extracts headlines & URLs</li>
+                                <li>Returns structured data</li>
+                            </ul>
+                        </div>
+                        <div style="background: #fff3cd; padding: 20px; border-radius: 12px; border-left: 4px solid #ff9900;">
+                            <h4 style="color: #856404;">🛠️ techcrunch_agent.py</h4>
+                            <ul style="font-size: 0.9rem; margin-top: 10px; line-height: 1.8;">
+                                <li>Sends HTTP request to TechCrunch</li>
+                                <li>Parses HTML with BeautifulSoup</li>
+                                <li>Extracts tech news & URLs</li>
+                                <li>Returns structured data</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; font-size: 1.2rem; margin: 15px 0; color: #ff9900; font-weight: 600;">↑ FAN-IN (Aggregate Results)</div>
+
+                    <!-- Layer 6: Azure OpenAI -->
+                    <div style="background: white; padding: 25px; border-radius: 12px; border: 3px solid #0078d4; text-align: center;">
+                        <div style="font-size: 1.8rem; margin-bottom: 10px;">☁️</div>
+                        <h3 style="color: #0078d4; margin-bottom: 10px;">Azure OpenAI Service</h3>
+                        <div style="display: inline-block; background: #e7f2fa; padding: 12px 25px; border-radius: 8px;">
+                            <strong>GPT-4o Model</strong>
+                            <p style="font-size: 0.9rem; margin-top: 5px; color: #666;">Processes queries & generates responses</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert alert-info">
+                <span class="alert-icon">ℹ️</span>
+                <strong>Key Insight:</strong> The Fan-Out/Fan-In pattern allows both agents to run simultaneously (parallel execution), making the system faster than running agents sequentially.
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">📂 Project Structure</h2>
+            <p>Understanding the file organization:</p>
+
+            <div class="code-block">
+                <pre><code>agentConcurrentOrchestrator/
+├── agentApp.py                 # Main FastAPI application
+├── requirements.txt            # Python dependencies
+├── .env                        # Azure configuration
+├── tools/                      # Custom agent tools
+│   ├── __init__.py
+│   ├── base_agent.py          # Abstract base class
+│   ├── bbc_news_agent.py      # BBC scraper
+│   └── techcrunch_agent.py    # TechCrunch scraper
+└── static/                     # Web interface
+    ├── index.html              # Main UI
+    ├── script.js               # Frontend logic
+    └── styles.css              # Styling</code></pre>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">🔍 Component Deep Dive</h2>
+
+            <h3 class="section-subtitle">1. agentApp.py - The Orchestrator</h3>
+            <p>This is the brain of the system. Key responsibilities:</p>
+            <ul style="margin-left: 20px; line-height: 2;">
+                <li>🌐 <strong>FastAPI Server:</strong> Handles HTTP requests from the frontend</li>
+                <li>🎯 <strong>AgentOrchestrator Class:</strong> Manages agent lifecycle and coordination</li>
+                <li>⚡ <strong>Async Execution:</strong> Uses <code>asyncio.gather()</code> for parallel agent execution</li>
+                <li>📊 <strong>Result Aggregation:</strong> Combines outputs from multiple agents</li>
+                <li>🔧 <strong>Error Management:</strong> Comprehensive logging and exception handling</li>
+            </ul>
+
+            <h3 class="section-subtitle">2. Tools Directory - Specialized Agents</h3>
+            <p>Each tool is a specialized agent that knows how to extract data from a specific source:</p>
+            
+            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <h4 style="margin-bottom: 15px;">🛠️ base_agent.py</h4>
+                <p style="margin-bottom: 10px;">Abstract base class defining the interface:</p>
+                <ul style="margin-left: 20px; font-size: 0.95rem;">
+                    <li><code>execute(query)</code> - Main method all agents must implement</li>
+                    <li>Ensures consistent behavior across all specialized agents</li>
+                </ul>
+
+                <h4 style="margin-top: 20px; margin-bottom: 15px;">📰 bbc_news_agent.py</h4>
+                <ul style="margin-left: 20px; font-size: 0.95rem;">
+                    <li>Uses <code>aiohttp</code> for async HTTP requests</li>
+                    <li>Parses HTML with <code>BeautifulSoup</code> and <code>lxml</code></li>
+                    <li>Extracts headlines, summaries, and URLs</li>
+                    <li>Returns structured JSON data</li>
+                </ul>
+
+                <h4 style="margin-top: 20px; margin-bottom: 15px;">💻 techcrunch_agent.py</h4>
+                <ul style="margin-left: 20px; font-size: 0.95rem;">
+                    <li>Similar structure to BBC agent</li>
+                    <li>Tailored for TechCrunch's HTML structure</li>
+                    <li>Focuses on technology news</li>
+                </ul>
+            </div>
+
+            <h3 class="section-subtitle">3. Static Directory - Web Interface</h3>
+            <p>Modern, responsive web UI for interacting with the system:</p>
+            <ul style="margin-left: 20px; line-height: 2;">
+                <li>📄 <strong>index.html:</strong> Dashboard layout with news cards</li>
+                <li>⚙️ <strong>script.js:</strong> Fetches data from API, updates UI dynamically</li>
+                <li>🎨 <strong>styles.css:</strong> Modern gradient design, responsive layout</li>
+            </ul>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">🔄 Request Flow</h2>
+            <p>Let's trace a complete request from user click to rendered results:</p>
+
+            <div class="steps-list">
+                <li>
+                    <strong>User Clicks "Fetch News"</strong><br>
+                    Browser sends POST request to <code>/api/fetch-news</code>
+                </li>
+                <li>
+                    <strong>FastAPI Receives Request</strong><br>
+                    <code>fetch_news()</code> endpoint calls <code>orchestrator.fetch_all_news()</code>
+                </li>
+                <li>
+                    <strong>Orchestrator Creates Agents</strong><br>
+                    Instantiates BBC and TechCrunch agents with specific instructions
+                </li>
+                <li>
+                    <strong>Fan-Out: Parallel Execution</strong><br>
+                    Both agents run concurrently using <code>await asyncio.gather(bbc_task, tech_task)</code>
+                </li>
+                <li>
+                    <strong>Agents Call Tools</strong><br>
+                    Each agent calls its respective scraping tool
+                </li>
+                <li>
+                    <strong>Tools Scrape Websites</strong><br>
+                    HTTP requests sent, HTML parsed, data extracted
+                </li>
+                <li>
+                    <strong>Azure OpenAI Processes</strong><br>
+                    GPT-4o analyzes tool results and formats responses
+                </li>
+                <li>
+                    <strong>Fan-In: Aggregate Results</strong><br>
+                    Orchestrator combines all agent outputs into single response
+                </li>
+                <li>
+                    <strong>FastAPI Returns JSON</strong><br>
+                    Structured data sent back to frontend
+                </li>
+                <li>
+                    <strong>UI Updates</strong><br>
+                    JavaScript renders news cards in the dashboard
+                </li>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">⚡ Why Fan-Out/Fan-In?</h2>
+            <p>This pattern provides significant benefits:</p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+                <div style="padding: 20px; background: #e9f5e9; border-radius: 8px; border-left: 4px solid #1d8102;">
+                    <h4>⚡ Performance</h4>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Parallel execution is ~2x faster than sequential</p>
+                </div>
+                <div style="padding: 20px; background: #e7f2fa; border-radius: 8px; border-left: 4px solid #146eb4;">
+                    <h4>📈 Scalability</h4>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Easy to add more agents without architectural changes</p>
+                </div>
+                <div style="padding: 20px; background: #fff3cd; border-radius: 8px; border-left: 4px solid #ff9900;">
+                    <h4>🔧 Maintainability</h4>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Each agent is independent and can be updated separately</p>
+                </div>
+                <div style="padding: 20px; background: #f8d7da; border-radius: 8px; border-left: 4px solid #d13212;">
+                    <h4>🛡️ Resilience</h4>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">One agent failing doesn't break the entire system</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="page-navigation">
+            <a href="advanced-start.html" class="nav-button secondary">← Getting Started</a>
+            <a href="advanced-setup.html" class="nav-button">Next: Environment Setup →</a>
+        </div>
+    </main>
+</body>
+</html>

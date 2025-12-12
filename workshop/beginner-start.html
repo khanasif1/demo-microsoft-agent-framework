@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beginner Track - Microsoft Agent Framework Workshop</title>
+    <link rel="stylesheet" href="assets/styles.css">
+    <script src="assets/copy-code.js" defer></script>
+    <script src="assets/menu.js" defer></script>
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <h1>🤖 Microsoft Agent Framework</h1>
+            <p>Hands-on Workshop</p>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="index.html" class="nav-link">Introduction</a></li>
+            
+            <!-- Beginners Section -->
+            <li class="nav-section">
+                <div class="nav-section-header" data-section="beginners">👨‍🎓 BEGINNERS</div>
+                <ul class="nav-section-content">
+                    <li class="nav-item"><a href="beginner-start.html" class="nav-link active"><span class="step-number">★</span>Getting Started</a></li>
+                    <li class="nav-item"><a href="environment-setup.html" class="nav-link"><span class="step-number">1</span>Codespaces Setup</a></li>
+                    <li class="nav-item"><a href="azure-setup.html" class="nav-link"><span class="step-number">2</span>Azure OpenAI Setup</a></li>
+                    <li class="nav-item"><a href="code-walkthrough.html" class="nav-link"><span class="step-number">3</span>Code Walkthrough</a></li>
+                    <li class="nav-item"><a href="running-app.html" class="nav-link"><span class="step-number">4</span>Running the Agent</a></li>
+                    <li class="nav-item"><a href="troubleshooting.html" class="nav-link"><span class="step-number">5</span>Troubleshooting</a></li>
+                </ul>
+            </li>
+
+            <!-- Advanced Section -->
+            <li class="nav-section">
+                <div class="nav-section-header" data-section="advanced">🚀 ADVANCED</div>
+                <ul class="nav-section-content">
+                    <li class="nav-item"><a href="advanced-start.html" class="nav-link"><span class="step-number">★</span>Getting Started</a></li>
+                    <li class="nav-item"><a href="advanced-architecture.html" class="nav-link"><span class="step-number">1</span>Architecture Overview</a></li>
+                    <li class="nav-item"><a href="advanced-setup.html" class="nav-link"><span class="step-number">2</span>Environment Setup</a></li>
+                    <li class="nav-item"><a href="advanced-walkthrough.html" class="nav-link"><span class="step-number">3</span>Code Deep Dive</a></li>
+                    <li class="nav-item"><a href="advanced-running.html" class="nav-link"><span class="step-number">4</span>Running the App</a></li>
+                    <li class="nav-item"><a href="advanced-troubleshooting.html" class="nav-link"><span class="step-number">5</span>Troubleshooting</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">👨‍🎓 Beginner Track: Simple Agent</h1>
+            <p class="page-subtitle">Build your first AI agent with Azure OpenAI and Agent Framework</p>
+            <span class="duration-badge">⏱️ Duration: 30-45 minutes</span>
+        </div>
+
+        <section class="content-section">
+            <h2 class="section-title">🎯 What You'll Build</h2>
+            <p>In this beginner-friendly track, you'll create a simple but powerful AI agent that can:</p>
+            <ul style="margin-left: 20px; line-height: 2;">
+                <li>✅ Answer questions using Azure OpenAI GPT-4o</li>
+                <li>✅ Call custom functions (like getting weather information)</li>
+                <li>✅ Stream responses in real-time</li>
+                <li>✅ Handle conversations with context</li>
+            </ul>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">📐 Solution Architecture</h2>
+            <p>Here's a simple overview of what you'll be building:</p>
+            
+            <div style="background: #f9f9f9; padding: 30px; border-radius: 12px; margin: 30px 0; text-align: center;">
+                <div style="max-width: 800px; margin: 0 auto;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; gap: 20px;">
+                        <!-- Your Code -->
+                        <div style="flex: 1; background: white; padding: 20px; border-radius: 8px; border: 2px solid #146eb4;">
+                            <div style="font-size: 2rem; margin-bottom: 10px;">💻</div>
+                            <div style="font-weight: 600; color: #232f3e;">Your Python Script</div>
+                            <div style="font-size: 0.85rem; color: #545b64; margin-top: 5px;">azure_ai_basic.py</div>
+                        </div>
+
+                        <!-- Arrow -->
+                        <div style="font-size: 2rem; color: #ff9900;">→</div>
+
+                        <!-- Agent Framework -->
+                        <div style="flex: 1; background: white; padding: 20px; border-radius: 8px; border: 2px solid #ff9900;">
+                            <div style="font-size: 2rem; margin-bottom: 10px;">🤖</div>
+                            <div style="font-weight: 600; color: #232f3e;">Agent Framework</div>
+                            <div style="font-size: 0.85rem; color: #545b64; margin-top: 5px;">Manages conversation</div>
+                        </div>
+
+                        <!-- Arrow -->
+                        <div style="font-size: 2rem; color: #ff9900;">→</div>
+
+                        <!-- Azure OpenAI -->
+                        <div style="flex: 1; background: white; padding: 20px; border-radius: 8px; border: 2px solid #1d8102;">
+                            <div style="font-size: 2rem; margin-bottom: 10px;">☁️</div>
+                            <div style="font-weight: 600; color: #232f3e;">Azure OpenAI</div>
+                            <div style="font-size: 0.85rem; color: #545b64; margin-top: 5px;">GPT-4o Model</div>
+                        </div>
+                    </div>
+
+                    <!-- Tools -->
+                    <div style="margin-top: 30px; padding-top: 20px; border-top: 2px dashed #d5dbdb;">
+                        <div style="background: #fff3cd; padding: 15px; border-radius: 8px; border-left: 4px solid #ff9900;">
+                            <div style="font-weight: 600; margin-bottom: 5px;">🛠️ Custom Tools</div>
+                            <div style="font-size: 0.9rem; color: #545b64;">Your agent can call Python functions like get_weather()</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert alert-info">
+                <span class="alert-icon">ℹ️</span>
+                <strong>Simple & Focused:</strong> This beginner track focuses on understanding the core concepts of AI agents without the complexity of web servers or multiple agents.
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">📚 What You'll Learn</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+                <div style="padding: 20px; background: var(--bg-secondary); border-radius: 8px; border-left: 4px solid #146eb4;">
+                    <h4>🏗️ Agent Basics</h4>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Create and configure AI agents with instructions and tools</p>
+                </div>
+                <div style="padding: 20px; background: var(--bg-secondary); border-radius: 8px; border-left: 4px solid #1d8102;">
+                    <h4>⚡ Function Calling</h4>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Let your agent call Python functions to extend its capabilities</p>
+                </div>
+                <div style="padding: 20px; background: var(--bg-secondary); border-radius: 8px; border-left: 4px solid #ff9900;">
+                    <h4>🔄 Streaming</h4>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">See responses appear in real-time as the AI generates them</p>
+                </div>
+                <div style="padding: 20px; background: var(--bg-secondary); border-radius: 8px; border-left: 4px solid #d13212;">
+                    <h4>🔧 Azure Setup</h4>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Configure Azure OpenAI with API Key authentication</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">🎓 Prerequisites</h2>
+            <div class="alert alert-success">
+                <span class="alert-icon">✅</span>
+                <strong>No Installation Required!</strong> Everything runs in GitHub Codespaces.
+            </div>
+            
+            <table style="margin-top: 20px;">
+                <thead>
+                    <tr>
+                        <th>Requirement</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>GitHub Account</td>
+                        <td>Free account to launch Codespaces</td>
+                    </tr>
+                    <tr>
+                        <td>Azure Account</td>
+                        <td>For Azure OpenAI access (free trial available)</td>
+                    </tr>
+                    <tr>
+                        <td>Web Browser</td>
+                        <td>Chrome, Firefox, Edge, or Safari</td>
+                    </tr>
+                    <tr>
+                        <td>Python Knowledge</td>
+                        <td>Basic understanding helpful but not required</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">🗺️ Your Learning Path</h2>
+            <div class="steps-list">
+                <li>
+                    <strong>Module 1: Codespaces Setup</strong><br>
+                    Launch your cloud development environment in seconds
+                </li>
+                <li>
+                    <strong>Module 2: Azure OpenAI Setup</strong><br>
+                    Get your API keys and configure your environment
+                </li>
+                <li>
+                    <strong>Module 3: Code Walkthrough</strong><br>
+                    Understand how the agent code works
+                </li>
+                <li>
+                    <strong>Module 4: Running the Agent</strong><br>
+                    Execute your first AI agent and see it in action
+                </li>
+                <li>
+                    <strong>Module 5: Troubleshooting</strong><br>
+                    Common issues and how to solve them
+                </li>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">💡 Why Start Here?</h2>
+            <p>This beginner track is perfect for:</p>
+            <ul style="margin-left: 20px; line-height: 2;">
+                <li>🎯 <strong>First-time users</strong> of AI agents or Azure OpenAI</li>
+                <li>📖 <strong>Developers</strong> wanting to understand the fundamentals</li>
+                <li>🚀 <strong>Quick learners</strong> who want to see results fast</li>
+                <li>🧪 <strong>Experimenters</strong> testing AI capabilities</li>
+            </ul>
+
+            <div class="alert alert-info" style="margin-top: 20px;">
+                <span class="alert-icon">💡</span>
+                <strong>Ready for More?</strong> After completing the beginner track, check out the <a href="advanced-start.html" style="color: #146eb4; font-weight: 600;">Advanced Track</a> to build a multi-agent orchestrator with concurrent execution and a web interface!
+            </div>
+        </section>
+
+        <div class="page-navigation">
+            <a href="index.html" class="nav-button secondary">← Back to Introduction</a>
+            <a href="environment-setup.html" class="nav-button">Start Module 1 →</a>
+        </div>
+    </main>
+</body>
+</html>

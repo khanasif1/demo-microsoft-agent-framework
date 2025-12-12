@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Troubleshooting - Microsoft Agent Framework Workshop</title>
+    <link rel="stylesheet" href="assets/styles.css">
+    <script src="assets/copy-code.js" defer></script>
+    <script src="assets/menu.js" defer></script>
+</head>
+<body>
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <h1>🤖 Microsoft Agent Framework</h1>
+            <p>Hands-on Workshop</p>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item"><a href="index.html" class="nav-link">Introduction</a></li>
+            
+            <!-- Beginners Section -->
+            <li class="nav-section">
+                <div class="nav-section-header" data-section="beginners">👨‍🎓 BEGINNERS</div>
+                <ul class="nav-section-content collapsed">
+                    <li class="nav-item"><a href="beginner-start.html" class="nav-link"><span class="step-number">★</span>Getting Started</a></li>
+                    <li class="nav-item"><a href="environment-setup.html" class="nav-link"><span class="step-number">1</span>Codespaces Setup</a></li>
+                    <li class="nav-item"><a href="azure-setup.html" class="nav-link"><span class="step-number">2</span>Azure OpenAI Setup</a></li>
+                    <li class="nav-item"><a href="code-walkthrough.html" class="nav-link"><span class="step-number">3</span>Code Walkthrough</a></li>
+                    <li class="nav-item"><a href="running-app.html" class="nav-link"><span class="step-number">4</span>Running the Agent</a></li>
+                    <li class="nav-item"><a href="troubleshooting.html" class="nav-link"><span class="step-number">5</span>Troubleshooting</a></li>
+                </ul>
+            </li>
+
+            <!-- Advanced Section -->
+            <li class="nav-section">
+                <div class="nav-section-header" data-section="advanced">🚀 ADVANCED</div>
+                <ul class="nav-section-content">
+                    <li class="nav-item"><a href="advanced-start.html" class="nav-link"><span class="step-number">★</span>Getting Started</a></li>
+                    <li class="nav-item"><a href="advanced-architecture.html" class="nav-link"><span class="step-number">1</span>Architecture Overview</a></li>
+                    <li class="nav-item"><a href="advanced-setup.html" class="nav-link"><span class="step-number">2</span>Environment Setup</a></li>
+                    <li class="nav-item"><a href="advanced-walkthrough.html" class="nav-link"><span class="step-number">3</span>Code Deep Dive</a></li>
+                    <li class="nav-item"><a href="advanced-running.html" class="nav-link"><span class="step-number">4</span>Running the App</a></li>
+                    <li class="nav-item"><a href="advanced-troubleshooting.html" class="nav-link active"><span class="step-number">5</span>Troubleshooting</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-title">Module 5: Troubleshooting</h1>
+            <p class="page-subtitle">Common issues and solutions for the multi-agent orchestrator</p>
+            <span class="duration-badge">⏱️ Duration: 10 minutes</span>
+        </div>
+
+        <section class="content-section">
+            <h2 class="section-title">🚀 Server Startup Issues</h2>
+            <p>Problems when launching the FastAPI server.</p>
+
+            <div class="troubleshooting-item">
+                <h3 class="issue-title">❌ Port Already in Use</h3>
+                <div class="error-message">
+                    <strong>Error:</strong><br>
+                    <code>OSError: [Errno 98] Address already in use</code> or <br>
+                    <code>ERROR: [Errno 48] Address already in use</code>
+                </div>
+                
+                <h4>🔍 Cause:</h4>
+                <p>Another process is already using port 8000.</p>
+                
+                <h4>✅ Solutions:</h4>
+                <div class="solution-steps">
+                    <h5>Option 1: Find and Kill Process</h5>
+                    <h3 class="code-block-header">Terminal Command</h3>
+                    <div class="code-block">
+                        <pre><code># Find process using port 8000
+lsof -i :8000
+
+# Kill the process (replace PID with actual process ID)
+kill -9 PID</code></pre>
+                    </div>
+                    
+                    <h5>Option 2: Use Different Port</h5>
+                    <h3 class="code-block-header">Terminal Command</h3>
+                    <div class="code-block">
+                        <pre><code>uvicorn agentApp:app --host 0.0.0.0 --port 8080 --reload</code></pre>
+                    </div>
+                    <p>Then access at <code>http://localhost:8080</code></p>
+                </div>
+            </div>
+
+            <div class="troubleshooting-item">
+                <h3 class="issue-title">❌ Module Import Errors</h3>
+                <div class="error-message">
+                    <strong>Error:</strong><br>
+                    <code>ModuleNotFoundError: No module named 'fastapi'</code> or <br>
+                    <code>ModuleNotFoundError: No module named 'aiohttp'</code>
+                </div>
+                
+                <h4>🔍 Cause:</h4>
+                <p>Required dependencies are not installed or using wrong Python environment.</p>
+                
+                <h4>✅ Solutions:</h4>
+                <div class="solution-steps">
+                    <h5>Reinstall Dependencies</h5>
+                    <h3 class="code-block-header">Terminal Command</h3>
+                    <div class="code-block">
+                        <pre><code>pip install -r requirements.txt</code></pre>
+                    </div>
+                    
+                    <h5>Verify Python Environment</h5>
+                    <h3 class="code-block-header">Terminal Command</h3>
+                    <div class="code-block">
+                        <pre><code># Check Python version
+python --version
+
+# Check installed packages
+pip list | grep -E "(fastapi|aiohttp|beautifulsoup)"</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="troubleshooting-item">
+                <h3 class="issue-title">❌ Permission Denied</h3>
+                <div class="error-message">
+                    <strong>Error:</strong><br>
+                    <code>PermissionError: [Errno 13] Permission denied</code>
+                </div>
+                
+                <h4>🔍 Cause:</h4>
+                <p>Insufficient permissions to bind to the port (usually for ports < 1024).</p>
+                
+                <h4>✅ Solution:</h4>
+                <div class="solution-steps">
+                    <h3 class="code-block-header">Terminal Command</h3>
+                    <div class="code-block">
+                        <pre><code># Use port 8000 or higher (recommended)
+uvicorn agentApp:app --host 0.0.0.0 --port 8000 --reload</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">🔐 Azure OpenAI Issues</h2>
+            <p>Problems connecting to Azure OpenAI service.</p>
+
+            <div class="troubleshooting-item">
+                <h3 class="issue-title">❌ 401 Authentication Error</h3>
+                <div class="error-message">
+                    <strong>Error:</strong><br>
+                    <code>401 Unauthorized: Access denied due to invalid subscription key</code>
+                </div>
+                
+                <h4>🔍 Cause:</h4>
+                <p>Invalid or missing Azure OpenAI API key.</p>
+                
+                <h4>✅ Solutions:</h4>
+                <div class="solution-steps">
+                    <h5>Verify API Key</h5>
+                    <h3 class="code-block-header">Terminal Command</h3>
+                    <div class="code-block">
+                        <pre><code># Check your .env file
+cat .env
+
+# Verify the key is not empty
+echo "Key length: $(echo $AZURE_OPENAI_API_KEY | wc -c)"</code></pre>
+                    </div>
+                    
+                    <h5>Get New API Key</h5>
+                    <ol style="margin-left: 20px; line-height: 1.8;">
+                        <li>Go to Azure Portal → Your OpenAI Resource</li>
+                        <li>Click "Keys and Endpoint" in the left sidebar</li>
+                        <li>Copy "Key 1" and update your <code>.env</code> file</li>
+                        <li>Restart the server</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="troubleshooting-item">
+                <h3 class="issue-title">❌ 404 Resource Not Found</h3>
+                <div class="error-message">
+                    <strong>Error:</strong><br>
+                    <code>404 The API deployment for this resource does not exist</code>
+                </div>
+                
+                <h4>🔍 Cause:</h4>
+                <p>Incorrect deployment name or endpoint URL.</p>
+                
+                <h4>✅ Solutions:</h4>
+                <div class="solution-steps">
+                    <h5>Verify Deployment Name</h5>
+                    <ol style="margin-left: 20px; line-height: 1.8;">
+                        <li>Go to Azure Portal → Your OpenAI Resource</li>
+                        <li>Click "Model deployments" in the left sidebar</li>
+                        <li>Note the exact deployment name (case-sensitive)</li>
+                        <li>Update <code>AZURE_OPENAI_DEPLOYMENT_NAME</code> in your <code>.env</code> file</li>
+                    </ol>
+                    
+                    <h5>Verify Endpoint URL</h5>
+                    <div class="code-block">
+                        <pre><code># Should end with ".openai.azure.com/" (note the trailing slash)
+AZURE_OPENAI_ENDPOINT=https://your-resource.openai.azure.com/</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="troubleshooting-item">
+                <h3 class="issue-title">❌ Rate Limiting</h3>
+                <div class="error-message">
+                    <strong>Error:</strong><br>
+                    <code>429 Too Many Requests: Rate limit exceeded</code>
+                </div>
+                
+                <h4>🔍 Cause:</h4>
+                <p>Exceeded Azure OpenAI rate limits or quota.</p>
+                
+                <h4>✅ Solutions:</h4>
+                <div class="solution-steps">
+                    <h5>Wait and Retry</h5>
+                    <p>Rate limits reset after a time period. Wait 1-2 minutes and try again.</p>
+                    
+                    <h5>Check Quota Usage</h5>
+                    <ol style="margin-left: 20px; line-height: 1.8;">
+                        <li>Go to Azure Portal → Your OpenAI Resource</li>
+                        <li>Click "Quota" in the left sidebar</li>
+                        <li>Check current usage vs. allocated quota</li>
+                        <li>Request quota increase if needed</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">🕷️ Web Scraping Issues</h2>
+            <p>Problems with news site scraping.</p>
+
+            <div class="troubleshooting-item">
+                <h3 class="issue-title">❌ No Articles Found</h3>
+                <div class="error-message">
+                    <strong>Error:</strong><br>
+                    <code>{"articles": [], "source": "BBC", "error": "No articles found"}</code>
+                </div>
+                
+                <h4>🔍 Cause:</h4>
+                <p>Website changed their HTML structure or blocked the request.</p>
+                
+                <h4>✅ Solutions:</h4>
+                <div class="solution-steps">
+                    <h5>Check Network Connectivity</h5>
+                    <h3 class="code-block-header">Terminal Command</h3>
+                    <div class="code-block">
+                        <pre><code># Test direct access to BBC
+curl -I https://www.bbc.com/news
+
+# Test TechCrunch access
+curl -I https://techcrunch.com/</code></pre>
+                    </div>
+                    
+                    <h5>Inspect HTML Structure</h5>
+                    <h3 class="code-block-header">Terminal Command</h3>
+                    <div class="code-block">
+                        <pre><code># Debug scraping - add this to your agent code temporarily
+print(f"HTML length: {len(html)}")
+print(f"Found headlines: {len(soup.find_all(['h2', 'h3']))}")
+print("First 500 chars:", html[:500])</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="troubleshooting-item">
+                <h3 class="issue-title">❌ Connection Timeout</h3>
+                <div class="error-message">
+                    <strong>Error:</strong><br>
+                    <code>aiohttp.ServerTimeoutError: Timeout connecting to server</code>
+                </div>
+                
+                <h4>🔍 Cause:</h4>
+                <p>Network timeout or website is temporarily unavailable.</p>
+                
+                <h4>✅ Solutions:</h4>
+                <div class="solution-steps">
+                    <h5>Increase Timeout</h5>
+                    <p>In your agent code, increase the timeout value:</p>
+                    <div class="code-block">
+                        <pre><code># Change from timeout=10 to timeout=30
+async with session.get(url, headers=headers, timeout=30) as response:</code></pre>
+                    </div>
+                    
+                    <h5>Add Retry Logic</h5>
+                    <div class="code-block">
+                        <pre><code>import asyncio
+
+# Add retry mechanism
+for attempt in range(3):
+    try:
+        async with session.get(url, headers=headers, timeout=10) as response:
+            return await response.text()
+    except asyncio.TimeoutError:
+        if attempt == 2:  # Last attempt
+            raise
+        await asyncio.sleep(1)  # Wait before retry</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="troubleshooting-item">
+                <h3 class="issue-title">❌ Blocked by Website</h3>
+                <div class="error-message">
+                    <strong>Error:</strong><br>
+                    <code>403 Forbidden</code> or empty response with status 200
+                </div>
+                
+                <h4>🔍 Cause:</h4>
+                <p>Website is blocking automated requests or detecting bot traffic.</p>
+                
+                <h4>✅ Solutions:</h4>
+                <div class="solution-steps">
+                    <h5>Improve User-Agent</h5>
+                    <div class="code-block">
+                        <pre><code># Use more realistic headers
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+    'Accept-Language': 'en-US,en;q=0.9',
+    'Accept-Encoding': 'gzip, deflate, br',
+    'Connection': 'keep-alive',
+    'Upgrade-Insecure-Requests': '1',
+}</code></pre>
+                    </div>
+                    
+                    <h5>Add Request Delays</h5>
+                    <div class="code-block">
+                        <pre><code># Add delay between requests
+import asyncio
+await asyncio.sleep(1)  # Wait 1 second between requests</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">🌐 Web Interface Issues</h2>
+            <p>Problems with the frontend dashboard.</p>
+
+            <div class="troubleshooting-item">
+                <h3 class="issue-title">❌ Button Not Working</h3>
+                <div class="error-message">
+                    <strong>Symptom:</strong><br>
+                    Clicking "Fetch Latest News" does nothing or shows error in browser console.
+                </div>
+                
+                <h4>🔍 Debugging Steps:</h4>
+                <div class="solution-steps">
+                    <h5>Check Browser Console</h5>
+                    <ol style="margin-left: 20px; line-height: 1.8;">
+                        <li>Open browser DevTools (F12)</li>
+                        <li>Go to "Console" tab</li>
+                        <li>Click the button and look for error messages</li>
+                        <li>Common errors: CORS, network errors, or JavaScript syntax errors</li>
+                    </ol>
+                    
+                    <h5>Check Network Tab</h5>
+                    <ol style="margin-left: 20px; line-height: 1.8;">
+                        <li>Open DevTools → "Network" tab</li>
+                        <li>Click "Fetch Latest News"</li>
+                        <li>Look for failed requests (red entries)</li>
+                        <li>Check the status codes and response details</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="troubleshooting-item">
+                <h3 class="issue-title">❌ CORS Errors</h3>
+                <div class="error-message">
+                    <strong>Error:</strong><br>
+                    <code>Access to fetch at 'http://localhost:8000/api/fetch-news' from origin 'null' has been blocked by CORS policy</code>
+                </div>
+                
+                <h4>🔍 Cause:</h4>
+                <p>Cross-Origin Resource Sharing (CORS) is blocking requests from the browser.</p>
+                
+                <h4>✅ Solution:</h4>
+                <div class="solution-steps">
+                    <h5>Add CORS Middleware to FastAPI</h5>
+                    <p>Add this to your <code>agentApp.py</code>:</p>
+                    <div class="code-block">
+                        <pre><code>from fastapi.middleware.cors import CORSMiddleware
+
+app = FastAPI(title="Multi-Agent News Orchestrator", version="1.0.0")
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # In production, specify exact origins
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)</code></pre>
+                    </div>
+                    <p>Restart the server after making this change.</p>
+                </div>
+            </div>
+
+            <div class="troubleshooting-item">
+                <h3 class="issue-title">❌ Static Files Not Loading</h3>
+                <div class="error-message">
+                    <strong>Symptom:</strong><br>
+                    Web page looks unstyled or JavaScript doesn't work.
+                </div>
+                
+                <h4>🔍 Cause:</h4>
+                <p>Static file serving is not configured correctly.</p>
+                
+                <h4>✅ Solutions:</h4>
+                <div class="solution-steps">
+                    <h5>Verify File Structure</h5>
+                    <h3 class="code-block-header">Terminal Command</h3>
+                    <div class="code-block">
+                        <pre><code>ls -la static/</code></pre>
+                    </div>
+                    <p>Should show: <code>index.html</code>, <code>script.js</code>, <code>styles.css</code></p>
+                    
+                    <h5>Check FastAPI Static Mount</h5>
+                    <p>Ensure this line exists in <code>agentApp.py</code>:</p>
+                    <div class="code-block">
+                        <pre><code>app.mount("/static", StaticFiles(directory="static"), name="static")</code></pre>
+                    </div>
+                    
+                    <h5>Test Static File Access</h5>
+                    <p>Try accessing files directly:</p>
+                    <div class="code-block">
+                        <pre><code>http://localhost:8000/static/styles.css
+http://localhost:8000/static/script.js</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">⚡ Performance Issues</h2>
+            <p>System running slower than expected.</p>
+
+            <div class="troubleshooting-item">
+                <h3 class="issue-title">⏰ Slow Response Times</h3>
+                <div class="error-message">
+                    <strong>Symptom:</strong><br>
+                    API requests taking more than 15-20 seconds to complete.
+                </div>
+                
+                <h4>🔍 Debugging:</h4>
+                <div class="solution-steps">
+                    <h5>Add Performance Logging</h5>
+                    <div class="code-block">
+                        <pre><code>import time
+
+async def fetch_all_news(self, query: str = "latest news"):
+    start_time = time.time()
+    self.logger.info(f"🚀 Starting orchestration at {start_time}")
+    
+    # Your existing code...
+    
+    end_time = time.time()
+    duration = end_time - start_time
+    self.logger.info(f"✅ Orchestration completed in {duration:.2f} seconds")</code></pre>
+                    </div>
+                    
+                    <h5>Check Individual Agent Performance</h5>
+                    <div class="code-block">
+                        <pre><code># Add timing to each agent
+start_bbc = time.time()
+bbc_result = await bbc_agent.run_agent(query)
+bbc_duration = time.time() - start_bbc
+self.logger.info(f"BBC took {bbc_duration:.2f} seconds")
+
+start_tech = time.time()  
+tech_result = await tech_agent.run_agent(query)
+tech_duration = time.time() - start_tech
+self.logger.info(f"TechCrunch took {tech_duration:.2f} seconds")</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="troubleshooting-item">
+                <h3 class="issue-title">🧠 High Memory Usage</h3>
+                <div class="error-message">
+                    <strong>Symptom:</strong><br>
+                    System running out of memory or becoming unresponsive.
+                </div>
+                
+                <h4>✅ Solutions:</h4>
+                <div class="solution-steps">
+                    <h5>Limit Concurrent Requests</h5>
+                    <div class="code-block">
+                        <pre><code># Add request limiting to FastAPI
+from asyncio import Semaphore
+
+# In your AgentOrchestrator class
+def __init__(self):
+    # ... existing code ...
+    self.semaphore = Semaphore(5)  # Limit to 5 concurrent operations
+
+async def fetch_all_news(self, query: str = "latest news"):
+    async with self.semaphore:  # This limits concurrent access
+        # ... your existing orchestration code ...</code></pre>
+                    </div>
+                    
+                    <h5>Close HTTP Sessions Properly</h5>
+                    <p>Ensure all aiohttp sessions are closed:</p>
+                    <div class="code-block">
+                        <pre><code># Use context managers for sessions
+async with aiohttp.ClientSession() as session:
+    async with session.get(url, headers=headers, timeout=10) as response:
+        html = await response.text()
+# Session automatically closed here</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">🔧 General Debugging Tips</h2>
+            <p>Systematic approach to troubleshooting any issue.</p>
+
+            <div class="steps-list">
+                <li>
+                    <strong>Check the Logs</strong><br>
+                    Always look at the terminal output first - most errors are clearly logged
+                </li>
+                <li>
+                    <strong>Test Components Individually</strong><br>
+                    Test Azure OpenAI, web scraping, and FastAPI endpoints separately
+                </li>
+                <li>
+                    <strong>Use Browser DevTools</strong><br>
+                    Network tab shows API requests, Console shows JavaScript errors
+                </li>
+                <li>
+                    <strong>Verify Environment Variables</strong><br>
+                    Double-check your <code>.env</code> file has all required values
+                </li>
+                <li>
+                    <strong>Test with Curl</strong><br>
+                    Use curl to test API endpoints without the web interface
+                </li>
+                <li>
+                    <strong>Check Dependencies</strong><br>
+                    Ensure all required packages are installed with correct versions
+                </li>
+            </div>
+
+            <div class="alert alert-info">
+                <span class="alert-icon">💡</span>
+                <strong>Pro Tip:</strong> When reporting issues, always include the full error message, your environment (.env values redacted), and the steps you've already tried!
+            </div>
+        </section>
+
+        <section class="content-section">
+            <h2 class="section-title">📞 Getting Additional Help</h2>
+            <p>If you're still experiencing issues after trying these solutions:</p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin: 20px 0;">
+                <div style="padding: 20px; background: #e9f5e9; border-radius: 8px; border-left: 4px solid #1d8102;">
+                    <h4>📖 Documentation</h4>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Review Microsoft Agent Framework docs and FastAPI documentation</p>
+                </div>
+                <div style="padding: 20px; background: #e7f2fa; border-radius: 8px; border-left: 4px solid #146eb4;">
+                    <h4>🐛 GitHub Issues</h4>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Check existing issues or create new one with detailed error logs</p>
+                </div>
+                <div style="padding: 20px; background: #fff3cd; border-radius: 8px; border-left: 4px solid #ff9900;">
+                    <h4>💬 Community</h4>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Join Microsoft AI community forums for peer support</p>
+                </div>
+                <div style="padding: 20px; background: #f8d7da; border-radius: 8px; border-left: 4px solid #d13212;">
+                    <h4>📧 Support</h4>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Contact Azure support for service-specific issues</p>
+                </div>
+            </div>
+        </section>
+
+        <div class="page-navigation">
+            <a href="advanced-running.html" class="nav-button secondary">← Running the App</a>
+            <a href="advanced-start.html" class="nav-button">🎉 Workshop Complete!</a>
+        </div>
+    </main>
+</body>
+</html>

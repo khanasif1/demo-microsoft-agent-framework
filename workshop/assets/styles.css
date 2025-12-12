@@ -321,6 +321,49 @@ code {
     font-weight: bold;
 }
 
+/* Collapsible Menu */
+.nav-section {
+    margin: 10px 0;
+}
+
+.nav-section-header {
+    padding: 15px 20px;
+    background-color: rgba(255, 255, 255, 0.05);
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95rem;
+    border-left: 3px solid var(--secondary-color);
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-section-header:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.nav-section-header::after {
+    content: '▼';
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+}
+
+.nav-section-header.collapsed::after {
+    transform: rotate(-90deg);
+}
+
+.nav-section-content {
+    max-height: 1000px;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.nav-section-content.collapsed {
+    max-height: 0;
+}
+
 /* Navigation Buttons */
 .page-navigation {
     display: flex;
