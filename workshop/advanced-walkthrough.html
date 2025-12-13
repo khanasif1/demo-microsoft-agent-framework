@@ -53,376 +53,169 @@
         </div>
 
         <section class="content-section">
-            <h2 class="section-title">🔍 Exploring agentApp.py</h2>
-            <p>The heart of our system is <code>agentApp.py</code>. Let's examine its key components:</p>
+            <h2 class="section-title">🔍 Understanding agentApp.py</h2>
+            <p>The heart of our system is <code>agentApp.py</code>. Let's understand its key functions and classes:</p>
 
             <h3 class="code-block-header">Terminal Command</h3>
             <div class="code-block">
                 <pre><code>code agentApp.py</code></pre>
             </div>
 
-            <h3 class="section-subtitle">1. Imports and Setup</h3>
-            <p>First, let's understand the key imports:</p>
-
-            <div class="code-block">
-                <pre><code>from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse, FileResponse
-from fastapi.staticfiles import StaticFiles
-import asyncio
-import logging
-from typing import Dict, Any
-import os
-from dotenv import load_dotenv
-
-from azure.ai.inference.aio import ChatCompletionsClient
-from azure.ai.inference.models import UserMessage
-from azure.core.credentials import AzureKeyCredential
-
-# Import our custom agent tools
-from tools.bbc_news_agent import BBCNewsAgent
-from tools.techcrunch_agent import TechCrunchAgent</code></pre>
-            </div>
-
+            <h3 class="section-subtitle">📦 Key Dependencies</h3>
             <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                <h4 style="margin-bottom: 15px;">🔍 Import Breakdown:</h4>
                 <ul style="margin-left: 20px; font-size: 0.95rem; line-height: 1.8;">
-                    <li><strong>FastAPI:</strong> Modern Python web framework with automatic API docs</li>
-                    <li><strong>asyncio:</strong> For concurrent agent execution (Fan-Out/Fan-In)</li>
-                    <li><strong>ChatCompletionsClient:</strong> Azure OpenAI client for GPT interactions</li>
-                    <li><strong>Custom Agents:</strong> Our specialized news scraping agents</li>
+                    <li><strong>FastAPI:</strong> Web framework for building REST APIs</li>
+                    <li><strong>asyncio:</strong> Enables concurrent execution of multiple agents</li>
+                    <li><strong>ChatCompletionsClient:</strong> Azure OpenAI SDK for GPT model access</li>
+                    <li><strong>BBCNewsAgent & TechCrunchAgent:</strong> Custom agents for news scraping</li>
                 </ul>
             </div>
 
-            <h3 class="section-subtitle">2. AgentOrchestrator Class</h3>
-            <p>The core orchestrator that manages multiple agents:</p>
+            <h3 class="section-subtitle">🎯 Class: AgentOrchestrator</h3>
+            <p>The main class that coordinates multiple agents.</p>
 
-            <div class="code-block">
-                <pre><code>class AgentOrchestrator:
-    def __init__(self):
-        load_dotenv()
-        
-        # Azure OpenAI configuration
-        self.endpoint = os.getenv("AZURE_OPENAI_ENDPOINT")
-        self.api_key = os.getenv("AZURE_OPENAI_API_KEY")
-        self.deployment_name = os.getenv("AZURE_OPENAI_DEPLOYMENT_NAME")
-        
-        # Initialize Azure client
-        self.client = ChatCompletionsClient(
-            endpoint=self.endpoint,
-            credential=AzureKeyCredential(self.api_key)
-        )
-        
-        # Setup logging
-        logging.basicConfig(level=logging.INFO)
-        self.logger = logging.getLogger(__name__)
-    
-    async def fetch_all_news(self, query: str = "latest news") -> Dict[str, Any]:
-        """
-        Orchestrates multiple news agents concurrently using Fan-Out/Fan-In pattern
-        """
-        self.logger.info(f"🚀 Starting news orchestration for query: {query}")
-        
-        try:
-            # Create agent instances with specific instructions
-            bbc_agent = BBCNewsAgent(
-                client=self.client,
-                model=self.deployment_name,
-                instructions="You are a BBC news assistant. Fetch and format the latest global news headlines."
-            )
+            <div style="background: #e9f5e9; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #1d8102;">
+                <h4>📌 <code>__init__(self)</code></h4>
+                <p><strong>Purpose:</strong> Initializes the orchestrator with Azure OpenAI credentials.</p>
+                <p><strong>Key Operations:</strong></p>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li>Loads environment variables from <code>.env</code> file</li>
+                    <li>Reads Azure OpenAI endpoint, API key, and deployment name</li>
+                    <li>Creates <code>ChatCompletionsClient</code> for GPT communication</li>
+                    <li>Sets up logging for debugging and monitoring</li>
+                </ul>
+                <p><strong>Important Code:</strong></p>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li><code>load_dotenv()</code> - Loads credentials securely from .env file</li>
+                    <li><code>ChatCompletionsClient(endpoint, credential)</code> - Authenticates with Azure</li>
+                </ul>
+            </div>
+
+            <div style="background: #e7f2fa; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #146eb4;">
+                <h4>📌 <code>async def fetch_all_news(query)</code></h4>
+                <p><strong>Purpose:</strong> Orchestrates multiple agents to fetch news concurrently.</p>
+                <p><strong>Key Operations:</strong></p>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li>Creates BBC and TechCrunch agent instances with specific instructions</li>
+                    <li><strong>Fan-Out:</strong> Dispatches both agents to run in parallel</li>
+                    <li>Waits for all agents to complete using <code>asyncio.gather()</code></li>
+                    <li><strong>Fan-In:</strong> Aggregates results from both agents</li>
+                    <li>Returns combined results with timestamp and status</li>
+                </ul>
+                <p><strong>Important Code:</strong></p>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li><code>asyncio.gather(bbc_task, tech_task)</code> - Runs agents concurrently (not sequentially)</li>
+                    <li>Error handling ensures partial results are returned even if one agent fails</li>
+                </ul>
+            </div>
+
+            <h3 class="section-subtitle">🌐 FastAPI Endpoints</h3>
             
-            techcrunch_agent = TechCrunchAgent(
-                client=self.client, 
-                model=self.deployment_name,
-                instructions="You are a technology news assistant. Fetch and format the latest tech news."
-            )
-            
-            # FAN-OUT: Execute agents concurrently
-            self.logger.info("📤 Fan-Out: Dispatching agents concurrently...")
-            bbc_task = bbc_agent.run_agent(query)
-            tech_task = techcrunch_agent.run_agent(query)
-            
-            # Wait for all agents to complete
-            bbc_result, tech_result = await asyncio.gather(bbc_task, tech_task)
-            
-            # FAN-IN: Aggregate results
-            self.logger.info("📥 Fan-In: Aggregating results...")
-            combined_results = {
-                "bbc_news": bbc_result,
-                "tech_news": tech_result,
-                "timestamp": asyncio.get_event_loop().time(),
-                "status": "success"
-            }
-            
-            self.logger.info("✅ News orchestration completed successfully")
-            return combined_results
-            
-        except Exception as e:
-            self.logger.error(f"❌ Error in news orchestration: {str(e)}")
-            return {
-                "error": str(e),
-                "status": "error",
-                "bbc_news": None,
-                "tech_news": None
-            }</code></pre>
+            <div style="background: #fff3cd; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #ff9900;">
+                <h4>📌 <code>@app.get("/")</code> - read_root()</h4>
+                <p><strong>Purpose:</strong> Serves the main web interface HTML file.</p>
+                <p><strong>Returns:</strong> <code>static/index.html</code> - the dashboard UI</p>
+            </div>
+
+            <div style="background: #fff3cd; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #ff9900;">
+                <h4>📌 <code>@app.post("/api/fetch-news")</code> - fetch_news()</h4>
+                <p><strong>Purpose:</strong> Main API endpoint that triggers the multi-agent orchestration.</p>
+                <p><strong>Key Operations:</strong></p>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li>Accepts optional JSON body with custom query parameter</li>
+                    <li>Calls <code>orchestrator.fetch_all_news()</code> to execute agents</li>
+                    <li>Returns JSON response with news from both sources</li>
+                    <li>Handles errors gracefully with 500 status code</li>
+                </ul>
+                <p><strong>Important Code:</strong></p>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li><code>await orchestrator.fetch_all_news(query)</code> - Async call enables non-blocking execution</li>
+                    <li><code>JSONResponse(content=result)</code> - Returns structured data to frontend</li>
+                </ul>
+            </div>
+
+            <div style="background: #fff3cd; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #ff9900;">
+                <h4>📌 <code>@app.get("/health")</code> - health_check()</h4>
+                <p><strong>Purpose:</strong> Health check endpoint for monitoring service status.</p>
+                <p><strong>Returns:</strong> Simple JSON confirming service is running</p>
             </div>
 
             <div class="alert alert-info">
                 <span class="alert-icon">ℹ️</span>
-                <strong>Key Pattern:</strong> Notice how <code>asyncio.gather()</code> enables true parallel execution. Both agents start simultaneously and run independently.
-            </div>
-
-            <h3 class="section-subtitle">3. FastAPI Application</h3>
-            <p>The web server that exposes our orchestrator:</p>
-
-            <div class="code-block">
-                <pre><code># Initialize FastAPI app
-app = FastAPI(title="Multi-Agent News Orchestrator", version="1.0.0")
-
-# Serve static files (HTML, CSS, JS)
-app.mount("/static", StaticFiles(directory="static"), name="static")
-
-# Global orchestrator instance
-orchestrator = AgentOrchestrator()
-
-@app.get("/")
-async def read_root():
-    """Serve the main web interface"""
-    return FileResponse("static/index.html")
-
-@app.post("/api/fetch-news")
-async def fetch_news(request: Request):
-    """
-    Main API endpoint for fetching news from multiple sources
-    """
-    try:
-        # Get request data (optional query parameter)
-        body = await request.json() if request.headers.get("content-type") == "application/json" else {}
-        query = body.get("query", "latest news")
-        
-        # Orchestrate news fetching
-        result = await orchestrator.fetch_all_news(query)
-        
-        return JSONResponse(content=result)
-        
-    except Exception as e:
-        return JSONResponse(
-            content={"error": str(e), "status": "error"}, 
-            status_code=500
-        )
-
-@app.get("/health")
-async def health_check():
-    """Health check endpoint"""
-    return {"status": "healthy", "service": "multi-agent-orchestrator"}
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)</code></pre>
+                <strong>Concurrency Insight:</strong> The <code>asyncio.gather()</code> call is the key to parallel execution. It starts both agents simultaneously, making the system ~2x faster than sequential execution.
             </div>
         </section>
 
         <section class="content-section">
-            <h2 class="section-title">🛠️ Understanding the Agent Tools</h2>
-            <p>Now let's examine the specialized agent tools that do the actual work.</p>
-
-            <h3 class="section-subtitle">Base Agent Architecture</h3>
-            <p>First, let's look at the abstract base class:</p>
-
-            <h3 class="code-block-header">Terminal Command</h3>
-            <div class="code-block">
-                <pre><code>code tools/base_agent.py</code></pre>
-            </div>
-
-            <div class="code-block">
-                <pre><code>from abc import ABC, abstractmethod
-from azure.ai.inference.aio import ChatCompletionsClient
-import asyncio
-import logging
-
-class BaseAgent(ABC):
-    """
-    Abstract base class for all specialized agents
-    """
-    
-    def __init__(self, client: ChatCompletionsClient, model: str, instructions: str):
-        self.client = client
-        self.model = model
-        self.instructions = instructions
-        self.logger = logging.getLogger(self.__class__.__name__)
-    
-    @abstractmethod
-    async def execute(self, query: str):
-        """
-        Each agent must implement its own execution logic
-        """
-        pass
-    
-    async def run_agent(self, query: str):
-        """
-        Main entry point for agent execution
-        """
-        try:
-            self.logger.info(f"🤖 {self.__class__.__name__} starting...")
-            result = await self.execute(query)
-            self.logger.info(f"✅ {self.__class__.__name__} completed")
-            return result
-        except Exception as e:
-            self.logger.error(f"❌ {self.__class__.__name__} failed: {str(e)}")
-            return {"error": str(e), "agent": self.__class__.__name__}</code></pre>
-            </div>
-
-            <h3 class="section-subtitle">BBC News Agent Implementation</h3>
-            <p>Let's examine the BBC news scraping agent:</p>
+            <h2 class="section-title">🛠️ Understanding BBCNewsAgent (bbc_news_agent.py)</h2>
+            <p>Let's break down the BBC news scraping agent function by function.</p>
 
             <h3 class="code-block-header">Terminal Command</h3>
             <div class="code-block">
                 <pre><code>code tools/bbc_news_agent.py</code></pre>
             </div>
 
-            <div class="code-block">
-                <pre><code>import aiohttp
-from bs4 import BeautifulSoup
-from typing import Dict, List, Any
-from .base_agent import BaseAgent
+            <h3 class="section-subtitle">🎯 Class: BBCNewsAgent</h3>
+            <p>Inherits from <code>BaseAgent</code> - an abstract class providing common agent functionality.</p>
 
-class BBCNewsAgent(BaseAgent):
-    """
-    Specialized agent for fetching BBC news headlines
-    """
-    
-    async def execute(self, query: str) -> Dict[str, Any]:
-        """
-        Scrape BBC news and format results using Azure OpenAI
-        """
-        try:
-            # Step 1: Scrape BBC website
-            raw_articles = await self._scrape_bbc_news()
-            
-            if not raw_articles:
-                return {"articles": [], "source": "BBC", "error": "No articles found"}
-            
-            # Step 2: Process with Azure OpenAI
-            formatted_news = await self._process_with_ai(raw_articles, query)
-            
-            return {
-                "articles": formatted_news,
-                "source": "BBC",
-                "count": len(formatted_news)
-            }
-            
-        except Exception as e:
-            self.logger.error(f"Error in BBC agent: {str(e)}")
-            return {"articles": [], "source": "BBC", "error": str(e)}
-    
-    async def _scrape_bbc_news(self) -> List[Dict[str, str]]:
-        """
-        Scrape BBC homepage for news headlines
-        """
-        url = "https://www.bbc.com/news"
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-        }
-        
-        try:
-            async with aiohttp.ClientSession() as session:
-                async with session.get(url, headers=headers, timeout=10) as response:
-                    html = await response.text()
-            
-            soup = BeautifulSoup(html, 'lxml')
-            articles = []
-            
-            # Find news headlines (BBC's current HTML structure)
-            for headline in soup.find_all(['h2', 'h3'], class_=lambda x: x and 'gs-c-promo-heading__title' in x):
-                title = headline.get_text().strip()
-                link_elem = headline.find('a')
-                link = f"https://www.bbc.com{link_elem['href']}" if link_elem and link_elem.get('href') else ""
-                
-                if title and len(title) > 10:  # Filter out short/empty titles
-                    articles.append({
-                        "title": title,
-                        "url": link,
-                        "summary": ""  # Will be enhanced by AI
-                    })
-            
-            self.logger.info(f"Scraped {len(articles)} articles from BBC")
-            return articles[:10]  # Limit to top 10 articles
-            
-        except Exception as e:
-            self.logger.error(f"Error scraping BBC: {str(e)}")
-            return []
-    
-    async def _process_with_ai(self, articles: List[Dict], query: str) -> List[Dict]:
-        """
-        Use Azure OpenAI to enhance and format news articles
-        """
-        try:
-            # Prepare data for AI processing
-            articles_text = "\n".join([f"- {article['title']}" for article in articles])
-            
-            prompt = f"""
-            {self.instructions}
-            
-            Here are the latest BBC headlines:
-            {articles_text}
-            
-            Please format these as engaging news summaries. For each article:
-            1. Keep the original title
-            2. Add a brief, compelling summary (2-3 sentences)
-            3. Focus on the most important/interesting aspects
-            
-            Query context: {query}
-            
-            Return as JSON array with title, summary, and url fields.
-            """
-            
-            # Call Azure OpenAI
-            response = await self.client.complete(
-                model=self.model,
-                messages=[{"role": "user", "content": prompt}]
-            )
-            
-            # Parse AI response and combine with original URLs
-            ai_articles = self._parse_ai_response(response.choices[0].message.content)
-            
-            # Merge with original URLs
-            for i, article in enumerate(ai_articles[:len(articles)]):
-                if i < len(articles):
-                    article["url"] = articles[i]["url"]
-            
-            return ai_articles
-            
-        except Exception as e:
-            self.logger.error(f"Error processing with AI: {str(e)}")
-            # Fallback to original articles
-            return articles</code></pre>
+            <div style="background: #e9f5e9; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #1d8102;">
+                <h4>📌 <code>async def execute(query)</code></h4>
+                <p><strong>Purpose:</strong> Main entry point that orchestrates the news fetching workflow.</p>
+                <p><strong>Key Operations:</strong></p>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li>Calls <code>_scrape_bbc_news()</code> to fetch raw headlines from BBC website</li>
+                    <li>Validates that articles were found (error handling)</li>
+                    <li>Calls <code>_process_with_ai()</code> to enhance headlines with AI-generated summaries</li>
+                    <li>Returns structured JSON with articles, source name, and count</li>
+                </ul>
+                <p><strong>Important Code:</strong></p>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li><code>await self._scrape_bbc_news()</code> - Async call ensures non-blocking web scraping</li>
+                    <li>Exception handling returns empty array with error details (graceful degradation)</li>
+                </ul>
             </div>
 
-            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                <h4 style="margin-bottom: 15px;">🔍 BBC Agent Flow:</h4>
-                <ol style="margin-left: 20px; font-size: 0.95rem; line-height: 1.8;">
-                    <li><strong>Web Scraping:</strong> Uses aiohttp to fetch BBC's homepage asynchronously</li>
-                    <li><strong>HTML Parsing:</strong> BeautifulSoup extracts headlines from specific CSS classes</li>
-                    <li><strong>AI Enhancement:</strong> Azure OpenAI adds compelling summaries to raw headlines</li>
-                    <li><strong>Data Structuring:</strong> Returns consistent JSON format with title, summary, URL</li>
-                </ol>
+            <div style="background: #e7f2fa; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #146eb4;">
+                <h4>📌 <code>async def _scrape_bbc_news()</code></h4>
+                <p><strong>Purpose:</strong> Fetches and parses BBC homepage to extract news headlines.</p>
+                <p><strong>Key Operations:</strong></p>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li>Uses <code>aiohttp</code> for async HTTP requests (non-blocking)</li>
+                    <li>Sets User-Agent header to mimic browser requests (required for scraping)</li>
+                    <li>Parses HTML with BeautifulSoup to extract headline elements</li>
+                    <li>Filters out short/empty titles to ensure quality</li>
+                    <li>Returns top 10 articles with title, URL, and empty summary</li>
+                </ul>
+                <p><strong>Important Code:</strong></p>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li><code>async with aiohttp.ClientSession()</code> - Context manager for efficient connection pooling</li>
+                    <li><code>soup.find_all(['h2', 'h3'], class_=lambda x: ...)</code> - Flexible CSS selector for BBC's HTML structure</li>
+                    <li><code>timeout=10</code> - Prevents hanging requests from blocking other agents</li>
+                </ul>
             </div>
 
-            <h3 class="section-subtitle">TechCrunch Agent (Similar Pattern)</h3>
-            <p>The TechCrunch agent follows the same pattern but targets tech news:</p>
+            <div style="background: #fff3cd; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #ff9900;">
+                <h4>📌 <code>async def _process_with_ai(articles, query)</code></h4>
+                <p><strong>Purpose:</strong> Enhances raw headlines with AI-generated summaries using Azure OpenAI.</p>
+                <p><strong>Key Operations:</strong></p>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li>Formats articles into a prompt for GPT model</li>
+                    <li>Calls Azure OpenAI to generate compelling 2-3 sentence summaries</li>
+                    <li>Parses AI response and merges with original URLs</li>
+                    <li>Falls back to original articles if AI processing fails</li>
+                </ul>
+                <p><strong>Important Code:</strong></p>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li><code>await self.client.complete(model=self.model, messages=[...])</code> - Async GPT call enables parallel AI processing</li>
+                    <li>Prompt engineering: Instructs AI to keep title, add summary, focus on important aspects</li>
+                    <li>Fallback mechanism ensures partial success even if AI fails</li>
+                </ul>
+            </div>
 
-            <div class="code-block">
-                <pre><code>class TechCrunchAgent(BaseAgent):
-    """
-    Specialized agent for fetching TechCrunch technology news
-    """
-    
-    async def _scrape_techcrunch_news(self) -> List[Dict[str, str]]:
-        """
-        Scrape TechCrunch homepage for tech headlines
-        """
-        url = "https://techcrunch.com/"
-        # Similar scraping logic but tailored for TechCrunch's HTML structure
-        # Looks for different CSS selectors specific to TechCrunch</code></pre>
+            <div class="alert alert-info">
+                <span class="alert-icon">ℹ️</span>
+                <strong>Agent Pattern:</strong> This two-step pattern (scrape → enhance with AI) separates data collection from intelligent processing, making the code modular and testable.
+            </div>
             </div>
         </section>
 
@@ -524,9 +317,44 @@ function createNewsSection(title, articles, color) {
 }</code></pre>
             </div>
 
+            <h2 class="section-title" style="margin-top: 50px;">🛠️ Understanding TechCrunchAgent (techcrunch_agent.py)</h2>
+            <p>The TechCrunch agent follows the exact same pattern as BBC agent but targets tech news.</p>
+
+            <h3 class="code-block-header">Terminal Command</h3>
+            <div class="code-block">
+                <pre><code>code tools/techcrunch_agent.py</code></pre>
+            </div>
+
+            <h3 class="section-subtitle">🎯 Class: TechCrunchAgent</h3>
+            <p>Implements the same interface as BBCNewsAgent but adapted for TechCrunch's website structure.</p>
+
+            <div style="background: #fff3cd; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #ff9900;">
+                <h4>📌 <code>async def execute(query)</code></h4>
+                <p><strong>Purpose:</strong> Main workflow orchestrator (same pattern as BBC agent).</p>
+                <p><strong>Key Operations:</strong> Scrape → Validate → AI enhance → Return structured results</p>
+            </div>
+
+            <div style="background: #e7f2fa; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #146eb4;">
+                <h4>📌 <code>async def _scrape_techcrunch_news()</code></h4>
+                <p><strong>Purpose:</strong> Fetches and parses TechCrunch homepage for tech headlines.</p>
+                <p><strong>Key Differences from BBC:</strong></p>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li>Targets <code>https://techcrunch.com/</code> instead of BBC</li>
+                    <li>Uses different CSS selectors specific to TechCrunch's HTML structure</li>
+                    <li>Looks for <code>&lt;article&gt;</code> tags and different class names</li>
+                    <li>Same async HTTP pattern with aiohttp and BeautifulSoup</li>
+                </ul>
+            </div>
+
+            <div style="background: #e9f5e9; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #1d8102;">
+                <h4>📌 <code>async def _process_with_ai(articles, query)</code></h4>
+                <p><strong>Purpose:</strong> Enhances tech headlines with AI summaries.</p>
+                <p><strong>Key Details:</strong> Uses same Azure OpenAI pattern but with tech-focused prompts (e.g., "focus on innovation, startups, and emerging technologies")</p>
+            </div>
+
             <div class="alert alert-info">
                 <span class="alert-icon">ℹ️</span>
-                <strong>Frontend Flow:</strong> The UI sends POST requests to <code>/api/fetch-news</code>, receives JSON with both BBC and TechCrunch results, then dynamically renders news cards for each source.
+                <strong>Reusable Pattern:</strong> The beauty of the BaseAgent abstraction is that you can add more agents (e.g., Reddit, Hacker News) by simply implementing <code>execute()</code> and scraping methods specific to those sites.
             </div>
         </section>
 
