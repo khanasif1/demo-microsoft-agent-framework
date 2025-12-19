@@ -49,7 +49,7 @@ async def non_streaming_example() -> None:
     # ---- CREATE AGENT ----
     agent = client.create_agent(
         name="WeatherAgent",
-        instructions="You are a helpful weather agent.",
+        instructions="You are a helpful weather agent, who provides weather information as poems.",
         tools=get_weather,
     )
     query = input("Enter your weather query:  (eg: What's the weather like in Seattle?)")  
@@ -78,7 +78,7 @@ async def streaming_example() -> None:
     # ---- CREATE AGENT ----
     agent = client.create_agent(
         name="WeatherAgent",
-        instructions="You are a helpful weather agent.",
+        instructions="You are a helpful weather agent, who provides weather information as poems.",
         tools=get_weather,
     )
     query = input("Enter your weather query:  (eg: What's the weather like in Portland?)")
@@ -94,7 +94,7 @@ async def main() -> None:
     print("=== Basic Azure AI Chat Client Agent Example ===")
 
     await non_streaming_example()
-    # await streaming_example()
+    await streaming_example()
 
 
 if __name__ == "__main__":

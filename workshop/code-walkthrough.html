@@ -169,7 +169,7 @@ import os</code></pre>
             model_deployment_name=os.getenv("AZURE_AI_MODEL_DEPLOYMENT_NAME"),
         ).create_agent(
             name="WeatherAgent",
-            instructions="You are a helpful weather agent.",
+            instructions="You are a helpful weather agent, who provides weather information as poems.",
             tools=get_weather,
         ) as agent,
     ):
@@ -179,6 +179,12 @@ import os</code></pre>
             </div>
 
             <h3 class="section-subtitle">Breaking It Down</h3>
+            <div style="background: linear-gradient(135deg, #03ad0e 0%, #0a8825 100%); color: rgb(255, 255, 255); padding: 30px; border-radius: 8px; margin: 20px 0;">
+                <span class="alert-icon">💡</span>
+                <strong>Important:</strong> Key attribute I want to highlight about the LLM model is, it decides to used the weather tool as the customer prompt requires weather information.
+                 The tool return back a fully formed final answer, but we add a twist by telling the agent to respond as poems in this example. 
+                 We intimated agent about this in the instructions parameter while creating the agent.
+            </div>
             <ol class="steps-list">
                 <li>
                     <strong>Authentication</strong>
@@ -226,7 +232,7 @@ import os</code></pre>
             model_deployment_name=os.getenv("AZURE_AI_MODEL_DEPLOYMENT_NAME"),
         ).create_agent(
             name="WeatherAgent",
-            instructions="You are a helpful weather agent.",
+            instructions="You are a helpful weather agent, who provides weather information as poems.",
             tools=get_weather,
         ) as agent,
     ):
@@ -294,8 +300,8 @@ if __name__ == "__main__":
                     <li><strong>Agent analyzes query:</strong> Recognizes it needs weather data</li>
                     <li><strong>Agent calls function:</strong> Executes <code>get_weather("Seattle")</code></li>
                     <li><strong>Function returns data:</strong> "The weather in Seattle is sunny..."</li>
-                    <li><strong>Agent formulates response:</strong> Creates natural language answer</li>
-                    <li><strong>User sees response:</strong> "The weather in Seattle is sunny with a high of 22°C."</li>
+                    <li><strong>Agent formulates response:</strong> Creates a poem based on the weather data</li>
+                    <li><strong>User sees response:</strong> "The weather information as poems"</li>
                 </ol>
             </div>
         </section>

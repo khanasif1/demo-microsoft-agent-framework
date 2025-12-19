@@ -51,7 +51,10 @@
             <p class="page-subtitle">Create AI project and deploy GPT model</p>
             <span class="duration-badge">⏱️ Duration: 15 minutes</span>
         </div>
-
+        <div style="background: linear-gradient(135deg, #e70a0a 0%, #f18e0c 100%); color: rgb(255, 255, 255); padding: 30px; border-radius: 8px; margin: 20px 0;">
+            <span class="alert-icon">⚠️</span>
+            <strong>Important:</strong> Skip this section if you are using instructor provided Azure AI keys and endpoint. Proceed to the <a href="code-walkthrough.html">Code Walkthrough</a> module. 
+        </div>
         <section class="content-section">
             <h2 class="section-title">🎯 What You'll Accomplish</h2>
             <p>In this module, you'll set up Azure AI Foundry, create a project, deploy a GPT model, and configure your application to use it.</p>
@@ -70,7 +73,7 @@
                 </li>
                 <li>
                     <strong>Sign In</strong>
-                    <p>Sign in with the same Microsoft account you used for Azure CLI (<code>az login</code>).</p>
+                    <p>Sign in with the same Microsoft account.</p>
                 </li>
                 <li>
                     <strong>Accept Terms</strong>
@@ -84,97 +87,63 @@
         </section>
 
         <section class="content-section">
-            <h2 class="section-title">🏗️ Step 2: Create an AI Hub</h2>
-            <p>An AI Hub is a workspace that contains all your AI projects and shared resources.</p>
+            <h2 class="section-title">🏗️ Step 2: Create Microsoft Foundry</h2>
+            <p>It contains all your AI projects and shared resources.</p>
             <ol class="steps-list">
                 <li>
-                    <strong>Click "+ New project"</strong>
+                    <strong>Click "+ Create a resource"</strong>
                     <p>Look for this button on the home page or in the left navigation.</p>
                 </li>
                 <li>
-                    <strong>Select "Create a new hub"</strong>
-                    <p>If you don't already have a hub, you'll be prompted to create one.</p>
+                    <strong>Search "Microsoft Foundry"</strong>
+                    <p>This will take you to marketplace</p>
                 </li>
                 <li>
-                    <strong>Configure Hub Settings</strong>
+                    <strong>Click "Create"</strong>
+                    <p>This will take you to wizard to setup your Microsoft Foundry.</p>
+                </li>
+                <li>
+                    <strong>Configure Microsoft Foundry</strong>
                     <p>Fill in the following information:</p>
-                    <table style="margin-top: 15px;">
-                        <tr>
-                            <td><strong>Hub name</strong></td>
-                            <td><code>agent-workshop-hub</code></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Subscription</strong></td>
-                            <td>Select your Azure subscription</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Resource group</strong></td>
-                            <td>Create new: <code>rg-agent-workshop</code></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Location</strong></td>
-                            <td>Choose nearest region (e.g., East US, West Europe)</td>
-                        </tr>
-                    </table>
+                   <img src="assets/createfoundry.png" alt="GitHub Code Button" style="max-width: 100%; border: 2px solid var(--border-color); border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
                 </li>
                 <li>
-                    <strong>Click "Next" and "Create"</strong>
-                    <p>Review your settings and create the hub. This takes 2-3 minutes.</p>
+                    <strong>Click "Create"</strong>
+                    <p>Leave all default and click "Create" to finish setting up your Microsoft Foundry.</p>
                 </li>
             </ol>
             <div class="alert alert-warning">
                 <span class="alert-icon">⚠️</span>
-                <strong>Region Selection:</strong> Choose a region that supports GPT-4 models. East US, West Europe, and West US are recommended.
+                <strong>Region Selection:</strong> Choose a region East US recommended. Wait for the Foundry to be created (may take several minutes).
             </div>
         </section>
-
         <section class="content-section">
-            <h2 class="section-title">📦 Step 3: Create an AI Project</h2>
-            <ol class="steps-list">
-                <li>
-                    <strong>Name Your Project</strong>
-                    <p>Once the hub is created, you'll be prompted to create a project:</p>
-                    <ul style="margin-left: 20px; margin-top: 10px;">
-                        <li><strong>Project name:</strong> <code>weather-agent-project</code></li>
-                        <li><strong>Hub:</strong> Select the hub you just created</li>
-                    </ul>
-                </li>
-                <li>
-                    <strong>Click "Create"</strong>
-                    <p>Wait for the project to be created (about 1 minute).</p>
-                </li>
-            </ol>
-            <div class="alert alert-success">
-                <span class="alert-icon">✅</span>
-                <strong>Project Created!</strong> You now have a dedicated project for your agent.
-            </div>
-        </section>
-
-        <section class="content-section">
-            <h2 class="section-title">🤖 Step 4: Deploy a GPT Model</h2>
+            <h2 class="section-title">🤖 Step 3: Deploy a GPT Model</h2>
             <p>Now let's deploy a language model that your agent will use.</p>
             
             <h3 class="section-subtitle">Navigate to Model Catalog</h3>
             <ol class="steps-list">
                 <li>
-                    <strong>Go to "Model catalog"</strong>
+                    <strong>Navigate to Microsoft Foundry and go to "Model catalog"</strong>
                     <p>In your project, find "Model catalog" in the left sidebar or top navigation.</p>
+                    <img src="assets/Openfoundry.png" alt="GitHub Code Button" style="max-width: 100%; border: 2px solid var(--border-color); border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">         
                 </li>
                 <li>
-                    <strong>Find GPT-4o</strong>
-                    <p>Search for or browse to find <strong>GPT-4o</strong> (or GPT-4o-mini for cost savings).</p>
+                    <strong>Find GPT-4.1</strong>
+                    <p>Search for or browse to find <strong>GPT-4.1</strong> (or GPT-4.1-mini for cost savings).</p>
+                    <img src="assets/Search Model.png" alt="GitHub Code Button" style="max-width: 100%; border: 2px solid var(--border-color); border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
                     <div class="alert alert-info" style="margin-top: 10px;">
                         <span class="alert-icon">💡</span>
                         <strong>Model Options:</strong>
                         <ul style="margin-left: 20px; margin-top: 5px;">
-                            <li><strong>GPT-4o:</strong> Latest and most capable (~$15/1M tokens)</li>
-                            <li><strong>GPT-4o-mini:</strong> Faster and cheaper (~$0.60/1M tokens) - Recommended for workshop</li>
-                            <li><strong>GPT-3.5 Turbo:</strong> Budget option (~$1/1M tokens)</li>
+                            <li><strong>GPT-4.1:</strong> Latest and most capable (~$15/1M tokens <i>check updated price</i>)</li>
+                            <li><strong>GPT-4.1-mini:</strong> Faster and cheaper (~$0.60/1M tokens<i>check updated price</i>) - Recommended for workshop</li>
+                            <li><strong>GPT-3.5 Turbo:</strong> Budget option (~$1/1M token<i>check updated price</i>s)</li>
                         </ul>
                     </div>
                 </li>
                 <li>
-                    <strong>Click "Deploy"</strong>
+                    <strong>Click "Use this Model"</strong>
                     <p>Select the model and click the deploy button.</p>
                 </li>
                 <li>
@@ -182,7 +151,7 @@
                     <table style="margin-top: 15px;">
                         <tr>
                             <td><strong>Deployment name</strong></td>
-                            <td><code>gpt-4o-mini-deployment</code></td>
+                            <td><code>gpt-4.1</code></td>
                         </tr>
                         <tr>
                             <td><strong>Model version</strong></td>
@@ -194,13 +163,14 @@
                         </tr>
                         <tr>
                             <td><strong>Tokens per minute</strong></td>
-                            <td>Use default (usually 10K)</td>
+                            <td>Use default (usually 150K)</td>
                         </tr>
                     </table>
                 </li>
                 <li>
                     <strong>Click "Deploy"</strong>
-                    <p>Wait for deployment to complete (1-2 minutes).</p>
+                    <p>Wait for deployment to complete .</p>
+                     <img src="assets/Deploy Model.png" alt="GitHub Code Button" style="max-width: 100%; border: 2px solid var(--border-color); border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
                 </li>
             </ol>
             <div class="alert alert-success">
@@ -213,37 +183,22 @@
             <h2 class="section-title">🔑 Step 5: Get Connection Details</h2>
             <p>Now we need to collect the information to connect our code to Azure AI.</p>
             
-            <h3 class="section-subtitle">Get Project Endpoint</h3>
+            <h3 class="section-subtitle">Get Model Deployment Details</h3>
             <ol class="steps-list">
                 <li>
-                    <strong>Go to Project Settings</strong>
-                    <p>Click on "Settings" or "Overview" in your project navigation.</p>
+                    <strong>Stick to Details section of model deployment</strong>
+                    <p>Copy Endpoint URL</p>
                 </li>
                 <li>
-                    <strong>Find and Copy the Endpoint</strong>
-                    <p>Look for <strong>"Project connection string"</strong> or <strong>"Endpoint"</strong>. It looks like:</p>
-                    <div class="code-block">
-                        <pre><code>https://your-project-name.eastus.api.azureml.ms</code></pre>
-                    </div>
-                    <p><strong>Copy this entire URL</strong> - you'll need it in the next step.</p>
+                    <strong>Copy Key</strong>
+                    <p>Go to "Keys" and copy the keys.</p>
+                </li>
+                <li>
+                    <strong>Copy Deployment name</strong>
+                    <p>Copy the deployment name you used when deploying the model (e.g., <code>gpt-4.1</code>).</p>
                 </li>
             </ol>
-
-            <h3 class="section-subtitle">Get Deployment Name</h3>
-            <ol class="steps-list">
-                <li>
-                    <strong>Go to "Deployments"</strong>
-                    <p>Navigate to the deployments section in your project.</p>
-                </li>
-                <li>
-                    <strong>Find Your Deployment</strong>
-                    <p>You should see the deployment you just created (e.g., <code>gpt-4o-mini-deployment</code>).</p>
-                </li>
-                <li>
-                    <strong>Copy the Deployment Name</strong>
-                    <p>Note the exact name - it's case-sensitive!</p>
-                </li>
-            </ol>
+            <img src="assets/ConfigurationModel.png" alt="GitHub Code Button" style="max-width: 100%; border: 2px solid var(--border-color); border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
         </section>
 
         <section class="content-section">
@@ -261,15 +216,18 @@
                     <div class="code-header">.env file</div>
                     <div class="code-block">
                         <pre><code># Azure AI Project Configuration
-AZURE_AI_PROJECT_ENDPOINT=https://your-actual-project.eastus.api.azureml.ms
-AZURE_AI_MODEL_DEPLOYMENT_NAME=gpt-4o-mini-deployment</code></pre>
+AZURE_AI_PROJECT_ENDPOINT=https://{your-endpoint}.openai.azure.com
+AZURE_AI_MODEL_DEPLOYMENT_NAME={your-deployment-name}
+AZURE_AI_API_KEY={your-api-key}
+</code></pre>
                     </div>
                     <div class="alert alert-warning" style="margin-top: 10px;">
                         <span class="alert-icon">⚠️</span>
                         <strong>Replace these values:</strong>
                         <ul style="margin-left: 20px; margin-top: 5px;">
-                            <li><code>AZURE_AI_PROJECT_ENDPOINT</code>: Paste your project endpoint URL</li>
+                            <li><code>AZURE_AI_PROJECT_ENDPOINT</code>: Paste your project name selected</li>
                             <li><code>AZURE_AI_MODEL_DEPLOYMENT_NAME</code>: Paste your deployment name</li>
+                            <li><code>AZURE_AI_API_KEY</code>: Paste your API key</li>
                         </ul>
                     </div>
                 </li>

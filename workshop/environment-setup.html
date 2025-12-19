@@ -165,8 +165,12 @@
             </div>
             <p style="margin-top: 10px;">You should see:</p>
             <div class="code-block">
-                <pre><code>azure_ai_basic.py
-README.md</code></pre>
+                <pre><code>
+.envSample
+azure_ai_basic.py
+README.md
+sample.py       
+            </code></pre>
             </div>
         </section>
 
@@ -200,16 +204,24 @@ README.md</code></pre>
             <div class="code-block">
                 <pre><code>cat > .env << 'EOF'
 # Azure OpenAI Configuration
-AZURE_OPENAI_ENDPOINT=your-endpoint-here
-AZURE_OPENAI_API_KEY=your-api-key-here
-AZURE_OPENAI_DEPLOYMENT_NAME=gpt-4o
-AZURE_OPENAI_API_VERSION=2024-05-01-preview
+AZURE_AI_ENDPOINT="https://your-endpoint.openai.azure.com"
+AZURE_AI_API_KEY="your-api-key-here"
+AZURE_AI_MODEL_DEPLOYMENT_NAME="gpt-4o"
+AZURE_AI_API_VERSION="2024-05-01-preview"
 EOF</code></pre>
             </div>
 
             <div class="alert alert-warning">
                 <span class="alert-icon"></span>
-                <strong>Placeholder Values:</strong> Don't worry about the "your-endpoint-here" values. We'll get the real values from Azure Portal in the next module and update this file.
+                <strong>Placeholder Values:</strong><br> Don't worry about the "endpoint & API key" values. 
+                <ul>
+                    <li>
+                        We'll get the real values from Azure Portal <i>(if you have a Azure subscription)</i> in the next module and update this file.
+                    </li>                
+                    <li>
+                        If you don't have an Azure subscription, we will provide the model keys and endpoint.
+                    </li>
+                </ul>
             </div>
 
             <h3 class="section-subtitle"> Verify .env File Creation</h3>
