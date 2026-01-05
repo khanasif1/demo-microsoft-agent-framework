@@ -120,7 +120,9 @@ import os</code></pre>
 
         <section class="content-section">
             <h2 class="section-title">🔧 Part 2: The Weather Function (Tool)</h2>
-            <p>This is the function our AI agent can call:</p>
+            <p>This is the function our AI agent can call. In this sample I have used a static function for weather data to keep things simple.
+                In real world scenarios, you would replace this with actual API calls to a weather service.
+            </p>
             <div class="code-block">
                 <pre><code>def get_weather(
     location: Annotated[str, Field(description="The location to get the weather for.")],
