@@ -1,0 +1,12 @@
+agent_framework_azure_ai-1.0.0b251108.dist-info/INSTALLER,sha256=zuuue4knoyJ-UwPPXg8fezS7VCrXJQrAP7zeNuwvFQg,4
+agent_framework_azure_ai-1.0.0b251108.dist-info/METADATA,sha256=bV0fFAmqEB455OHSZdFHX4ryAmXIUS9m6ftgqYHNQfg,1486
+agent_framework_azure_ai-1.0.0b251108.dist-info/RECORD,,
+agent_framework_azure_ai-1.0.0b251108.dist-info/WHEEL,sha256=G2gURzTEtmeR8nrdXUJfNiB3VYVxigPQ-bEQujpNiNs,82
+agent_framework_azure_ai-1.0.0b251108.dist-info/licenses/LICENSE,sha256=ws_MuBL-SCEBqPBFl9_FqZkaaydIJmxHrJG2parhU4M,1141
+agent_framework_azure_ai/__init__.py,sha256=4mCdZoO9_0YpipnyBYmgv7n-HOIUgTnluR0t2rB4mqE,409
+agent_framework_azure_ai/__pycache__/__init__.cpython-312.pyc,,
+agent_framework_azure_ai/__pycache__/_chat_client.cpython-312.pyc,,
+agent_framework_azure_ai/__pycache__/_shared.cpython-312.pyc,,
+agent_framework_azure_ai/_chat_client.py,sha256=rgojYqAFvwX8e1ao7qyWQXOmGme72ebUNpToIJ4_5R0,47646
+agent_framework_azure_ai/_shared.py,sha256=W7GuWh0kTWDYHY881DNSvqmbfXXsUoHbha8esj6i9BQ,1854
+agent_framework_azure_ai/py.typed,sha256=47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU,0

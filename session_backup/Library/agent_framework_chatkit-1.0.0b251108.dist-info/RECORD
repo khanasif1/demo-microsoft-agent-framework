@@ -1,0 +1,12 @@
+agent_framework_chatkit-1.0.0b251108.dist-info/INSTALLER,sha256=zuuue4knoyJ-UwPPXg8fezS7VCrXJQrAP7zeNuwvFQg,4
+agent_framework_chatkit-1.0.0b251108.dist-info/METADATA,sha256=fb3fIjjGN8td2ekdLw_mJbKkPBojK_GKSUCslcbdUA4,4631
+agent_framework_chatkit-1.0.0b251108.dist-info/RECORD,,
+agent_framework_chatkit-1.0.0b251108.dist-info/WHEEL,sha256=G2gURzTEtmeR8nrdXUJfNiB3VYVxigPQ-bEQujpNiNs,82
+agent_framework_chatkit-1.0.0b251108.dist-info/licenses/LICENSE,sha256=oDrK6gJRdwYynx5l4UtyDa2nX_D1WWkvionBYrCebek,1073
+agent_framework_chatkit/__init__.py,sha256=RoLgLtqL9l8yJkAQ6poM809uVror1Bvn2bAAGmvkTqs,744
+agent_framework_chatkit/__pycache__/__init__.cpython-312.pyc,,
+agent_framework_chatkit/__pycache__/_converter.cpython-312.pyc,,
+agent_framework_chatkit/__pycache__/_streaming.cpython-312.pyc,,
+agent_framework_chatkit/_converter.py,sha256=cbT4UvB5lDKg4ORd-uTrHZ5LOkYOxB0eKZRr1Prwf2U,23737
+agent_framework_chatkit/_streaming.py,sha256=GS0hz3l67NtUJazLO0iU8ZlTYRtu8x3cqip8_L4UJdA,3950
+agent_framework_chatkit/py.typed,sha256=47DEQpj8HBSa-_TImW-5JCeuQeRkm5NMpJWZG3hSuFU,0
