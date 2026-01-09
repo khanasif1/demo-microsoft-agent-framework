@@ -53,61 +53,122 @@
         </div>
 
         <section class="content-section">
-            <h2 class="section-title">🚀 Launch GitHub Codespace</h2>
+            <h2 class="section-title">Step 1: Navigate to the Repository</h2>
             <p>We'll use GitHub Codespaces to create a consistent development environment with all dependencies pre-configured.</p>
 
             <div class="steps-list">
                 <li>
                     <strong>Open the Repository</strong><br>
-                    Navigate to: <code>https://github.com/khanasif1/demo-microsoft-agent-framework</code>
+                    Navigate to: <a href="https://github.com/khanasif1/demo-microsoft-agent-framework" target="_blank">https://github.com/khanasif1/demo-microsoft-agent-framework</a>
                 </li>
-                <li>
-                    <strong>Create Codespace</strong><br>
-                    Click the green <strong>"Code"</strong> button → <strong>"Codespaces"</strong> tab → <strong>"Create codespace on main"</strong>
-                </li>
-                <li>
-                    <strong>Wait for Setup</strong><br>
-                    Codespace will automatically install Python dependencies. This takes ~2-3 minutes.
-                </li>
-            </div>
-
+                 <li>
+                    <strong>Make Sure You're Logged In</strong>
+                    <p>Click "Sign in" in the top-right corner if you're not already logged into GitHub.</p>
+                </li>                
+            </div>           
+        </section>
+        <section class="content-section">
+                    <h2 class="section-title"> Step 2: Launch Codespaces</h2>
+                    <p>Now let's create your cloud development environment:</p>
+                    
+                    <ol class="steps-list">
+                        <li>
+                            <strong>Click the Green "Code" Button</strong>
+                            <p>You'll see it near the top of the repository page.</p>
+                            <div style="margin: 20px 0; padding: 20px; background: var(--bg-secondary); border-radius: 8px;">
+                                <img src="assets/codespaces-code-button.png" alt="GitHub Code Button" style="max-width: 100%; border: 2px solid var(--border-color); border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                                <p style="margin-top: 10px; font-size: 0.9rem; color: var(--text-light);"><em>The Code button dropdown showing the Codespaces tab</em></p>
+                            </div>
+                        </li>
+                        <li>
+                            <strong>Select the "Codespaces" Tab</strong>
+                            <p>In the dropdown menu, click on the "Codespaces" tab (not "Local").</p>
+                        </li>
+                        <li>
+                            <strong>Click "Create codespace on main"</strong>
+                            <p>This starts building your development environment.</p>
+                            <div class="alert alert-info">
+                                <span class="alert-icon"></span>
+                                <strong>First Time Setup:</strong> The first launch takes 2-3 minutes as it builds the environment. Subsequent launches are much faster (~30 seconds).
+                            </div>
+                        </li>
+                    </ol>
             <div class="alert alert-info">
                 <span class="alert-icon">ℹ️</span>
                 <strong>What's being installed:</strong> Python 3.11+, FastAPI, aiohttp, BeautifulSoup4, lxml, Microsoft Agent Framework, and Azure OpenAI SDK.
             </div>
         </section>
-
         <section class="content-section">
-            <h2 class="section-title">📂 Navigate to Advanced Project</h2>
-            <p>The repository contains multiple examples. We need to navigate to the concurrent orchestrator solution.</p>
+            <h2 class="section-title"> Step 3: Welcome to Your Cloud IDE!</h2>
+            <p>Once Codespaces finishes building, you'll see VS Code running in your browser:</p>
+            
+            <div style="margin: 20px 0; padding: 20px; background: var(--bg-secondary); border-radius: 8px;">
+                <img src="assets/codespaces-vscode-view.png" alt="Codespaces VS Code Interface" style="max-width: 100%; border: 2px solid var(--border-color); border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                <p style="margin-top: 10px; font-size: 0.9rem; color: var(--text-light);"><em>Your Codespaces workspace with VS Code in the browser</em></p>
+            </div>
 
-            <h3 class="code-block-header">Terminal Command</h3>
+            <h3 class="section-subtitle">Understanding the Interface</h3>
+            <table style="margin-top: 15px;">
+                <thead>
+                    <tr>
+                        <th>Area</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Explorer (Left)</strong></td>
+                        <td>File browser showing all project files</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Editor (Center)</strong></td>
+                        <td>Where you view and edit code files</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Terminal (Bottom)</strong></td>
+                        <td>Command line interface for running commands</td>
+                    </tr>
+                    <tr>
+                        <td><strong>_src Folder</strong></td>
+                        <td>Contains all our sample code</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section class="content-section">
+            <h2 class="section-title">📂 Step 4: Navigate to Advanced Project</h2>
+            <p>Let's navigate to the <code>agentConcurrentOrchestrator</code> sample under <code>_src/useKey</code>:</p>
+
+            <h3 class="code-header">Terminal Command</h3>
             <div class="code-block">
                 <pre><code>cd _src/useKey/agentConcurrentOrchestrator</code></pre>
             </div>
 
             <p>Verify you're in the right directory by listing the contents:</p>
 
-            <h3 class="code-block-header">Terminal Command</h3>
+            <h3 class="code-header">Terminal Command</h3>
             <div class="code-block">
                 <pre><code>ls -la</code></pre>
             </div>
 
             <p>You should see:</p>
             <div class="code-block">
-                <pre><code>agentApp.py           # Main FastAPI application
-requirements.txt      # Python dependencies  
-.env.example         # Environment template
-tools/               # Agent tools directory
-static/              # Web UI files</code></pre>
+                <pre><code>
+.envSample              # Environment variable template
+README.md               # Project overview                    
+agentApp.py             # Main FastAPI application
+main.py                 # Entry point for the orchestrator
+requirements.txt        # Python dependencies  
+tools/                  # Agent tools directory
+static/                 # Web UI files</code></pre>
             </div>
         </section>
 
         <section class="content-section">
-            <h2 class="section-title">📦 Install Dependencies</h2>
+            <h2 class="section-title">📦 Step 5: Install Dependencies</h2>
             <p>Install the project-specific dependencies for the concurrent orchestrator:</p>
 
-            <h3 class="code-block-header">Terminal Command</h3>
+            <h3 class="code-header">Terminal Command</h3>
             <div class="code-block">
                 <pre><code>pip install -r requirements.txt</code></pre>
             </div>
@@ -121,26 +182,36 @@ static/              # Web UI files</code></pre>
                 <li><strong>python-multipart</strong> - For handling form data</li>
             </ul>
 
+
             <div class="alert alert-success">
                 <span class="alert-icon">✅</span>
                 <strong>Expected output:</strong> You should see successful installation messages for each package.
             </div>
+                        <div class="alert alert-warning">
+                <span class="alert-icon">⏰</span>
+                
+                <strong>This may take sometime to complete</strong>
+            </div>
         </section>
 
         <section class="content-section">
-            <h2 class="section-title">🔐 Configure Azure OpenAI</h2>
+            <h2 class="section-title">🔐 Step 6: Configure Azure OpenAI</h2>
+              <div style="background: linear-gradient(135deg, oklab(78.01% 0.02669 0.14587 / 0.805) 0%, #f39110 100%); color: rgb(255, 255, 255); padding: 30px; border-radius: 8px; margin: 20px 0;">
+            <span class="alert-icon">⚠️</span>
+            <strong>Important:</strong> Instructor will provided Azure OpenAI keys and endpoint. If you are setting your owne Azure OpenAI instance follow <a href="https://khanasif1.github.io/demo-microsoft-agent-framework/azure-setup.html">link</a> to setup Azure AI Foundry. 
+        </div>
             <p>Set up your Azure OpenAI credentials for the agent orchestrator.</p>
 
             <h3 class="section-subtitle">Step 1: Copy Environment Template</h3>
-            <h3 class="code-block-header">Terminal Command</h3>
+            <h3 class="code-header">Terminal Command</h3>
             <div class="code-block">
-                <pre><code>cp .env.example .env</code></pre>
+                <pre><code>cp .envSample .env</code></pre>
             </div>
 
             <h3 class="section-subtitle">Step 2: Edit Environment File</h3>
             <p>Open the <code>.env</code> file and add your Azure OpenAI credentials:</p>
 
-            <h3 class="code-block-header">Terminal Command</h3>
+            <h3 class="code-header">Terminal Command</h3>
             <div class="code-block">
                 <pre><code>code .env</code></pre>
             </div>
@@ -156,24 +227,27 @@ AZURE_OPENAI_DEPLOYMENT_NAME=gpt-4o</code></pre>
 
             <div class="alert alert-warning">
                 <span class="alert-icon">⚠️</span>
-                <strong>Important:</strong> Make sure you have a GPT-4 or GPT-4o deployment in your Azure OpenAI resource. GPT-3.5 may not perform well for complex multi-agent coordination.
+                <strong>Important:</strong> Make sure you have a latest GPT model deployment in your Azure OpenAI resource. GPT-3.5 may not perform well for complex multi-agent coordination.
             </div>
         </section>
 
         <section class="content-section">
-            <h2 class="section-title">🔍 Verify Project Structure</h2>
+            <h2 class="section-title">🔍 Step 7: Verify Project Structure</h2>
             <p>Let's confirm all the required files are in place for the advanced orchestrator:</p>
 
-            <h3 class="code-block-header">Terminal Command</h3>
+            <h3 class="code-header">Terminal Command</h3>
             <div class="code-block">
                 <pre><code>tree -L 3</code></pre>
             </div>
 
             <p>You should see this structure:</p>
             <div class="code-block">
-                <pre><code>├── agentApp.py                    # FastAPI orchestrator app
+                <pre><code>
 ├── requirements.txt               # Dependencies
 ├── .env                          # Your Azure config
+├── main.py                       # Orchestrator entry point
+├── agentApp.py                   # FastAPI orchestrator app
+├── README.md                     # Project overview
 ├── tools/                        # Agent tools
 │   ├── __init__.py
 │   ├── base_agent.py            # Abstract base class
@@ -181,37 +255,36 @@ AZURE_OPENAI_DEPLOYMENT_NAME=gpt-4o</code></pre>
 │   └── techcrunch_agent.py      # TechCrunch scraper
 └── static/                      # Web interface
     ├── index.html               # Dashboard UI
-    ├── script.js               # Frontend logic
-    └── styles.css              # Styling</code></pre>
+</code></pre>
             </div>
         </section>
 
         <section class="content-section">
-            <h2 class="section-title">🧪 Test Installation</h2>
+            <h2 class="section-title">🧪  Step 8: Test Installation</h2>
             <p>Verify everything is working by doing a quick test of the Python environment:</p>
 
-            <h3 class="code-block-header">Terminal Command</h3>
+            <h3 class="code-header">Terminal Command</h3>
             <div class="code-block">
-                <pre><code>python -c "import fastapi, aiohttp, bs4; print('✅ All dependencies installed successfully!')"</code></pre>
+                <pre><code>python -c "import fastapi, aiohttp, bs4; print('All dependencies installed successfully')"</code></pre>
             </div>
 
             <p>Test Azure OpenAI connectivity:</p>
-            <h3 class="code-block-header">Terminal Command</h3>
+            <h3 class="code-header">Terminal Command</h3>
             <div class="code-block">
                 <pre><code>python -c "
 import os
 from dotenv import load_dotenv
 load_dotenv()
 
-endpoint = os.getenv('AZURE_OPENAI_ENDPOINT')
-api_key = os.getenv('AZURE_OPENAI_API_KEY')
+endpoint = os.getenv('AZURE_AI_PROJECT_ENDPOINT')
+api_key = os.getenv('AZURE_AI_API_KEY')
 
 if endpoint and api_key:
-    print('✅ Azure OpenAI configuration found')
+    print('Azure OpenAI configuration found')
     print(f'Endpoint: {endpoint}')
     print('API Key: [CONFIGURED]')
 else:
-    print('❌ Missing Azure OpenAI configuration')
+    print('Missing Azure OpenAI configuration')
 "</code></pre>
             </div>
 

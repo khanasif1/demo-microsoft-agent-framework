@@ -56,7 +56,7 @@
             <h2 class="section-title">🔍 Understanding agentApp.py</h2>
             <p>The heart of our system is <code>agentApp.py</code>. Let's understand its key functions and classes:</p>
 
-            <h3 class="code-block-header">Terminal Command</h3>
+            <h3 class="code-header">Terminal Command</h3>
             <div class="code-block">
                 <pre><code>code agentApp.py</code></pre>
             </div>
@@ -150,7 +150,7 @@
             <h2 class="section-title">🛠️ Understanding BBCNewsAgent (bbc_news_agent.py)</h2>
             <p>Let's break down the BBC news scraping agent function by function.</p>
 
-            <h3 class="code-block-header">Terminal Command</h3>
+            <h3 class="code-header">Terminal Command</h3>
             <div class="code-block">
                 <pre><code>code tools/bbc_news_agent.py</code></pre>
             </div>
@@ -224,103 +224,20 @@
             <p>Let's examine how the web interface communicates with our FastAPI backend.</p>
 
             <h3 class="section-subtitle">JavaScript API Communication</h3>
-            <h3 class="code-block-header">Terminal Command</h3>
+            <h3 class="code-header">Terminal Command</h3>
             <div class="code-block">
-                <pre><code>code static/script.js</code></pre>
+                <pre><code>code static/index.html</code></pre>
             </div>
 
             <div class="code-block">
-                <pre><code>// Main function to fetch news from our multi-agent API
-async function fetchNews() {
-    const loadingIndicator = document.getElementById('loading');
-    const newsContainer = document.getElementById('news-container');
-    const fetchButton = document.getElementById('fetch-news-btn');
-    
-    // Show loading state
-    loadingIndicator.style.display = 'block';
-    fetchButton.disabled = true;
-    fetchButton.textContent = 'Fetching News...';
-    newsContainer.innerHTML = '';
-    
-    try {
-        // Call our FastAPI endpoint
-        const response = await fetch('/api/fetch-news', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                query: 'latest news'
-            })
-        });
-        
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        
-        // Handle successful response
-        if (data.status === 'success') {
-            displayNews(data);
-        } else {
-            displayError(data.error || 'Unknown error occurred');
-        }
-        
-    } catch (error) {
-        console.error('Error fetching news:', error);
-        displayError('Failed to fetch news. Please try again.');
-    } finally {
-        // Reset button state
-        loadingIndicator.style.display = 'none';
-        fetchButton.disabled = false;
-        fetchButton.textContent = 'Fetch Latest News';
-    }
-}
-
-// Display news from both agents
-function displayNews(data) {
-    const newsContainer = document.getElementById('news-container');
-    
-    // Create sections for BBC and TechCrunch news
-    if (data.bbc_news && data.bbc_news.articles) {
-        createNewsSection('BBC News', data.bbc_news.articles, '#1d8102');
-    }
-    
-    if (data.tech_news && data.tech_news.articles) {
-        createNewsSection('Technology News', data.tech_news.articles, '#ff9900');
-    }
-}
-
-function createNewsSection(title, articles, color) {
-    const newsContainer = document.getElementById('news-container');
-    
-    const section = document.createElement('div');
-    section.className = 'news-section';
-    
-    const sectionTitle = document.createElement('h2');
-    sectionTitle.textContent = title;
-    sectionTitle.style.color = color;
-    section.appendChild(sectionTitle);
-    
-    articles.forEach(article => {
-        const articleCard = document.createElement('div');
-        articleCard.className = 'news-card';
-        articleCard.innerHTML = `
-            <h3><a href="${article.url}" target="_blank">${article.title}</a></h3>
-            <p>${article.summary || 'No summary available'}</p>
-        `;
-        section.appendChild(articleCard);
-    });
-    
-    newsContainer.appendChild(section);
-}</code></pre>
+                <pre><code> Html View
+</code></pre>
             </div>
 
             <h2 class="section-title" style="margin-top: 50px;">🛠️ Understanding TechCrunchAgent (techcrunch_agent.py)</h2>
             <p>The TechCrunch agent follows the exact same pattern as BBC agent but targets tech news.</p>
 
-            <h3 class="code-block-header">Terminal Command</h3>
+            <h3 class="code-header">Terminal Command</h3>
             <div class="code-block">
                 <pre><code>code tools/techcrunch_agent.py</code></pre>
             </div>

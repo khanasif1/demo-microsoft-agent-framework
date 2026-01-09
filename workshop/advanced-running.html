@@ -57,13 +57,13 @@
             <p>Let's launch the multi-agent orchestrator and see it in action!</p>
 
             <h3 class="section-subtitle">Method 1: Direct Python Execution</h3>
-            <h3 class="code-block-header">Terminal Command</h3>
+            <h3 class="code-header">Terminal Command</h3>
             <div class="code-block">
                 <pre><code>python agentApp.py</code></pre>
             </div>
 
             <h3 class="section-subtitle">Method 2: Using Uvicorn (Recommended)</h3>
-            <h3 class="code-block-header">Terminal Command</h3>
+            <h3 class="code-header">Terminal Command</h3>
             <div class="code-block">
                 <pre><code>uvicorn agentApp:app --host 0.0.0.0 --port 8000 --reload</code></pre>
             </div>
@@ -85,6 +85,11 @@ INFO:     Started server process [12346]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.</code></pre>
             </div>
+            <div style="margin: 20px 0; padding: 20px; background: var(--bg-secondary); border-radius: 8px;">
+                <img src="assets/RunApp.png" alt="GitHub Code Button" style="max-width: 100%; border: 2px solid var(--border-color); border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                <p style="margin-top: 10px; font-size: 0.9rem; color: var(--text-light);">
+                    <em>Click the Open in Browser button to launch the app or click PORTS tab next to Terminal</em></p>
+            </div>
 
             <div class="alert alert-success">
                 <span class="alert-icon">✅</span>
@@ -102,35 +107,49 @@ INFO:     Application startup complete.</code></pre>
             <div class="steps-list">
                 <li>
                     <strong>Port Forwarding Notification</strong><br>
-                    VS Code will show a notification: "Your application running on port 8000 is available"
+                    VS Code will show a notification: "Your application running on port ##Your Port## is available"
+                    <div style="margin: 20px 0; padding: 20px; background: var(--bg-secondary); border-radius: 8px;">
+                        <img src="assets/AppUrl.png" alt="GitHub Code Button" style="max-width: 100%; border: 2px solid var(--border-color); border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                        <em>You can click the Open in Browser button to launch the app. Copy the URL we will need it to update API</em></p>
+                    </div>
                 </li>
                 <li>
-                    <strong>Click "Open in Browser"</strong><br>
-                    This opens the web interface in a new tab
+                    <strong>Update the API URL</strong><br>
+                    <div style="margin: 20px 0; padding: 20px; background: var(--bg-secondary); border-radius: 8px;">
+                        <img src="assets/UpDateAPiUrl.png" alt="GitHub Code Button" style="max-width: 100%; border: 2px solid var(--border-color); border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                        <em>
+                            1. Open index.html page from Folder Explorer<br>
+                            2. Update the API URL to match your Codespace URL (e.g. https://your-codespace-url:8000/api/fetch-news)<br>
+                            3. Save the file and refresh the browser page to load the updated API URL                            
+                        </em>
+                    </p>
+                    </div>                    
                 </li>
                 <li>
-                    <strong>Alternative: Ports Tab</strong><br>
-                    In VS Code, click the "Ports" tab → Right-click port 8000 → "Open in Browser"
+                    <strong>Check Running App</strong><br>
+                                       <div style="margin: 20px 0; padding: 20px; background: var(--bg-secondary); border-radius: 8px;">
+                        <img src="assets/RunningApp.png" alt="GitHub Code Button" style="max-width: 100%; border: 2px solid var(--border-color); border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                        <em>
+                           Click Fetch Latest News from All Sources                    
+                        </em>
+                    </p>
+                    </div>
                 </li>
-            </div>
-
-            <h3 class="section-subtitle">Local Development</h3>
-            <p>If running locally, open your browser to:</p>
-            <div class="code-block">
-                <pre><code>http://localhost:8000</code></pre>
-            </div>
-
-            <div class="alert alert-info">
-                <span class="alert-icon">ℹ️</span>
-                <strong>Expected Result:</strong> You should see a modern news dashboard with a "Fetch Latest News" button and sections for BBC News and Technology News.
-            </div>
-        </section>
+                               <li>
+                    <strong>Result : Data extracted from BBC & TechCrunch website processed by agents and presented below </strong><br>
+                                       <div style="margin: 20px 0; padding: 20px; background: var(--bg-secondary); border-radius: 8px;">
+                        <img src="assets/Result.png" alt="GitHub Code Button" style="max-width: 100%; border: 2px solid var(--border-color); border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                        
+                    </p>
+                    </div>
+                </li>
+            </div>            
 
         <section class="content-section">
             <h2 class="section-title">🎯 Testing the Multi-Agent System</h2>
-            <p>Now let's trigger the orchestrator and watch the Fan-Out/Fan-In pattern in action!</p>
+            <p>Now let's check the orchestrator and watch the Fan-Out/Fan-In pattern in action!</p>
 
-            <h3 class="section-subtitle">Step 1: Click "Fetch Latest News"</h3>
+            <h3 class="section-subtitle">Step 1: Lets check the logs for "Fetch Latest News"</h3>
             <p>In the web interface, click the prominent blue button. You should see:</p>
             <ul style="margin-left: 20px; line-height: 1.8;">
                 <li>Button changes to "Fetching News..." with a loading spinner</li>
@@ -218,7 +237,7 @@ INFO:AgentOrchestrator:✅ News orchestration completed successfully</code></pre
             <h3 class="section-subtitle">Timing the Orchestration</h3>
             <p>Look at the timestamps in your terminal logs or add timing to see the performance benefit:</p>
 
-            <h3 class="code-block-header">Terminal Command</h3>
+            <h3 class="code-header">Terminal Command</h3>
             <div class="code-block">
                 <pre><code>curl -w "Total time: %{time_total}s\n" \
      -X POST \
