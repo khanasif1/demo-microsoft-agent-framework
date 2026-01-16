@@ -183,7 +183,12 @@ static/                 # Web UI files</code></pre>
 
             <h3 class="code-header">Terminal Command</h3>
             <div class="code-block">
-                <pre><code>pip install -r requirements.txt</code></pre>
+                <pre><code>
+python -m venv venv
+source venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
+                </code></pre>
             </div>
 
             <p>This installs additional packages needed for the multi-agent system:</p>
